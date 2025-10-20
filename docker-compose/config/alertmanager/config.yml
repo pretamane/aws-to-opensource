@@ -1,0 +1,93 @@
+# Alertmanager Configuration
+# Handles alerts from Prometheus and routes them to appropriate receivers
+
+global:
+  resolve_timeout: 5m
+  # SMTP configuration for email alerts (optional - configure when ready)
+  # smtp_smarthost: 'localhost:587'
+  # smtp_from: 'alertmanager@example.com'
+  # smtp_auth_username: 'alertmanager'
+  # smtp_auth_password: 'password'
+
+# Templates for alert notifications
+templates:
+  - '/etc/alertmanager/*.tmpl'
+
+# Route tree for alert distribution
+route:
+  # Default receiver for all alerts
+  receiver: 'default-receiver'
+  
+  # Group alerts by these labels
+  group_by: ['alertname', 'cluster', 'service']
+  
+  # Wait time before sending initial notification
+  group_wait: 10s
+  
+  # Wait time before sending notification about new alerts in the same group
+  group_interval: 10s
+  
+  # Wait time before re-sending a notification
+  repeat_interval: 12h
+  
+  # Child routes for specific alert types
+  routes:
+    # Critical alerts - immediate notification
+    - match:
+        severity: critical
+      receiver: 'critical-receiver'
+      group_wait: 0s
+      repeat_interval: 5m
+    
+    # Warning alerts - less urgent
+    - match:
+        severity: warning
+      receiver: 'warning-receiver'
+      repeat_interval: 30m
+    
+    # Infrastructure alerts
+    - match:
+        category: infrastructure
+      receiver: 'infrastructure-receiver'
+      group_by: ['alertname', 'instance']
+
+# Inhibition rules - suppress certain alerts when others are firing
+inhibit_rules:
+  # Suppress warning if critical alert is firing for same instance
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'instance']
+
+# Receivers define how to notify about alerts
+receivers:
+  # Default receiver - logs only (for now)
+  - name: 'default-receiver'
+    # Add webhook, email, or other notification methods here
+    # webhook_configs:
+    #   - url: 'http://localhost:5001/webhook'
+  
+  # Critical alerts receiver
+  - name: 'critical-receiver'
+    # Configure immediate notification channels
+    # email_configs:
+    #   - to: 'oncall@example.com'
+    #     headers:
+    #       Subject: 'CRITICAL: {{ .GroupLabels.alertname }}'
+  
+  # Warning alerts receiver
+  - name: 'warning-receiver'
+    # Configure warning notification channels
+    # email_configs:
+    #   - to: 'team@example.com'
+    #     headers:
+    #       Subject: 'WARNING: {{ .GroupLabels.alertname }}'
+  
+  # Infrastructure alerts receiver
+  - name: 'infrastructure-receiver'
+    # Configure infrastructure team notifications
+    # slack_configs:
+    #   - api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+    #     channel: '#infrastructure-alerts'
+

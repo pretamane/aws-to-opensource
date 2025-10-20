@@ -8,16 +8,17 @@ global:
     environment: 'production'
     project: 'realistic-demo-pretamane'
 
-# Alerting configuration (optional)
+# Alerting configuration
 alerting:
   alertmanagers:
     - static_configs:
-        - targets: []
-          # - alertmanager:9093
+        - targets: ['alertmanager:9093']
+          labels:
+            service: 'alertmanager'
 
 # Rule files for alerting
 rule_files:
-  # - "alerts/*.yml"
+  - "/etc/prometheus/alert-rules.yml"
 
 # Scrape configurations
 scrape_configs:
