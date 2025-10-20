@@ -1,0 +1,111 @@
+# Prometheus Configuration
+# Replaces AWS CloudWatch for metrics collection
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    environment: 'production'
+    project: 'realistic-demo-pretamane'
+
+# Alerting configuration (optional)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+          # - alertmanager:9093
+
+# Rule files for alerting
+rule_files:
+  # - "alerts/*.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+        labels:
+          service: 'prometheus'
+          component: 'monitoring'
+
+  # FastAPI application metrics
+  - job_name: 'fastapi-app'
+    static_configs:
+      - targets: ['fastapi-app:9091']
+        labels:
+          service: 'fastapi-app'
+          component: 'application'
+    scrape_interval: 10s
+    metrics_path: '/metrics'
+
+  # PostgreSQL metrics (via postgres_exporter)
+  - job_name: 'postgresql'
+    static_configs:
+      - targets: ['postgresql:5432']
+        labels:
+          service: 'postgresql'
+          component: 'database'
+
+  # Meilisearch metrics
+  - job_name: 'meilisearch'
+    static_configs:
+      - targets: ['meilisearch:7700']
+        labels:
+          service: 'meilisearch'
+          component: 'search'
+    metrics_path: '/metrics'
+
+  # MinIO metrics
+  - job_name: 'minio'
+    static_configs:
+      - targets: ['minio:9000']
+        labels:
+          service: 'minio'
+          component: 'storage'
+    metrics_path: '/minio/v2/metrics/cluster'
+
+  # Grafana metrics
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['grafana:3000']
+        labels:
+          service: 'grafana'
+          component: 'monitoring'
+    metrics_path: '/metrics'
+
+  # Loki metrics
+  - job_name: 'loki'
+    static_configs:
+      - targets: ['loki:3100']
+        labels:
+          service: 'loki'
+          component: 'logging'
+    metrics_path: '/metrics'
+
+  # Caddy metrics (if enabled)
+  - job_name: 'caddy'
+    static_configs:
+      - targets: ['caddy:2019']
+        labels:
+          service: 'caddy'
+          component: 'proxy'
+    metrics_path: '/metrics'
+
+  # Docker container metrics (via cAdvisor - optional)
+  # - job_name: 'cadvisor'
+  #   static_configs:
+  #     - targets: ['cadvisor:8080']
+  #       labels:
+  #         service: 'cadvisor'
+  #         component: 'container-monitoring'
+
+  # Node exporter for system metrics (optional)
+  # - job_name: 'node-exporter'
+  #   static_configs:
+  #     - targets: ['node-exporter:9100']
+  #       labels:
+  #         service: 'node-exporter'
+  #         component: 'system-monitoring'
+
+

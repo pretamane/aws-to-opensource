@@ -1,0 +1,35 @@
+# Terraform Variables Example
+# Copy this file to terraform.tfvars and fill in your values
+
+project_name  = "pretamane-opensource"
+environment   = "production"
+region        = "ap-southeast-1"
+
+# EC2 Configuration
+instance_type     = "t3.medium"  # 2 vCPU, 4GB RAM (~$30/month)
+root_volume_size  = 30           # GB
+use_elastic_ip    = true         # Stable IP address
+
+# SSH Key (must exist in AWS)
+key_name = "your-ec2-key-pair-name"
+
+# Security - Restrict SSH to your IP
+ssh_allowed_cidrs = [
+  "0.0.0.0/0"  # CHANGE THIS to your IP: "YOUR.IP.ADD.RESS/32"
+]
+
+# Email Configuration
+ses_from_email = "noreply@yourdomain.com"
+ses_to_email   = "admin@yourdomain.com"
+
+# Monitoring
+enable_monitoring = true
+
+# Additional tags (optional)
+tags = {
+  Owner       = "YourName"
+  CostCenter  = "Portfolio"
+  Purpose     = "Demo"
+}
+
+
