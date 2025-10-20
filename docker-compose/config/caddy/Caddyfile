@@ -79,13 +79,14 @@
     # Redirect explicit index to canonical root
     redir /index.html /
 
-    # Static website files (Portfolio website)
+    # Static website files (Portfolio website) - MUST come BEFORE catch-all
     handle /assets/* {
         root * /var/www/pretamane
         header Cache-Control "public, max-age=31536000, immutable"
         file_server
     }
     
+    # Explicitly handle pages directory
     handle /pages/* {
         root * /var/www/pretamane
         file_server
@@ -96,14 +97,6 @@
         file_server
     }
     
-    # Catch-all static: serve files or fallback to index.html
-    handle {
-        root * /var/www/pretamane
-        try_files {path} /index.html
-        file_server
-    }
-
-    # Optional common static files
     handle /robots.txt {
         root * /var/www/pretamane
         file_server
@@ -111,6 +104,29 @@
 
     handle /sitemap.xml {
         root * /var/www/pretamane
+        file_server
+    }
+    
+    # Serve root-level files directly (style.css, main.js, etc)
+    handle /*.css {
+        root * /var/www/pretamane
+        file_server
+    }
+    
+    handle /*.js {
+        root * /var/www/pretamane
+        file_server
+    }
+    
+    handle /*.html {
+        root * /var/www/pretamane
+        file_server
+    }
+    
+    # Catch-all: serve index.html for SPA-style routing (LAST RESORT)
+    handle {
+        root * /var/www/pretamane
+        try_files {path} /index.html
         file_server
     }
     
