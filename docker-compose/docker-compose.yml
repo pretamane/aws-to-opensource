@@ -308,21 +308,21 @@ services:
       timeout: 5s
       retries: 3
 
-  # promtail:
-  #   image: grafana/promtail:2.9.0
-  #   container_name: promtail
-  #   restart: unless-stopped
-  #   volumes:
-  #     - ./config/promtail/promtail-config.yml:/etc/promtail/config.yml
-  #     # Commented out for Podman compatibility
-  #     # - /var/log:/var/log
-  #     # - /var/lib/docker/containers:/var/lib/docker/containers:ro
-  #     - logs-data:/mnt/logs:ro
-  #   networks:
-  #     - app-network
-  #   command: -config.file=/etc/promtail/config.yml
-  #   depends_on:
-  #     - loki
+  promtail:
+    image: grafana/promtail:2.9.0
+    container_name: promtail
+    restart: unless-stopped
+    volumes:
+      - ./config/promtail/promtail-config.yml:/etc/promtail/config.yml
+      # If host logs are needed, uncomment the following and ensure permissions:
+      # - /var/log:/var/log
+      # - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - logs-data:/mnt/logs:ro
+    networks:
+      - app-network
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
 
 # ============================================================================
 # NETWORKS
