@@ -1,16 +1,18 @@
-# Caddyfile - Reverse Proxy Configuration
-# Replaces AWS ALB with automatic HTTPS
+# Caddyfile - Reverse Proxy Configuration with Automatic HTTPS
+# Using sslip.io for free SSL certificates via Let's Encrypt
 
 {
     # Global options
     admin off
-    auto_https off
-    # Enable for production with real domain:
-    # email admin@yourdomain.com
+    email noreply@54-179-230-219.sslip.io
 }
 
-# Main application
-:80 {
+# Main application with automatic HTTPS
+54-179-230-219.sslip.io {
+    # Automatic HTTPS via Let's Encrypt
+    tls {
+        protocols tls1.2 tls1.3
+    }
     # Compression for better performance
     encode zstd gzip
     # API endpoints (must come BEFORE static files for priority)
