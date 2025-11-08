@@ -74,9 +74,7 @@ scripts/quick-portfolio-demo.sh
 scripts/resource-loop-through.sh
 
 # Documentation Files
-# Exclude all documentation MD files except main README
-docs/**/*.md
-docs/**/*.txt
+# Main README is always tracked
 !README.md
 old-files-backup/
 
@@ -88,3 +86,15 @@ cleanup.pid
 # Install the pre-commit hook: ln -s ../../.emoji-check.sh .git/hooks/pre-commit
 # Run manually: ./.emoji-check.sh
 
+# Credential Reference Files
+CREDENTIALS_QUICKREF.txt
+*CREDENTIALS*.txt
+
+# Backup Files
+*.backup
+.env.backup*
+*-config.yml.backup
+*-config-fixed.yml
+
+# Template Files (if not needed in version control)
+# docker-compose/.env.template

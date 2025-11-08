@@ -1,4 +1,18 @@
 # Cloud-Native Document Management Platform
+
+> Tools and Scripts Location (VPN/Proxy)
+
+The VPN/proxy helpers and GUIs were moved to user/system locations so they no longer depend on this repository:
+- sing-box TUN control:
+  - Start: ~/.local/bin/sing-on
+  - Stop: ~/.local/bin/sing-off
+  - Config: ~/.config/sing-box/config.json
+- Tunnel URL helper: ~/.local/bin/get-tunnel-url
+- Outline (GUI, Flatpak): flatpak run org.getoutline.OutlineClient
+- Nekoray (GUI, sing-box core): ~/Applications/nekoray-4.0.1/run-nekoray.sh
+
+Notes:
+- AppImage “Cannot mount AppImage, check your FUSE setup” errors are avoided by using Outline (Flatpak) and Nekoray (ZIP) instead of AppImages.
 ## Open-Source Edition (EC2 + Docker Compose)
 
 A **cost-optimized, production-ready** document processing system that achieves **90% cost savings** by replacing expensive AWS managed services with open-source alternatives while maintaining all functionality.
@@ -24,21 +38,21 @@ A **cost-optimized, production-ready** document processing system that achieves 
 ## Technology Stack
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                  AWS EC2 Instance                        │
-│                 (t3.medium - $30/month)                 │
-├─────────────────────────────────────────────────────────┤
-│                                                           │
-│  Application:      FastAPI (Python 3.11)                │
-│  Database:         PostgreSQL 16                         │
-│  Search:           Meilisearch                           │
-│  Storage:          MinIO (S3-compatible)                │
-│  Reverse Proxy:    Caddy v2                             │
-│  Monitoring:       Prometheus + Grafana                 │
-│  Logging:          Loki + Promtail                      │
-│  Email:            AWS SES (free tier)                  │
-│                                                           │
-└─────────────────────────────────────────────────────────┘
+
+                  AWS EC2 Instance                        
+                 (t3.medium - $30/month)                 
+
+                                                           
+  Application:      FastAPI (Python 3.11)                
+  Database:         PostgreSQL 16                         
+  Search:           Meilisearch                           
+  Storage:          MinIO (S3-compatible)                
+  Reverse Proxy:    Caddy v2                             
+  Monitoring:       Prometheus + Grafana                 
+  Logging:          Loki + Promtail                      
+  Email:            AWS SES (free tier)                  
+                                                           
+
 ```
 
 ### Service Comparison
@@ -170,14 +184,14 @@ All data is stored in `/data/` on the EC2 instance:
 
 ```
 /data/
-├── postgresql/      # Database data
-├── meilisearch/     # Search indices
-├── minio/           # Object storage
-├── uploads/         # Document uploads
-├── processed/       # Processed files
-├── prometheus/      # Metrics data
-├── grafana/         # Dashboard configs
-└── loki/            # Log data
+ postgresql/      # Database data
+ meilisearch/     # Search indices
+ minio/           # Object storage
+ uploads/         # Document uploads
+ processed/       # Processed files
+ prometheus/      # Metrics data
+ grafana/         # Dashboard configs
+ loki/            # Log data
 ```
 
 **Backup Strategy:**
@@ -210,11 +224,11 @@ AWS SES (Email)
 
 Elastic IP (attached)                     = $ 0.00
 
-───────────────────────────────────────────────────
+
 TOTAL (On-Demand):                        = $32.77/month
 TOTAL (Reserved 1-year):                  = $20.58/month
 TOTAL (Spot - risky):                     = $11.53/month
-───────────────────────────────────────────────────
+
 ```
 
 ### Annual Savings
@@ -696,6 +710,35 @@ k6 run scripts/load-test.js
 - Single-region sufficient
 - Learning open-source tools
 - Sustainable 24/7 demo
+
+---
+
+##  Documentation
+
+### **Interview Preparation**
+Comprehensive technical guides for system/cloud engineer interviews:
+- **[Interview Prep Index](./docs/interview-prep/README.md)** - Start here for complete guide
+- [Architecture Overview](./docs/interview-prep/INTERVIEW-00-Complete-Architecture-Overview.md)
+- [Reverse Proxy & Routing](./docs/interview-prep/INTERVIEW-01-Reverse-Proxy-Architecture.md)
+- [Database Design](./docs/interview-prep/INTERVIEW-02-Database-Architecture.md)
+- [Observability Stack](./docs/interview-prep/INTERVIEW-03-Observability-Stack.md)
+- [Security Implementation](./docs/interview-prep/INTERVIEW-04-Security-Implementation.md)
+- [Service Orchestration](./docs/interview-prep/INTERVIEW-05-Service-Orchestration.md)
+- [Object Storage](./docs/interview-prep/INTERVIEW-06-Object-Storage-MinIO.md)
+
+### **Deployment & Operations**
+- [Quick Start Guide](./docs/guides/QUICK_START.md) - Get started in 5 minutes
+- [Deployment Success Report](./docs/deployment/DEPLOYMENT_SUCCESS.md)
+- [Edge Enforcement Guide](./docs/deployment/EDGE_ENFORCEMENT_DEPLOYMENT.md)
+- [Implementation Summary](./docs/deployment/IMPLEMENTATION_SUMMARY.md)
+
+### **Reference Guides**
+- [Service Login Credentials](./docs/reference/SERVICE_LOGIN_GUIDE.md)
+- [EC2 Deployment Guide](./docs/EC2_DEPLOYMENT_GUIDE.md)
+
+### **Architecture & Security**
+- [Architecture Docs](./docs/architecture/) - System design decisions
+- [Security Guides](./docs/security/) - Security implementations
 
 ---
 
