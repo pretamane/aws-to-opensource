@@ -1,21 +1,51 @@
-# Caddyfile - Reverse Proxy Configuration with Automatic HTTPS
-# Using sslip.io for free SSL certificates via Let's Encrypt
+# Caddyfile - Reverse Proxy with Security Hardening
+# Cloudflare Tunnel terminates TLS, so we listen on HTTP :80
+# Security headers + Basic Auth protect admin paths until Cloudflare Access
 
 {
     # Global options
     admin off
-    email noreply@54-179-230-219.sslip.io
+    # Remove email - no ACME needed (Cloudflare handles TLS)
 }
 
-# Main application with automatic HTTPS
-54-179-230-219.sslip.io {
-    # Automatic HTTPS via Let's Encrypt
-    tls {
-        protocols tls1.2 tls1.3
-    }
+# Listen on HTTP :80 (Cloudflare Tunnel forwards here)
+:80 {
     # Compression for better performance
     encode zstd gzip
-    # API endpoints (must come BEFORE static files for priority)
+
+    # ===========================================================================
+    # SECURITY HEADERS (Applied globally)
+    # ===========================================================================
+    header {
+        # HSTS - tell browsers to always use HTTPS (Cloudflare provides it)
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+        # Prevent MIME sniffing
+        X-Content-Type-Options "nosniff"
+
+        # Prevent clickjacking
+        X-Frame-Options "SAMEORIGIN"
+
+        # Referrer policy
+        Referrer-Policy "strict-origin-when-cross-origin"
+
+        # CSP - basic policy (allows CDN resources)
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com https://cdn.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self'"
+
+        # Remove server version info
+        -Server
+        -X-Powered-By
+
+        # CORS headers (keep for API)
+        Access-Control-Allow-Origin "*"
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Content-Type, Authorization"
+    }
+    
+    # ===========================================================================
+    # PUBLIC API ENDPOINTS (No authentication required)
+    # ===========================================================================
+    
     handle /api/* {
         reverse_proxy fastapi-app:8000
     }
@@ -56,44 +86,95 @@
         reverse_proxy fastapi-app:8000
     }
     
-    # Monitoring dashboards
+    # ===========================================================================
+    # PROTECTED ADMIN PATHS (Basic Auth until Cloudflare Access)
+    # ===========================================================================
+    
+    # Grafana (monitoring dashboards)
     handle /grafana* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
         reverse_proxy grafana:3000
     }
-    
-    redir /pgadmin /pgadmin/
-    handle /pgadmin* {
-        reverse_proxy pgadmin:80
-    }
-    
+
+    # Prometheus (metrics)
     redir /prometheus /prometheus/graph
     redir /prometheus/ /prometheus/graph
     handle /prometheus* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
         reverse_proxy prometheus:9090
     }
-    
+
+    # pgAdmin (database admin)
+    redir /pgadmin /pgadmin/
+    handle /pgadmin* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
+        reverse_proxy pgadmin:80
+    }
+
+    # Meilisearch (search admin)
     redir /meilisearch /meilisearch/
     handle /meilisearch/* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
         uri strip_prefix /meilisearch
         reverse_proxy meilisearch:7700
     }
+
+    # AlertManager (alert management)
+    handle /alertmanager* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
+        reverse_proxy alertmanager:9093
+    }
+    
+    # MinIO Console (object storage admin)
+    redir /minio /minio/
+    handle /minio* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
+        uri strip_prefix /minio
+        reverse_proxy minio:9001
+    }
+    
+    # Loki (log aggregation - usually accessed via Grafana, but direct access available)
+    handle_path /loki/* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
+        uri strip_prefix /loki
+        reverse_proxy loki:3100
+    }
+    
+    # ===========================================================================
+    # STATIC WEBSITE (Portfolio - Public)
+    # ===========================================================================
     
     # Redirect explicit index to canonical root
     redir /index.html /
-
-    # Static website files (Portfolio website) - MUST come BEFORE catch-all
+    
+    # Static assets with cache headers
     handle /assets/* {
         root * /var/www/pretamane
         header Cache-Control "public, max-age=31536000, immutable"
         file_server
     }
     
-    # Explicitly handle pages directory
+    # Pages directory
     handle /pages/* {
         root * /var/www/pretamane
         file_server
     }
     
+    # Favicon and meta files
     handle /favicon.* {
         root * /var/www/pretamane
         file_server
@@ -109,13 +190,13 @@
         file_server
     }
     
-    # Serve root-level files directly (style.css, main.js, etc)
-    handle /*.css {
+    # Root-level files (style.css, main.js, etc)
+    handle /style.css {
         root * /var/www/pretamane
         file_server
     }
     
-    handle /*.js {
+    handle /assets/*.js {
         root * /var/www/pretamane
         file_server
     }
@@ -125,40 +206,32 @@
         file_server
     }
     
-    # Catch-all: serve index.html for SPA-style routing (LAST RESORT)
+    # Catch-all: serve index.html for SPA-style routing (LAST)
     handle {
         root * /var/www/pretamane
         try_files {path} /index.html
         file_server
     }
     
-    # Logging
+    # ===========================================================================
+    # LOGGING (for CrowdSec parsing)
+    # ===========================================================================
     log {
-        output file /var/log/caddy/access.log
+        output file /var/log/caddy/access.log {
+            roll_size 100mb
+            roll_keep 5
+            roll_keep_for 720h
+        }
         format json
-    }
-    
-    # CORS headers
-    header {
-        Access-Control-Allow-Origin *
-        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
-        Access-Control-Allow-Headers "Content-Type, Authorization"
+        level INFO
     }
 }
 
-# For production with custom domain, use this instead:
-# {$DOMAIN:localhost} {
-#     reverse_proxy fastapi-app:8000
-#     
-#     # Automatic HTTPS with Let's Encrypt
-#     tls {
-#         protocols tls1.2 tls1.3
-#     }
-#     
-#     log {
-#         output file /var/log/caddy/access.log
-#         format json
-#     }
-# }
-
-
+#
+# NOTES:
+# - Basic Auth hash generated with: caddy hash-password --plaintext '#ThawZin2k77!'
+# - To regenerate: docker run --rm caddy:2-alpine caddy hash-password --plaintext 'YOUR_PASSWORD'
+# - Username: pretamane
+# - Password: #ThawZin2k77!
+# - When you get a domain, replace :80 with your-domain.com and Cloudflare will handle TLS
+#

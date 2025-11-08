@@ -2,6 +2,57 @@
 # Basic alert rules for system monitoring
 
 groups:
+  # Recording rules for common metrics
+  - name: recording_rules
+    interval: 60s
+    rules:
+      # CPU usage recording rules
+      - record: cpu_usage_percent
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+      # Memory usage recording rules
+      - record: memory_usage_percent
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+
+      # Disk usage recording rules
+      - record: disk_usage_percent
+        expr: (1 - (node_filesystem_avail_bytes / node_filesystem_size_bytes)) * 100
+
+      # Container CPU usage
+      - record: container_cpu_usage
+        expr: rate(container_cpu_usage_seconds_total[5m])
+
+      # Container memory usage
+      - record: container_memory_usage
+        expr: container_memory_usage_bytes
+
+      # Network traffic
+      - record: network_receive_bytes
+        expr: rate(node_network_receive_bytes_total[5m])
+
+      - record: network_transmit_bytes
+        expr: rate(node_network_transmit_bytes_total[5m])
+
+      # HTTP request rate
+      - record: http_requests_total_rate
+        expr: rate(http_requests_total[5m])
+
+      # HTTP error rate
+      - record: http_errors_rate
+        expr: rate(http_requests_total{status=~"5.."}[5m])
+
+      # HTTP 4xx rate
+      - record: http_4xx_rate
+        expr: rate(http_requests_total{status=~"4.."}[5m])
+
+      # Blackbox probe success rate
+      - record: blackbox_probe_success_rate
+        expr: rate(probe_success[5m])
+
+      # Blackbox probe duration
+      - record: blackbox_probe_duration_p95
+        expr: histogram_quantile(0.95, rate(probe_duration_seconds_bucket[5m]))
+
   # System resource alerts
   - name: system_resources
     interval: 30s
@@ -88,15 +139,16 @@ groups:
           description: "{{ $labels.job }} on {{ $labels.instance }} has been down for more than 2 minutes"
       
       # Container restart alert
-      - alert: ContainerRestarting
-        expr: rate(container_restart_count[15m]) > 0
-        for: 5m
-        labels:
-          severity: warning
-          category: infrastructure
-        annotations:
-          summary: "Container {{ $labels.name }} is restarting"
-          description: "Container {{ $labels.name }} has restarted {{ $value }} times in the last 15 minutes"
+      # COMMENTED: container_restart_count metric not reliably exposed (Phase 1)
+      # - alert: ContainerRestarting
+      #   expr: rate(container_restart_count[15m]) > 0
+      #   for: 5m
+      #   labels:
+      #     severity: warning
+      #     category: infrastructure
+      #   annotations:
+      #     summary: "Container {{ $labels.name }} is restarting"
+      #     description: "Container {{ $labels.name }} has restarted {{ $value }} times in the last 15 minutes"
 
   # Application performance alerts
   - name: application_performance
@@ -129,26 +181,28 @@ groups:
     interval: 30s
     rules:
       # PostgreSQL down alert
-      - alert: PostgreSQLDown
-        expr: up{job="postgresql"} == 0
-        for: 1m
-        labels:
-          severity: critical
-          category: database
-        annotations:
-          summary: "PostgreSQL is down"
-          description: "PostgreSQL database has been unreachable for more than 1 minute"
+      # COMMENTED: postgresql scrape job disabled until postgres_exporter added (Phase 5)
+      # - alert: PostgreSQLDown
+      #   expr: up{job="postgresql"} == 0
+      #   for: 1m
+      #   labels:
+      #     severity: critical
+      #     category: database
+      #   annotations:
+      #     summary: "PostgreSQL is down"
+      #     description: "PostgreSQL database has been unreachable for more than 1 minute"
       
       # High database connections alert
-      - alert: HighDatabaseConnections
-        expr: pg_stat_database_numbackends > 80
-        for: 5m
-        labels:
-          severity: warning
-          category: database
-        annotations:
-          summary: "High number of database connections"
-          description: "PostgreSQL has {{ $value }} active connections"
+      # COMMENTED: pg_stat_database_numbackends requires postgres_exporter (Phase 5)
+      # - alert: HighDatabaseConnections
+      #   expr: pg_stat_database_numbackends > 80
+      #   for: 5m
+      #   labels:
+      #     severity: warning
+      #     category: database
+      #   annotations:
+      #     summary: "High number of database connections"
+      #     description: "PostgreSQL has {{ $value }} active connections"
 
   # Storage service alerts
   - name: storage_health
@@ -166,13 +220,218 @@ groups:
           description: "MinIO has been unreachable for more than 2 minutes"
       
       # Meilisearch down alert
-      - alert: MeilisearchDown
-        expr: up{job="meilisearch"} == 0
+      # COMMENTED: meilisearch scrape job disabled until /metrics confirmed (Phase 1)
+      # - alert: MeilisearchDown
+      #   expr: up{job="meilisearch"} == 0
+      #   for: 2m
+      #   labels:
+      #     severity: critical
+      #     category: search
+      #   annotations:
+      #     summary: "Meilisearch is down"
+      #     description: "Meilisearch has been unreachable for more than 2 minutes"
+
+  # Security & traffic alerts (for attack detection)
+  - name: security_monitoring
+    interval: 30s
+    rules:
+      # High 4xx error rate (potential scanning/probing)
+      - alert: High4xxErrorRate
+        expr: sum(rate(http_requests_total{status=~"4.."}[5m])) > 10
+        for: 3m
+        labels:
+          severity: warning
+          category: security
+        annotations:
+          summary: "High rate of 4xx errors detected"
+          description: "More than 10 4xx errors/sec in last 5min (potential scanning: {{ $value }}/sec)"
+      
+      # Very high 4xx rate (active attack)
+      - alert: Critical4xxErrorRate
+        expr: sum(rate(http_requests_total{status=~"4.."}[5m])) > 50
+        for: 1m
+        labels:
+          severity: critical
+          category: security
+        annotations:
+          summary: "CRITICAL: Very high 4xx error rate"
+          description: "More than 50 4xx errors/sec (active attack: {{ $value }}/sec)"
+      
+      # High 5xx error rate (service issues or DoS)
+      - alert: High5xxErrorRate
+        expr: sum(rate(http_requests_total{status=~"5.."}[5m])) > 5
         for: 2m
         labels:
           severity: critical
-          category: search
+          category: security
         annotations:
-          summary: "Meilisearch is down"
-          description: "Meilisearch has been unreachable for more than 2 minutes"
+          summary: "High rate of 5xx server errors"
+          description: "More than 5 server errors/sec (potential DoS or service issue: {{ $value }}/sec)"
+      
+      # Abnormal request rate spike
+      - alert: RequestRateSpike
+        expr: rate(http_requests_total[1m]) > 100
+        for: 2m
+        labels:
+          severity: warning
+          category: security
+        annotations:
+          summary: "Abnormal request rate spike detected"
+          description: "Request rate is {{ $value }}/sec (potential DDoS or traffic spike)"
+      
+      # Critical request rate (likely DDoS)
+      - alert: CriticalRequestRate
+        expr: rate(http_requests_total[1m]) > 500
+        for: 1m
+        labels:
+          severity: critical
+          category: security
+        annotations:
+          summary: "CRITICAL: Very high request rate"
+          description: "Request rate is {{ $value }}/sec (likely DDoS attack)"
+
+  # Node exporter alerts
+  - name: node_exporter_alerts
+    interval: 30s
+    rules:
+      # Node exporter down
+      - alert: NodeExporterDown
+        expr: up{job="node-exporter"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          category: infrastructure
+        annotations:
+          summary: "Node exporter is down"
+          description: "Node exporter has been unreachable for more than 2 minutes"
+
+      # High system load
+      - alert: HighSystemLoad
+        expr: node_load5 > 2.0
+        for: 5m
+        labels:
+          severity: warning
+          category: infrastructure
+        annotations:
+          summary: "High system load detected"
+          description: "5-minute load average is {{ $value }} (threshold: 2.0)"
+
+      # Disk usage critical
+      - alert: CriticalDiskUsage
+        expr: disk_usage_percent > 90
+        for: 5m
+        labels:
+          severity: critical
+          category: infrastructure
+        annotations:
+          summary: "Critical disk usage"
+          description: "Disk usage is {{ $value }}% (threshold: 90%)"
+
+  # cAdvisor alerts
+  - name: container_alerts
+    interval: 30s
+    rules:
+      # cAdvisor down
+      - alert: CadvisorDown
+        expr: up{job="cadvisor"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          category: infrastructure
+        annotations:
+          summary: "cAdvisor is down"
+          description: "cAdvisor has been unreachable for more than 2 minutes"
+
+      # Container restart spike
+      # COMMENTED: container_restart_count metric not reliably exposed (Phase 1)
+      # - alert: ContainerRestartSpike
+      #   expr: increase(container_restart_count[15m]) > 5
+      #   for: 5m
+      #   labels:
+      #     severity: warning
+      #     category: infrastructure
+      #   annotations:
+      #     summary: "Container restart spike detected"
+      #     description: "Containers have restarted {{ $value }} times in the last 15 minutes"
+
+      # High container CPU usage
+      - alert: HighContainerCPUUsage
+        expr: container_cpu_usage > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          category: infrastructure
+        annotations:
+          summary: "High container CPU usage"
+          description: "Container CPU usage is {{ $value }} (threshold: 0.8)"
+
+      # High container memory usage
+      - alert: HighContainerMemoryUsage
+        expr: container_memory_usage / container_spec_memory_limit_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          category: infrastructure
+        annotations:
+          summary: "High container memory usage"
+          description: "Container memory usage is {{ $value }}% of limit"
+
+  # Blackbox exporter alerts
+  - name: blackbox_alerts
+    interval: 30s
+    rules:
+      # Blackbox exporter down
+      - alert: BlackboxExporterDown
+        expr: up{job="blackbox-exporter"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          category: infrastructure
+        annotations:
+          summary: "Blackbox exporter is down"
+          description: "Blackbox exporter has been unreachable for more than 2 minutes"
+
+      # Endpoint down (public endpoints)
+      - alert: PublicEndpointDown
+        expr: probe_success{module="http_2xx"} == 0
+        for: 2m
+        labels:
+          severity: critical
+          category: infrastructure
+        annotations:
+          summary: "Public endpoint is down"
+          description: "Public endpoint {{ $labels.instance }} has been unreachable for more than 2 minutes"
+
+      # Admin endpoint auth failure
+      - alert: AdminEndpointAuthFailure
+        expr: probe_success{module="http_basic_auth_401"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          category: security
+        annotations:
+          summary: "Admin endpoint auth check failed"
+          description: "Admin endpoint {{ $labels.instance }} auth check failed (should return 401)"
+
+      # High latency detected
+      - alert: HighLatencyDetected
+        expr: blackbox_probe_duration_p95 > 3
+        for: 2m
+        labels:
+          severity: warning
+          category: performance
+        annotations:
+          summary: "High latency detected"
+          description: "95th percentile latency is {{ $value }}s (threshold: 3s)"
+
+      # SSL certificate issues
+      - alert: SSLCertificateIssue
+        expr: probe_ssl_earliest_cert_expiry < 7 * 24 * 3600
+        for: 5m
+        labels:
+          severity: warning
+          category: security
+        annotations:
+          summary: "SSL certificate expiring soon"
+          description: "SSL certificate for {{ $labels.instance }} expires in {{ $value }} seconds"
 

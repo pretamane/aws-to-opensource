@@ -1,51 +1,52 @@
 # Docker Compose - Open Source Stack
 # Replaces AWS EKS, OpenSearch, DynamoDB with open-source alternatives
-version: '3.8'
+version: "3.8"
 
 services:
   # ============================================================================
   # APPLICATION LAYER
   # ============================================================================
-  
+
   fastapi-app:
     build:
       context: ../docker/api
       dockerfile: Dockerfile.opensource
     container_name: fastapi-app
     restart: unless-stopped
-    ports:
-      - "8000:8000"
+    # EDGE ENFORCED - Access via http://localhost/api, /docs, /health
+    # ports:
+    #   - "8000:8000"
     environment:
       # Application
       - APP_NAME=realistic-demo-pretamane
       - APP_VERSION=4.0.0
       - ENVIRONMENT=production
-      
+
       # Database (PostgreSQL) - Individual parameters to avoid URL encoding issues
       - DB_HOST=postgresql
       - DB_PORT=5432
-      - DB_NAME=pretamane_db
-      - DB_USER=app_user
-      - DB_PASSWORD=${POSTGRES_PASSWORD}
-      
+      - DB_NAME=${DB_NAME:-pretamane_db}
+      - DB_USER=${DB_USER:-pretamane}
+      - DB_PASSWORD=${DB_PASSWORD}
+
       # Search (Meilisearch)
       - MEILISEARCH_URL=http://meilisearch:7700
       - MEILISEARCH_API_KEY=${MEILI_MASTER_KEY}
-      
+
       # Storage (MinIO - S3 compatible)
       - S3_ENDPOINT_URL=http://minio:9000
       - S3_ACCESS_KEY=${MINIO_ROOT_USER}
       - S3_SECRET_KEY=${MINIO_ROOT_PASSWORD}
       - S3_DATA_BUCKET=pretamane-data
       - S3_BACKUP_BUCKET=pretamane-backup
-      
+
       # Email (AWS SES - kept for cost efficiency)
       - AWS_REGION=${AWS_REGION:-ap-southeast-1}
       - SES_FROM_EMAIL=${SES_FROM_EMAIL}
       - SES_TO_EMAIL=${SES_TO_EMAIL}
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      
+
       # Monitoring
       - PROMETHEUS_URL=http://prometheus:9090
       - ENABLE_METRICS=true
@@ -74,23 +75,27 @@ services:
   # ============================================================================
   # DATABASE LAYER
   # ============================================================================
-  
+
   postgresql:
     image: postgres:16-alpine
     container_name: postgresql
     restart: unless-stopped
     environment:
-      - POSTGRES_DB=pretamane_db
-      - POSTGRES_USER=app_user
+      - POSTGRES_DB=${DB_NAME:-pretamane_db}
+      - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./init-scripts/postgres:/docker-entrypoint-initdb.d
+      - ./init-scripts/postgres:/docker-entrypoint-initdb.d:z
     networks:
       - app-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U app_user -d pretamane_db"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER} -d ${DB_NAME:-pretamane_db}",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -108,13 +113,14 @@ services:
   # ============================================================================
   # SEARCH ENGINE
   # ============================================================================
-  
+
   meilisearch:
     image: getmeili/meilisearch:v1.5
     container_name: meilisearch
     restart: unless-stopped
-    ports:
-      - "7700:7700"
+    # EDGE ENFORCED - Access via http://localhost/meilisearch
+    # ports:
+    #   - "7700:7700"
     environment:
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
       - MEILI_ENV=production
@@ -135,18 +141,19 @@ services:
   # ============================================================================
   # OBJECT STORAGE (S3-Compatible)
   # ============================================================================
-  
+
   minio:
     image: minio/minio:latest
     container_name: minio
     restart: unless-stopped
-    ports:
-      - "9000:9000"      # API
-      - "9001:9001"      # Console
+    # EDGE ENFORCED - Access via http://localhost/minio
+    # ports:
+    #   - "9000:9000" # API
+    #   - "9001:9001" # Console
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-      # MINIO_BROWSER_REDIRECT_URL removed for direct port access
+      - MINIO_BROWSER_REDIRECT_URL=http://localhost:8080/minio
     volumes:
       - minio-data:/data
     networks:
@@ -181,19 +188,20 @@ services:
   # ============================================================================
   # REVERSE PROXY / LOAD BALANCER
   # ============================================================================
-  
+
   caddy:
     image: caddy:2-alpine
     container_name: caddy
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
     volumes:
-      - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./config/caddy/Caddyfile:/etc/caddy/Caddyfile:z
       - caddy-data:/data
       - caddy-config:/config
-      - ../pretamane-website:/var/www/pretamane:ro
+      - ../pretamane-website:/var/www/pretamane:z
+      - caddy-logs:/var/log/caddy
     networks:
       - app-network
     depends_on:
@@ -203,18 +211,35 @@ services:
       - minio
 
   # ============================================================================
+  # CLOUDFLARE TUNNEL (IP Hiding Layer)
+  # ============================================================================
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    networks:
+      - app-network
+    command: tunnel --no-autoupdate --url http://caddy:80
+    depends_on:
+      - caddy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=false"
+
+  # ============================================================================
   # DATABASE ADMIN TOOL
   # ============================================================================
-  
+
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: pgadmin
     restart: unless-stopped
-    ports:
-      - "5050:80"
+    # EDGE ENFORCED - Access via http://localhost/pgadmin
+    # ports:
+    #   - "5050:80"
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin123
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
       - PGADMIN_CONFIG_SERVER_MODE=True
       - SCRIPT_NAME=/pgadmin
     volumes:
@@ -224,7 +249,8 @@ services:
     depends_on:
       - postgresql
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost/pgadmin/misc/ping"]
+      test:
+        ["CMD", "wget", "--spider", "-q", "http://localhost/pgadmin/misc/ping"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -232,13 +258,14 @@ services:
   # ============================================================================
   # MONITORING STACK
   # ============================================================================
-  
+
   prometheus:
     image: prom/prometheus:v2.48.0
     container_name: prometheus
     restart: unless-stopped
-    ports:
-      - "9090:9090"
+    # EDGE ENFORCED - Access via http://localhost/prometheus
+    # ports:
+    #   - "9090:9090"
     volumes:
       - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./config/prometheus/alert-rules.yml:/etc/prometheus/alert-rules.yml
@@ -246,15 +273,22 @@ services:
     networks:
       - app-network
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--storage.tsdb.retention.time=30d'
-      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
-      - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--web.external-url=http://localhost/prometheus/'
-      - '--web.route-prefix=/prometheus'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+      - "--web.external-url=http://localhost/prometheus/"
+      - "--web.route-prefix=/prometheus"
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:9090/prometheus/-/healthy"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--spider",
+          "-q",
+          "http://localhost:9090/prometheus/-/healthy",
+        ]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -263,11 +297,12 @@ services:
     image: grafana/grafana:10.2.0
     container_name: grafana
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    # EDGE ENFORCED - Access via http://localhost/grafana
+    # ports:
+    #   - "3000:3000"
     environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_ROOT_URL=http://localhost/grafana
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
@@ -283,7 +318,8 @@ services:
       - loki
       - alertmanager
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+      test:
+        ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -291,13 +327,14 @@ services:
   # ============================================================================
   # LOGGING STACK
   # ============================================================================
-  
+
   loki:
     image: grafana/loki:2.9.0
     container_name: loki
     restart: unless-stopped
-    ports:
-      - "3100:3100"
+    # EDGE ENFORCED - Loki accessed internally by Grafana and Promtail
+    # ports:
+    #   - "3100:3100"
     volumes:
       - ./config/loki/loki-config.yml:/etc/loki/local-config.yaml
       - loki-data:/loki
@@ -314,17 +351,18 @@ services:
     image: prom/alertmanager:v0.26.0
     container_name: alertmanager
     restart: unless-stopped
-    ports:
-      - "9093:9093"
+    # EDGE ENFORCED - Access via http://localhost/alertmanager
+    # ports:
+    #   - "9093:9093"
     volumes:
       - ./config/alertmanager:/etc/alertmanager
       - alertmanager-data:/alertmanager
     networks:
       - app-network
     command:
-      - '--config.file=/etc/alertmanager/config.yml'
-      - '--storage.path=/alertmanager'
-      - '--web.external-url=http://localhost/alertmanager'
+      - "--config.file=/etc/alertmanager/config.yml"
+      - "--storage.path=/alertmanager"
+      - "--web.external-url=http://localhost/alertmanager"
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:9093/-/healthy"]
       interval: 30s
@@ -337,15 +375,77 @@ services:
     restart: unless-stopped
     volumes:
       - ./config/promtail/promtail-config.yml:/etc/promtail/config.yml
-      # If host logs are needed, uncomment the following and ensure permissions:
-      # - /var/log:/var/log
+      # Host system logs (for CrowdSec, Fail2ban, auth, syslog, etc.)
+      # Uncomment these when running on a host with these logs:
+      # - /var/log:/var/log:ro
       # - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      # Application logs
       - logs-data:/mnt/logs:ro
+      # Caddy logs (if enabled in Caddy config)
+      - caddy-logs:/var/log/caddy:ro
     networks:
       - app-network
     command: -config.file=/etc/promtail/config.yml
     depends_on:
       - loki
+    # Optional: Add user/group for log file access
+    # user: "0:0"  # Run as root to access host logs
+
+  # ============================================================================
+  # MONITORING EXPORTERS
+  # ============================================================================
+
+  node-exporter:
+    image: prom/node-exporter:v1.7.0
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+    networks:
+      - app-network
+    # HEALTHCHECK REMOVED: node-exporter uses scratch image without wget/curl
+    # Monitor via Prometheus up{job="node-exporter"} instead
+
+  # cadvisor:
+  #   image: gcr.io/cadvisor/cadvisor:v0.47.0
+  #   container_name: cadvisor
+  #   restart: unless-stopped
+  #   privileged: true
+  #   volumes:
+  #     - /:/rootfs:ro
+  #     - /var/run:/var/run:ro
+  #     - /sys:/sys:ro
+  #     - /var/lib/docker/:/var/lib/docker:ro
+  #     - /dev/disk/:/dev/disk:ro
+  #   devices:
+  #     - /dev/kmsg:/dev/kmsg
+  #   networks:
+  #     - app-network
+  #   healthcheck:
+  #     test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/metrics"]
+  #     interval: 30s
+  #     timeout: 5s
+  #     retries: 3
+  # COMMENTED OUT: Requires Docker-specific paths not available in Podman
+
+  blackbox-exporter:
+    image: prom/blackbox-exporter:v0.24.0
+    container_name: blackbox-exporter
+    restart: unless-stopped
+    volumes:
+      - ./config/blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml
+    networks:
+      - app-network
+    command:
+      - "--config.file=/etc/blackbox_exporter/config.yml"
+    # HEALTHCHECK REMOVED: blackbox-exporter uses scratch image without wget/curl
+    # Monitor via Prometheus up{job="blackbox-exporter"} instead
 
 # ============================================================================
 # NETWORKS
@@ -376,6 +476,5 @@ volumes:
   pgadmin-data:
   caddy-data:
   caddy-config:
+  caddy-logs:
   alertmanager-data:
-
-

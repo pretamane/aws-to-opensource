@@ -56,27 +56,274 @@ scrape_configs:
       - regex:
           expression: '(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) \[(?P<level>\w+)\] (?P<message>.*)'
       - timestamp:
-          format: '2006-01-02 15:04:05'
+          format: "2006-01-02 15:04:05"
           source: timestamp
       - labels:
           level:
 
-  # System logs (optional)
-  - job_name: system
+  # Caddy access logs (web traffic) - via caddy-logs volume
+  - job_name: caddy-access
     static_configs:
       - targets:
           - localhost
         labels:
-          job: system
-          __path__: /var/log/*.log
+          job: caddy
+          component: proxy
+          log_type: access
+          __path__: /var/log/caddy/access*.log
     pipeline_stages:
-      - regex:
-          expression: '^(?P<timestamp>\w+\s+\d+\s+\d+:\d+:\d+) (?P<hostname>\S+) (?P<message>.*)$'
+      - json:
+          expressions:
+            timestamp: ts
+            level: level
+            request_host: request.host
+            request_method: request.method
+            request_uri: request.uri
+            status: status
+            size: size
+            duration: duration
+            remote_ip: request.remote_ip
+            user_agent: request.headers.User-Agent[0]
       - timestamp:
-          format: 'Jan _2 15:04:05'
+          format: Unix
           source: timestamp
-          location: 'Local'
       - labels:
-          hostname:
+          status:
+          request_method:
+          remote_ip:
 
+  # Caddy error logs - via caddy-logs volume
+  - job_name: caddy-error
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: caddy
+          component: proxy
+          log_type: error
+          __path__: /var/log/caddy/error*.log
+    pipeline_stages:
+      - json:
+          expressions:
+            timestamp: ts
+            level: level
+            message: msg
+            error: error
+      - timestamp:
+          format: Unix
+          source: timestamp
+      - labels:
+          level:
 
+  # ============================================================================
+  # HOST LOG JOBS (COMMENTED - Phase 4)
+  # Uncomment after adding /var/log:/var/log:ro mount to promtail service
+  # ============================================================================
+
+  # System logs (requires host volume mount)
+  # - job_name: system
+  #   static_configs:
+  #     - targets:
+  #         - localhost
+  #       labels:
+  #         job: system
+  #         __path__: /var/log/syslog
+  #   pipeline_stages:
+  #     - regex:
+  #         expression: '^(?P<timestamp>\w+\s+\d+\s+\d+:\d+:\d+) (?P<hostname>\S+) (?P<process>\S+?)(\[(?P<pid>\d+)\])?: (?P<message>.*)$'
+  #     - timestamp:
+  #         format: "Jan _2 15:04:05"
+  #         source: timestamp
+  #         location: "Local"
+  #     - labels:
+  #         hostname:
+  #         process:
+
+  # CrowdSec logs (requires host volume mount)
+  # - job_name: crowdsec
+  #   static_configs:
+  #     - targets:
+  #         - localhost
+  #       labels:
+  #         job: crowdsec
+  #         component: security
+  #         __path__: /var/log/crowdsec*.log
+  #   pipeline_stages:
+  #     - regex:
+  #         expression: '^time="(?P<timestamp>[^"]+)" level=(?P<level>\w+) msg="(?P<message>[^"]+)"'
+  #     - timestamp:
+  #         format: "2006-01-02T15:04:05Z07:00"
+  #         source: timestamp
+  #     - labels:
+  #         level:
+  #     - match:
+  #         selector: '{job="crowdsec"}'
+  #         stages:
+  #           - regex:
+  #               expression: "(ban|block|alert|decision)"
+  #               source: message
+  #           - labels:
+  #               action: "security_action"
+
+  # CrowdSec decisions log (requires host volume mount)
+  # - job_name: crowdsec-decisions
+  #   static_configs:
+  #     - targets:
+  #         - localhost
+  #       labels:
+  #         job: crowdsec-decisions
+  #         component: security
+  #         severity: high
+  #         __path__: /var/log/crowdsec-decisions.log
+  #   pipeline_stages:
+  #     - json:
+  #         expressions:
+  #           timestamp: time
+  #           level: level
+  #           message: msg
+  #           duration: duration
+  #           ip: ip
+  #           reason: reason
+  #           scenario: scenario
+  #     - timestamp:
+  #         format: RFC3339
+  #         source: timestamp
+  #     - labels:
+  #         level:
+  #         ip:
+  #         reason:
+
+  # Fail2ban logs (requires host volume mount)
+  # - job_name: fail2ban
+  #   static_configs:
+  #     - targets:
+  #         - localhost
+  #       labels:
+  #         job: fail2ban
+  #         component: security
+  #         __path__: /var/log/fail2ban.log
+  #   pipeline_stages:
+  #     - regex:
+  #         expression: '^(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}) (?P<level>\w+)\s+\[(?P<jail>[^\]]+)\]\s+(?P<action>\w+)\s+(?P<ip>[\d\.]+)?'
+  #     - timestamp:
+  #         format: "2006-01-02 15:04:05"
+  #         source: timestamp
+  #     - labels:
+  #         level:
+  #         jail:
+  #         action:
+  #         ip:
+  #     - match:
+  #         selector: '{job="fail2ban"} |~ "Ban|Unban"'
+  #         stages:
+  #           - labels:
+  #               security_event: "ban_action"
+
+  # Fail2ban jail-specific logs (requires host volume mount)
+  # - job_name: fail2ban-jails
+  #   static_configs:
+  #     - targets:
+  #         - localhost
+  #       labels:
+  #         job: fail2ban-jails
+  #         component: security
+  #         severity: medium
+  #         __path__: /var/log/fail2ban-*.log
+  #   pipeline_stages:
+  #     - regex:
+  #         expression: '^(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3})'
+  #     - timestamp:
+  #         format: "2006-01-02 15:04:05"
+  #         source: timestamp
+
+  # PostgreSQL logs (requires host volume mount)
+  # - job_name: postgresql
+  #   static_configs:
+  #     - targets:
+  #         - localhost
+  #       labels:
+  #         job: postgresql
+  #         component: database
+  #         __path__: /var/log/postgresql/postgresql-*.log
+  #   pipeline_stages:
+  #     - regex:
+  #         expression: '^(?P<timestamp>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3} \w+) \[(?P<pid>\d+)\] (?P<level>\w+):\s+(?P<message>.*)$'
+  #     - timestamp:
+  #         format: "2006-01-02 15:04:05"
+  #         source: timestamp
+  #     - labels:
+  #         level:
+  #         pid:
+
+  # Auth logs (requires host volume mount)
+  # - job_name: auth
+  #   static_configs:
+  #     - targets:
+  #         - localhost
+  #       labels:
+  #         job: auth
+  #         component: security
+  #         severity: high
+  #         __path__: /var/log/auth.log
+  #   pipeline_stages:
+  #     - regex:
+  #         expression: '^(?P<timestamp>\w+\s+\d+\s+\d+:\d+:\d+) (?P<hostname>\S+) (?P<process>\S+?)(\[(?P<pid>\d+)\])?: (?P<message>.*)$'
+  #     - timestamp:
+  #         format: "Jan _2 15:04:05"
+  #         source: timestamp
+  #         location: "Local"
+  #     - labels:
+  #         hostname:
+  #         process:
+  #     - match:
+  #         selector: '{job="auth"} |~ "Failed|Failure|Invalid|authentication failure|FAILED SU"'
+  #         stages:
+  #           - labels:
+  #               security_event: "auth_failure"
+
+  # Kernel logs (requires host volume mount)
+  # - job_name: kernel
+  #   static_configs:
+  #     - targets:
+  #         - localhost
+  #       labels:
+  #         job: kernel
+  #         component: system
+  #         __path__: /var/log/kern.log
+  #   pipeline_stages:
+  #     - regex:
+  #         expression: '^(?P<timestamp>\w+\s+\d+\s+\d+:\d+:\d+) (?P<hostname>\S+) (?P<message>.*)$'
+  #     - timestamp:
+  #         format: "Jan _2 15:04:05"
+  #         source: timestamp
+  #         location: "Local"
+  #     - labels:
+  #         hostname:
+
+# ============================================================================
+# CONFIGURATION NOTES:
+# ============================================================================
+#
+# 1. ACTIVE JOBS:
+#    - docker: Container logs via /var/lib/docker/containers mount
+#    - fastapi: Application logs via /mnt/logs mount
+#    - caddy-access, caddy-error: Caddy logs via caddy-logs volume
+#
+# 2. HOST LOG JOBS (Phase 4):
+#    - Uncomment after adding to docker-compose.yml promtail service:
+#      volumes:
+#        - /var/log:/var/log:ro
+#        - /var/lib/docker/containers:/var/lib/docker/containers:ro
+#
+# 3. SECURITY LOGS:
+#    - CrowdSec, Fail2ban, Auth, Kernel logs require host mounts
+#    - Install CrowdSec and Fail2ban on host before enabling
+#
+# 4. PERMISSIONS:
+#    - Ensure promtail container can read log files
+#    - May need to add promtail user to adm group on host
+#
+# 5. TESTING:
+#    - Check targets: curl http://localhost:9080/targets
+#    - Query Loki: curl http://localhost:3100/loki/api/v1/labels
+#

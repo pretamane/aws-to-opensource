@@ -222,10 +222,10 @@ ORDER BY document_count DESC, last_upload DESC;
 -- PERMISSIONS
 -- ============================================================================
 
--- Grant permissions to app_user
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO app_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO app_user;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO app_user;
+-- Grant permissions to pretamane user
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO pretamane;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO pretamane;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO pretamane;
 
 -- ============================================================================
 -- COMMENTS FOR DOCUMENTATION
@@ -237,5 +237,7 @@ COMMENT ON TABLE documents IS 'Uploaded documents metadata - migrated from Dynam
 COMMENT ON TABLE analytics_events IS 'Analytics events for dashboard';
 
 COMMENT ON FUNCTION increment_visitor_count() IS 'Atomic visitor counter - replaces DynamoDB UpdateItem';
+
+
 
 
