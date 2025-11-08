@@ -21,7 +21,7 @@ variable "region" {
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t3.medium"  # 2 vCPU, 4GB RAM - ~$30/month
+  default     = "t2.micro"   # 1 vCPU, 1GB RAM - Free tier eligible
   
   # Alternative options:
   # t3.small:  1 vCPU, 2GB RAM - ~$15/month (might be tight)
@@ -74,5 +74,7 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+
 
 

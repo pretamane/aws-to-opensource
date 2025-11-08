@@ -174,3 +174,5 @@ echo "Instance ready for deployment!" >> /home/ubuntu/BOOTSTRAP_COMPLETE.txt
 chown ubuntu:ubuntu /home/ubuntu/BOOTSTRAP_COMPLETE.txt
 
 
+
+
