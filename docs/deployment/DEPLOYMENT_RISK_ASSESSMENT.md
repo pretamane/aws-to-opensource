@@ -1,6 +1,6 @@
 # Deployment Risk Assessment & Validation Plan
 
-## 🚨 Current Risk Level: **MEDIUM-HIGH**
+##  Current Risk Level: **MEDIUM-HIGH**
 
 ###  What's Working (Dry-Run Validated)
 - Ansible syntax and logic
@@ -143,7 +143,7 @@ ansible-playbook playbooks/03-application-deployment.yml \
 
 This approach gives you a **95% success probability** and allows you to validate each component before moving to the next.
 
-## 🚨 Emergency Plan
+##  Emergency Plan
 
 If deployment fails:
 1. **Immediate**: Run cleanup script to avoid costs

@@ -115,7 +115,7 @@ TF_VAR_ses_from_email=your-email@example.com
 TF_VAR_ses_to_email=your-email@example.com
 ```
 
-## 🔒 Security Recommendations
+##  Security Recommendations
 
 ### 1. Use IAM Roles Instead of Access Keys
 - Prefer IAM roles for service accounts (IRSA) in Kubernetes
@@ -165,7 +165,7 @@ echo $AWS_ACCESS_KEY_ID
 echo $SES_FROM_EMAIL
 ```
 
-## 🚨 Emergency Procedures
+##  Emergency Procedures
 
 ### If Credentials Are Compromised
 
@@ -209,7 +209,7 @@ echo $SES_FROM_EMAIL
 - [ ] Regular credential rotation schedule established
 - [ ] Team members trained on security procedures
 
-## 📞 Support
+##  Support
 
 If you encounter any security issues or need help with credential management:
 

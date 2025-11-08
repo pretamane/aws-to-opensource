@@ -4,42 +4,42 @@
 
 Your AWS EKS portfolio project has been reorganized for maximum tidiness and maintainability.
 
-## 📂 **New Directory Structure**
+##  **New Directory Structure**
 
 ```
 realistic-demo-pretamane/
-├──  scripts/           # All shell scripts (11 files)
-│   ├── setup-credentials.sh      # Interactive credential setup
-│   ├── secure-deploy.sh          # Secure deployment script
-│   ├── deploy-comprehensive.sh   # Full deployment
-│   ├── cleanup-comprehensive.sh  # Cleanup script
-│   ├── nuke-aws-everything.sh    # Complete AWS cleanup
-│   ├── monitor-costs.sh          # Cost monitoring
-│   ├── effective-autoscaling-test.sh  # Auto-scaling tests
-│   ├── quick-portfolio-demo.sh   # Quick demo script
-│   ├── simple-autoscaling-test.sh     # Simple scaling tests
-│   ├── test-autoscaling.sh       # Comprehensive scaling tests
-│   └── cleanup-now.sh            # Quick cleanup
-├──  docs/              # All documentation (14 files)
-│   ├── README.md                 # Main documentation
-│   ├── SECURITY_GUIDE.md         # Security best practices
-│   ├── SECURITY_FIXES_SUMMARY.md # Security fixes summary
-│   ├── DEPLOYMENT_GUIDE.md       # Deployment instructions
-│   ├── DEPLOYMENT_ANALYSIS.md    # Deployment analysis
-│   ├── DEPLOYMENT_SCRIPTS_ANALYSIS.md  # Scripts analysis
-│   ├── COMPREHENSIVE_SETUP.md    # Complete setup guide
-│   ├── TECH_SUPPORT_TEST_SCENARIOS.md  # Test scenarios
-│   ├── PORTFOLIO_SHOWCASE_SCRIPT.md    # Demo script
-│   ├── MONITORING_AND_SCALING.md # Monitoring guide
-│   ├── MOUNTING_TECHNIQUES.md    # Mounting techniques
-│   ├── DATABASE_SETUP.md         # Database setup
-│   ├── demo-script.md            # Demo script
-│   └── portfolio-demo-script.md  # Portfolio demo
-├──  k8s/               # Kubernetes manifests (22 files)
-├──  terraform/         # Infrastructure as Code
-├──  docker/            # Docker configurations
-├──  lambda-code/       # AWS Lambda functions
-└── README.md             # Root README with new structure
+  scripts/           # All shell scripts (11 files)
+    setup-credentials.sh      # Interactive credential setup
+    secure-deploy.sh          # Secure deployment script
+    deploy-comprehensive.sh   # Full deployment
+    cleanup-comprehensive.sh  # Cleanup script
+    nuke-aws-everything.sh    # Complete AWS cleanup
+    monitor-costs.sh          # Cost monitoring
+    effective-autoscaling-test.sh  # Auto-scaling tests
+    quick-portfolio-demo.sh   # Quick demo script
+    simple-autoscaling-test.sh     # Simple scaling tests
+    test-autoscaling.sh       # Comprehensive scaling tests
+    cleanup-now.sh            # Quick cleanup
+  docs/              # All documentation (14 files)
+    README.md                 # Main documentation
+    SECURITY_GUIDE.md         # Security best practices
+    SECURITY_FIXES_SUMMARY.md # Security fixes summary
+    DEPLOYMENT_GUIDE.md       # Deployment instructions
+    DEPLOYMENT_ANALYSIS.md    # Deployment analysis
+    DEPLOYMENT_SCRIPTS_ANALYSIS.md  # Scripts analysis
+    COMPREHENSIVE_SETUP.md    # Complete setup guide
+    TECH_SUPPORT_TEST_SCENARIOS.md  # Test scenarios
+    PORTFOLIO_SHOWCASE_SCRIPT.md    # Demo script
+    MONITORING_AND_SCALING.md # Monitoring guide
+    MOUNTING_TECHNIQUES.md    # Mounting techniques
+    DATABASE_SETUP.md         # Database setup
+    demo-script.md            # Demo script
+    portfolio-demo-script.md  # Portfolio demo
+  k8s/               # Kubernetes manifests (22 files)
+  terraform/         # Infrastructure as Code
+  docker/            # Docker configurations
+  lambda-code/       # AWS Lambda functions
+ README.md             # Root README with new structure
 ```
 
 ##  **What Was Moved**

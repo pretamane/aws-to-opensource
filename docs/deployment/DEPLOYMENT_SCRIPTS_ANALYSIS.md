@@ -206,7 +206,7 @@ Following your request to **never couple deployment and cleanup scripts together
 
 ---
 
-## 🚨 **Important Notes**
+##  **Important Notes**
 
 ### **1. Manual Cleanup Required**
 -  **No automatic cleanup** - you must run cleanup scripts manually

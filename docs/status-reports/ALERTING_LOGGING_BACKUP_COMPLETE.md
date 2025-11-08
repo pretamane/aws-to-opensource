@@ -181,48 +181,48 @@ pgadmin            Up, healthy
 ## Monitoring Stack Architecture
 
 ```
-┌─────────────────────────────────────────────────┐
-│              EC2 Instance (t3.medium)            │
-├─────────────────────────────────────────────────┤
-│                                                  │
-│  ┌──────────────┐      ┌──────────────┐        │
-│  │   Promtail   │─────>│     Loki     │        │
-│  │ (Log Agent)  │      │(Log Storage) │        │
-│  └──────────────┘      └──────────────┘        │
-│         │                      │                │
-│         │                      ▼                │
-│         │              ┌──────────────┐        │
-│         │              │   Grafana    │        │
-│         │              │ (Dashboards) │        │
-│         │              └──────────────┘        │
-│         │                      ▲                │
-│         │                      │                │
-│  ┌──────────────┐      ┌──────────────┐        │
-│  │ Prometheus   │─────>│              │        │
-│  │  (Metrics)   │      │              │        │
-│  └──────────────┘      └──────────────┘        │
-│         │                                       │
-│         ▼                                       │
-│  ┌──────────────┐                              │
-│  │ Alertmanager │                              │
-│  │   (Alerts)   │                              │
-│  └──────────────┘                              │
-│                                                  │
-│  ┌──────────────────────────────────────────┐  │
-│  │      Application Services                 │  │
-│  │  - FastAPI                                │  │
-│  │  - PostgreSQL                             │  │
-│  │  - Meilisearch                            │  │
-│  │  - MinIO                                  │  │
-│  │  - Caddy                                  │  │
-│  └──────────────────────────────────────────┘  │
-│                                                  │
-│  ┌──────────────────────────────────────────┐  │
-│  │      Automated Backups (Cron)            │  │
-│  │  Daily at 3 AM UTC                        │  │
-│  └──────────────────────────────────────────┘  │
-│                                                  │
-└─────────────────────────────────────────────────┘
+
+              EC2 Instance (t3.medium)            
+
+                                                  
+                
+     Promtail   >     Loki             
+   (Log Agent)        (Log Storage)         
+                
+                                               
+                                               
+                               
+                          Grafana            
+                        (Dashboards)         
+                               
+                                               
+                                               
+                
+   Prometheus   >                      
+    (Metrics)                               
+                
+                                                
+                                                
+                                
+   Alertmanager                               
+     (Alerts)                                 
+                                
+                                                  
+    
+        Application Services                   
+    - FastAPI                                  
+    - PostgreSQL                               
+    - Meilisearch                              
+    - MinIO                                    
+    - Caddy                                    
+    
+                                                  
+    
+        Automated Backups (Cron)              
+    Daily at 3 AM UTC                          
+    
+                                                  
+
 ```
 
 ## Remaining "Next-Up" Tasks

@@ -23,14 +23,14 @@ All pages now include the following navigation links in consistent order:
 
 ### Pages Updated
 
-✅ **Homepage** (`index.html`)
-✅ **About Page** (`pages/about.html`)
-✅ **Services Page** (`pages/services.html`)
-✅ **Contact Page** (`pages/contact.html`)
-✅ **Analytics Page** (`pages/analytics.html`)
-✅ **Upload Page** (`pages/upload.html`)
-✅ **Search Page** (`pages/search.html`)
-✅ **Health Page** (`pages/health.html`)
+ **Homepage** (`index.html`)
+ **About Page** (`pages/about.html`)
+ **Services Page** (`pages/services.html`)
+ **Contact Page** (`pages/contact.html`)
+ **Analytics Page** (`pages/analytics.html`)
+ **Upload Page** (`pages/upload.html`)
+ **Search Page** (`pages/search.html`)
+ **Health Page** (`pages/health.html`)
 
 ---
 

@@ -29,7 +29,7 @@ This script demonstrates a comprehensive enterprise-grade file processing system
 
 ---
 
-## 🎬 **Live Demo Script**
+##  **Live Demo Script**
 
 ### **Step 1: System Overview**
 ```bash
@@ -54,7 +54,7 @@ echo ""
 
 ### **Step 2: Health Check Demonstration**
 ```bash
-echo "🏥 System Health Check:"
+echo " System Health Check:"
 echo "======================="
 curl -s http://localhost:8080/health | jq .
 echo ""
@@ -102,7 +102,7 @@ APPROVAL REQUIRED:
 - CEO: Pending
 DOC_EOF
 
-echo "📤 Uploading business proposal..."
+echo " Uploading business proposal..."
 curl -X POST -F "file=@business-proposal-2025.txt" \
   http://localhost:8080/upload | jq .
 echo ""
@@ -110,7 +110,7 @@ echo ""
 
 ### **Step 4: Document Processing**
 ```bash
-echo "⚙️ Document Processing:"
+echo " Document Processing:"
 echo "======================"
 curl -X POST http://localhost:8080/process/business-proposal-2025.txt | jq .
 echo ""
@@ -155,7 +155,7 @@ echo ""
 
 ### **Step 8: Performance Testing**
 ```bash
-echo "⚡ Performance Testing:"
+echo " Performance Testing:"
 echo "======================"
 echo "Load testing with 10 concurrent requests:"
 for i in {1..10}; do
@@ -193,7 +193,7 @@ echo ""
 
 ### **Step 10: Disaster Recovery Demo**
 ```bash
-echo "🚨 Disaster Recovery Testing:"
+echo " Disaster Recovery Testing:"
 echo "============================"
 echo "Simulating pod failure and recovery..."
 
@@ -271,7 +271,7 @@ echo ""
 
 ### **Step 13: Security Features**
 ```bash
-echo "🔒 Security Features:"
+echo " Security Features:"
 echo "===================="
 echo "1. IAM Roles for Service Accounts (IRSA)"
 echo "2. EFS Encryption at rest"
@@ -288,7 +288,7 @@ echo ""
 
 ### **Step 14: Cleanup Demo**
 ```bash
-echo "🧹 Cleanup Demo:"
+echo " Cleanup Demo:"
 echo "==============="
 echo "Cleaning up test files..."
 rm -f business-proposal-2025.txt
@@ -332,7 +332,7 @@ echo ""
 
 ---
 
-## 📞 **Next Steps**
+##  **Next Steps**
 1. **Production Deployment**: Use `deploy-comprehensive.sh`
 2. **Monitoring Setup**: Configure CloudWatch dashboards
 3. **Backup Strategy**: Implement automated backups

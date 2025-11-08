@@ -15,67 +15,67 @@
 #### **1. Deployment Workflows (from playbooks/):**
 ```yaml
  EXTRACT FROM ANSIBLE:
-├── 01-terraform-orchestration.yml (171 lines)
-│   ├── Prerequisites checking logic
-│   ├── Terraform backend creation workflow
-│   ├── Infrastructure deployment orchestration
-│   ├── Output extraction and processing
-│   └── Error handling patterns
+ 01-terraform-orchestration.yml (171 lines)
+    Prerequisites checking logic
+    Terraform backend creation workflow
+    Infrastructure deployment orchestration
+    Output extraction and processing
+    Error handling patterns
 
-├── 02-kubernetes-setup.yml (376 lines)
-│   ├── kubectl configuration workflow
-│   ├── Helm repository management
-│   ├── Helm releases deployment logic
-│   ├── Namespace creation patterns
-│   └── Service account setup with IRSA
+ 02-kubernetes-setup.yml (376 lines)
+    kubectl configuration workflow
+    Helm repository management
+    Helm releases deployment logic
+    Namespace creation patterns
+    Service account setup with IRSA
 
-├── 03-application-deployment.yml (585 lines)
-│   ├── Application deployment orchestration
-│   ├── ConfigMap and Secret management
-│   ├── Multi-step deployment validation
-│   ├── Health check workflows
-│   └── Status monitoring logic
+ 03-application-deployment.yml (585 lines)
+    Application deployment orchestration
+    ConfigMap and Secret management
+    Multi-step deployment validation
+    Health check workflows
+    Status monitoring logic
 
-├── 04-cleanup.yml (223 lines)
-│   ├── Comprehensive cleanup workflows
-│   ├── Resource deletion ordering
-│   ├── Safety checks and confirmations
-│   └── Cleanup validation
+ 04-cleanup.yml (223 lines)
+    Comprehensive cleanup workflows
+    Resource deletion ordering
+    Safety checks and confirmations
+    Cleanup validation
 
-├── 05-monitoring.yml (243 lines)
-│   ├── Health check automation
-│   ├── Status monitoring workflows
-│   ├── Performance validation
-│   └── Alerting logic
+ 05-monitoring.yml (243 lines)
+    Health check automation
+    Status monitoring workflows
+    Performance validation
+    Alerting logic
 
-└── deploy.yml (61 lines)
-    ├── Main orchestration workflow
-    ├── Deployment mode handling
-    ├── Step-by-step execution
-    └── Summary reporting
+ deploy.yml (61 lines)
+     Main orchestration workflow
+     Deployment mode handling
+     Step-by-step execution
+     Summary reporting
 ```
 
 #### **2. Configuration Management (from group_vars/):**
 ```yaml
  EXTRACT FROM ANSIBLE:
-├── all.yml (256 lines)
-│   ├── Project configuration variables
-│   ├── AWS service configurations
-│   ├── Kubernetes settings
-│   ├── Application parameters
-│   ├── Helm repository definitions
-│   ├── Resource configurations
-│   └── Environment-specific settings
+ all.yml (256 lines)
+    Project configuration variables
+    AWS service configurations
+    Kubernetes settings
+    Application parameters
+    Helm repository definitions
+    Resource configurations
+    Environment-specific settings
 ```
 
 #### **3. Inventory Management (from inventory/):**
 ```yaml
  EXTRACT FROM ANSIBLE:
-├── hosts.yml
-│   ├── Environment variable lookups
-│   ├── Default value patterns
-│   ├── Configuration hierarchies
-│   └── Multi-environment support
+ hosts.yml
+    Environment variable lookups
+    Default value patterns
+    Configuration hierarchies
+    Multi-environment support
 ```
 
 ---
@@ -159,15 +159,15 @@ secretGenerator:
 # REPLACE: Ansible Helm module calls
 
 complete-advanced-setup/helm-chart/
-├── Chart.yaml
-├── values.yaml
-├── values-production.yaml
-├── templates/
-│   ├── deployments/
-│   ├── services/
-│   ├── ingress/
-│   └── configmaps/
-└── charts/
+ Chart.yaml
+ values.yaml
+ values-production.yaml
+ templates/
+    deployments/
+    services/
+    ingress/
+    configmaps/
+ charts/
 ```
 
 #### **2.3 GitOps-Ready Structure**
@@ -176,12 +176,12 @@ complete-advanced-setup/helm-chart/
 # REPLACE: Ansible push-based deployment
 
 complete-advanced-setup/
-├── base/                    # Base configurations
-├── overlays/               # Environment-specific overlays
-│   ├── development/
-│   ├── staging/
-│   └── production/
-└── apps/                   # Application definitions
+ base/                    # Base configurations
+ overlays/               # Environment-specific overlays
+    development/
+    staging/
+    production/
+ apps/                   # Application definitions
 ```
 
 ### ** PHASE 3: ENHANCED BASH ORCHESTRATION**
@@ -192,18 +192,18 @@ complete-advanced-setup/
 # EXTRACT FROM: Ansible task logic
 
 scripts/
-├── lib/
-│   ├── prerequisites.sh      # From 01-terraform-orchestration.yml
-│   ├── terraform-ops.sh      # From 01-terraform-orchestration.yml
-│   ├── kubernetes-ops.sh     # From 02-kubernetes-setup.yml
-│   ├── helm-ops.sh          # From 02-kubernetes-setup.yml
-│   ├── app-deployment.sh    # From 03-application-deployment.yml
-│   ├── monitoring.sh        # From 05-monitoring.yml
-│   ├── cleanup.sh           # From 04-cleanup.yml
-│   └── utils.sh             # Common utilities
-├── deploy-enhanced.sh       # Main orchestrator
-├── cleanup-enhanced.sh      # Enhanced cleanup
-└── monitor-enhanced.sh      # Enhanced monitoring
+ lib/
+    prerequisites.sh      # From 01-terraform-orchestration.yml
+    terraform-ops.sh      # From 01-terraform-orchestration.yml
+    kubernetes-ops.sh     # From 02-kubernetes-setup.yml
+    helm-ops.sh          # From 02-kubernetes-setup.yml
+    app-deployment.sh    # From 03-application-deployment.yml
+    monitoring.sh        # From 05-monitoring.yml
+    cleanup.sh           # From 04-cleanup.yml
+    utils.sh             # Common utilities
+ deploy-enhanced.sh       # Main orchestrator
+ cleanup-enhanced.sh      # Enhanced cleanup
+ monitor-enhanced.sh      # Enhanced monitoring
 ```
 
 #### **3.2 Configuration Management**
@@ -212,13 +212,13 @@ scripts/
 # EXTRACT FROM: ansible/group_vars/ and ansible/inventory/
 
 config/
-├── environments/
-│   ├── production.env       # From ansible/group_vars/all.yml
-│   ├── staging.env
-│   └── development.env
-├── helm-repositories.yaml   # From ansible/group_vars/all.yml
-├── application-defaults.yaml
-└── resource-limits.yaml
+ environments/
+    production.env       # From ansible/group_vars/all.yml
+    staging.env
+    development.env
+ helm-repositories.yaml   # From ansible/group_vars/all.yml
+ application-defaults.yaml
+ resource-limits.yaml
 ```
 
 ---

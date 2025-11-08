@@ -235,7 +235,7 @@ containers:
 - Validate all advanced features work
 - Ensure no regression in functionality
 
-## 🚨 **CRITICAL WARNING**
+##  **CRITICAL WARNING**
 
 **DO NOT modify the source of truth files:**
 -  `terraform/main.tf` and modules

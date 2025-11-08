@@ -89,7 +89,7 @@ curl http://localhost:8080/logs
 5. **Resource Management**: CPU and memory limits
 6. **Service Discovery**: Kubernetes services and ingress
 
-## 🎨 Portfolio Presentation Points
+##  Portfolio Presentation Points
 
 ### Technical Excellence
 - **Cloud-Native Architecture**: Built for AWS cloud
@@ -137,7 +137,7 @@ curl http://localhost:8080/logs
 - **Audit Compliance**: Complete activity logging
 - **Disaster Recovery**: Automated S3 backups
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 ### Planned Features
 1. **OpenSearch Integration**: Full-text search capabilities

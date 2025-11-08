@@ -6,12 +6,12 @@
 
 ```
 docs/
-├── analysis/          # Project analysis, architecture reviews, reports
-├── deployment/        # Deployment guides and procedures
-├── guides/            # Technical guides and how-to documents
-├── monitoring/        # Monitoring and observability guides
-├── security/          # Security best practices and credentials
-└── troubleshooting/   # Problem resolution and debugging guides
+ analysis/          # Project analysis, architecture reviews, reports
+ deployment/        # Deployment guides and procedures
+ guides/            # Technical guides and how-to documents
+ monitoring/        # Monitoring and observability guides
+ security/          # Security best practices and credentials
+ troubleshooting/   # Problem resolution and debugging guides
 ```
 
 ---
@@ -119,7 +119,7 @@ All documentation follows these standards:
 
 ---
 
-## 📌 Root Directory Files
+##  Root Directory Files
 
 - `README.md` - Main project README (architecture, features, quick start)
 

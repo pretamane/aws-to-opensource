@@ -92,7 +92,7 @@ Also removed `initializeMobileMenu` from the module exports.
 index.html           → navigation.js (mobile menu)
 pages/about.html     → navigation.js (mobile menu)
 pages/services.html  → navigation.js (mobile menu)
-pages/contact.html   → navigation.js (mobile menu) ✓ FIXED
+pages/contact.html   → navigation.js (mobile menu)  FIXED
 pages/analytics.html → navigation.js (mobile menu)
 pages/upload.html    → navigation.js (mobile menu)
 pages/search.html    → navigation.js (mobile menu)

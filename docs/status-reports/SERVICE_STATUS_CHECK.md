@@ -19,7 +19,7 @@ All Docker Compose services have been successfully started on the new EC2 instan
 
 All services are **running and accessible**:
 
-### ✅ Web Services (via Caddy on port 80)
+###  Web Services (via Caddy on port 80)
 
 | Service | URL | Status | Notes |
 |---------|-----|--------|-------|
@@ -30,13 +30,13 @@ All services are **running and accessible**:
 | Meilisearch | http://54.179.230.219/meilisearch/ | Available | Search API endpoint |
 | FastAPI | http://54.179.230.219/contact | Available | Backend API endpoints |
 
-### ✅ Direct Access Services
+###  Direct Access Services
 
 | Service | URL | Status | Notes |
 |---------|-----|--------|-------|
 | MinIO Console | http://54.179.230.219:9001/ | 200 OK | Object storage web interface |
 
-### ⚠️ Internal Services (Not Publicly Accessible)
+###  Internal Services (Not Publicly Accessible)
 
 | Service | Port | Status | Notes |
 |---------|------|--------|-------|

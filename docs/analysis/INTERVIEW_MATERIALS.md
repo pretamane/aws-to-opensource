@@ -159,7 +159,7 @@ A production-ready contact form API deployed on AWS EKS demonstrating enterprise
 
 ---
 
-## 💼 **Career Positioning Statements**
+##  **Career Positioning Statements**
 
 ### **Senior DevOps Engineer:**
 *"This project demonstrates my ability to design and implement enterprise-scale cloud-native platforms with advanced Kubernetes patterns, sophisticated auto-scaling, and production-ready security practices."*
@@ -188,7 +188,7 @@ A production-ready contact form API deployed on AWS EKS demonstrating enterprise
 
 ---
 
-## 🎓 **Technical Learning Demonstrated**
+##  **Technical Learning Demonstrated**
 
 ### **Cloud-Native Architecture:**
 - Multi-tier application design
@@ -239,7 +239,7 @@ A production-ready contact form API deployed on AWS EKS demonstrating enterprise
 
 ---
 
-## 🌟 **Project Differentiation**
+##  **Project Differentiation**
 
 **What Makes This Portfolio Special:**
 1. **Enterprise Complexity** - 74 Terraform resources, 20+ Kubernetes resources

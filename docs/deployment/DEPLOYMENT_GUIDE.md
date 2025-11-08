@@ -121,7 +121,7 @@ kubectl get nodes
 # https://console.aws.amazon.com/billing/home#/costexplorer
 ```
 
-## 🧹 Cleanup Options
+##  Cleanup Options
 
 ### Automatic Cleanup (Recommended)
 -  **Scheduled**: Runs automatically after 1 hour
@@ -146,7 +146,7 @@ kill $(cat cleanup.pid)
 -  S3 buckets
 -  IAM roles and policies
 
-## 🚨 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -227,7 +227,7 @@ curl http://YOUR_ALB_ENDPOINT/stats
 4. **Monitor Costs**  (Cost monitoring script)
 5. **Set Billing Alerts** (In AWS Console)
 
-## 🔒 Security Features
+##  Security Features
 
 -  **IAM Roles** with least privilege
 -  **IRSA** for secure service accounts

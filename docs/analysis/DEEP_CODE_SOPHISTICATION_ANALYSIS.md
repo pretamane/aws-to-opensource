@@ -14,46 +14,46 @@ After analyzing the **full content** of all YAML files (not just first 20 lines)
 #### **Advanced Features:**
 ```yaml
  Multi-container architecture (4 containers)
-  ├── Main FastAPI application
-  ├── Advanced init container with comprehensive data prep
-  ├── RClone sidecar with multiple S3 bucket mounting
-  └── OpenSearch indexer sidecar with real-time indexing
+   Main FastAPI application
+   Advanced init container with comprehensive data prep
+   RClone sidecar with multiple S3 bucket mounting
+   OpenSearch indexer sidecar with real-time indexing
 
  Advanced Init Container (Lines 26-174):
-  ├── Complex directory structure creation (EFS + local)
-  ├── Dynamic JSON configuration generation
-  ├── OpenSearch index mapping creation
-  ├── Sample data preparation
-  ├── Comprehensive environment variable handling
-  └── Resource limits and requests
+   Complex directory structure creation (EFS + local)
+   Dynamic JSON configuration generation
+   OpenSearch index mapping creation
+   Sample data preparation
+   Comprehensive environment variable handling
+   Resource limits and requests
 
  Sophisticated RClone Sidecar (Lines 269-365):
-  ├── Multiple S3 bucket configurations (data, index, backup)
-  ├── Advanced VFS caching (200M cache, 2h max age)
-  ├── Daemon mode mounting
-  ├── Comprehensive error handling
-  └── Resource optimization
+   Multiple S3 bucket configurations (data, index, backup)
+   Advanced VFS caching (200M cache, 2h max age)
+   Daemon mode mounting
+   Comprehensive error handling
+   Resource optimization
 
  OpenSearch Indexer Sidecar (Lines 367-462):
-  ├── Real-time document indexing
-  ├── Dynamic index creation with mapping
-  ├── Continuous indexing loop (30s intervals)
-  ├── Error handling and recovery
-  └── Production-ready OpenSearch client
+   Real-time document indexing
+   Dynamic index creation with mapping
+   Continuous indexing loop (30s intervals)
+   Error handling and recovery
+   Production-ready OpenSearch client
 
  Advanced Storage Integration:
-  ├── EFS persistent volumes
-  ├── S3 mounting via RClone
-  ├── OpenSearch integration
-  ├── Shared storage between containers
-  └── Multiple volume types (emptyDir, PVC, configMap)
+   EFS persistent volumes
+   S3 mounting via RClone
+   OpenSearch integration
+   Shared storage between containers
+   Multiple volume types (emptyDir, PVC, configMap)
 
  Production-Ready Features:
-  ├── Comprehensive health checks (readiness + liveness)
-  ├── Resource limits and requests for all containers
-  ├── Proper secret management (multiple secret types)
-  ├── ConfigMap integration
-  └── Service account with IRSA
+   Comprehensive health checks (readiness + liveness)
+   Resource limits and requests for all containers
+   Proper secret management (multiple secret types)
+   ConfigMap integration
+   Service account with IRSA
 ```
 
 ### ** RUNNER-UP: `k8s/free-tier-deployment.yaml` (208 lines)**
@@ -133,9 +133,9 @@ After analyzing the **full content** of all YAML files (not just first 20 lines)
 ```yaml
  Complete EFS CSI implementation
  Multiple storage classes (3 different types):
-  ├── efs-sc (standard)
-  ├── efs-sc-shared (shared access)
-  └── efs-sc-secure (secure access)
+   efs-sc (standard)
+   efs-sc-shared (shared access)
+   efs-sc-secure (secure access)
  Access point integration
  Proper volume attributes configuration
  Volume expansion support
@@ -179,26 +179,26 @@ After analyzing the **full content** of all YAML files (not just first 20 lines)
 #### **Advanced Features:**
 ```yaml
  Multiple secret types (4 different secrets):
-  ├── storage-credentials (AWS + OpenSearch)
-  ├── s3-bucket-info (S3 bucket names)
-  ├── opensearch-config (OpenSearch settings)
-  └── storage-config (ConfigMap with comprehensive settings)
+   storage-credentials (AWS + OpenSearch)
+   s3-bucket-info (S3 bucket names)
+   opensearch-config (OpenSearch settings)
+   storage-config (ConfigMap with comprehensive settings)
 
  Comprehensive service coverage:
-  ├── AWS credentials
-  ├── OpenSearch authentication
-  ├── S3 bucket configuration
-  ├── EFS mount paths
-  ├── Storage policies
-  ├── Indexing configuration
-  └── Retention policies
+   AWS credentials
+   OpenSearch authentication
+   S3 bucket configuration
+   EFS mount paths
+   Storage policies
+   Indexing configuration
+   Retention policies
 
  Production-ready features:
-  ├── Proper secret separation
-  ├── ConfigMap for non-sensitive data
-  ├── Comprehensive labeling
-  ├── Security warnings and instructions
-  └── Base64 encoding guidance
+   Proper secret separation
+   ConfigMap for non-sensitive data
+   Comprehensive labeling
+   Security warnings and instructions
+   Base64 encoding guidance
 ```
 
 ### ** RUNNER-UP: `k8s/aws-credentials-secret.yaml` (17 lines)**

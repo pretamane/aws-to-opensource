@@ -1,6 +1,6 @@
 # Current vs Advanced Code Structure Analysis
 
-## 🚨 **CURRENT PROBLEM: File Explosion & Redundancy**
+##  **CURRENT PROBLEM: File Explosion & Redundancy**
 
 ### ** Current File Count:**
 - **Terraform Files**: 24 files
@@ -79,40 +79,40 @@ k8s/aws-credentials-secret.yaml   # Basic secrets (unused)
 
 #### **1. Single Source of Truth**
 ```
-├── infrastructure/
-│   ├── terraform/
-│   │   ├── main.tf              # Single orchestrator
-│   │   └── modules/             # Modular components
-│   └── kubernetes/
-│       ├── base/                # Base resources
-│       ├── overlays/            # Environment-specific
-│       └── kustomization.yaml   # Kustomize orchestration
+ infrastructure/
+    terraform/
+       main.tf              # Single orchestrator
+       modules/             # Modular components
+    kubernetes/
+        base/                # Base resources
+        overlays/            # Environment-specific
+        kustomization.yaml   # Kustomize orchestration
 ```
 
 #### **2. Environment-Based Organization**
 ```
-├── environments/
-│   ├── development/
-│   ├── staging/
-│   └── production/
+ environments/
+    development/
+    staging/
+    production/
 ```
 
 #### **3. Feature-Based Modules**
 ```
-├── modules/
-│   ├── networking/              # VPC, subnets, security groups
-│   ├── compute/                 # EKS, EC2, auto-scaling
-│   ├── storage/                 # EFS, S3, backups
-│   ├── database/                # DynamoDB, OpenSearch
-│   └── monitoring/              # CloudWatch, logging
+ modules/
+    networking/              # VPC, subnets, security groups
+    compute/                 # EKS, EC2, auto-scaling
+    storage/                 # EFS, S3, backups
+    database/                # DynamoDB, OpenSearch
+    monitoring/              # CloudWatch, logging
 ```
 
 #### **4. Configuration Management**
 ```
-├── config/
-│   ├── base/                    # Base configurations
-│   ├── environments/            # Environment-specific
-│   └── secrets/                 # Encrypted secrets
+ config/
+    base/                    # Base configurations
+    environments/            # Environment-specific
+    secrets/                 # Encrypted secrets
 ```
 
 ##  **RECOMMENDED ADVANCED STRUCTURE**
@@ -120,50 +120,50 @@ k8s/aws-credentials-secret.yaml   # Basic secrets (unused)
 ### **Option 1: Kustomize-Based (RECOMMENDED)**
 ```
 realistic-demo-pretamane/
-├── infrastructure/
-│   ├── terraform/
-│   │   ├── main.tf              # Single orchestrator
-│   │   ├── variables.tf         # All variables
-│   │   └── modules/             # Modular components
-│   └── kubernetes/
-│       ├── base/                # Base Kubernetes manifests
-│       │   ├── kustomization.yaml
-│       │   ├── deployment.yaml
-│       │   ├── service.yaml
-│       │   ├── ingress.yaml
-│       │   └── hpa.yaml
-│       ├── overlays/
-│       │   ├── development/
-│       │   ├── staging/
-│       │   └── production/
-│       └── components/          # Reusable components
-│           ├── storage/
-│           ├── monitoring/
-│           └── security/
-├── deployment/
-│   ├── ansible/                 # Ansible orchestration
-│   └── scripts/                 # Utility scripts
-└── config/
-    ├── environments/            # Environment configs
-    └── secrets/                 # Encrypted secrets
+ infrastructure/
+    terraform/
+       main.tf              # Single orchestrator
+       variables.tf         # All variables
+       modules/             # Modular components
+    kubernetes/
+        base/                # Base Kubernetes manifests
+           kustomization.yaml
+           deployment.yaml
+           service.yaml
+           ingress.yaml
+           hpa.yaml
+        overlays/
+           development/
+           staging/
+           production/
+        components/          # Reusable components
+            storage/
+            monitoring/
+            security/
+ deployment/
+    ansible/                 # Ansible orchestration
+    scripts/                 # Utility scripts
+ config/
+     environments/            # Environment configs
+     secrets/                 # Encrypted secrets
 ```
 
 ### **Option 2: Helm-Based**
 ```
 realistic-demo-pretamane/
-├── infrastructure/
-│   ├── terraform/               # Infrastructure as Code
-│   └── helm/
-│       ├── charts/
-│       │   └── realistic-demo/  # Main application chart
-│       └── values/
-│           ├── development.yaml
-│           ├── staging.yaml
-│           └── production.yaml
-├── deployment/
-│   └── ansible/                 # Ansible orchestration
-└── config/
-    └── environments/            # Environment configs
+ infrastructure/
+    terraform/               # Infrastructure as Code
+    helm/
+        charts/
+           realistic-demo/  # Main application chart
+        values/
+            development.yaml
+            staging.yaml
+            production.yaml
+ deployment/
+    ansible/                 # Ansible orchestration
+ config/
+     environments/            # Environment configs
 ```
 
 ##  **IMMEDIATE CLEANUP RECOMMENDATIONS**
@@ -240,7 +240,7 @@ resources:
 - **Environment-specific deployments**
 - **Rollback capabilities**
 
-## 🚨 **CURRENT STATE ASSESSMENT**
+##  **CURRENT STATE ASSESSMENT**
 
 ### **Your Current Setup:**
 -  **Functionally Advanced**: Multi-container, S3 mounting, OpenSearch

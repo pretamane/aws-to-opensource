@@ -170,7 +170,7 @@ kubectl get pods -w
 kubectl get nodes -w
 ```
 
-## 🛠️ Troubleshooting
+##  Troubleshooting
 
 ### Common Issues
 
@@ -207,7 +207,7 @@ kubectl get nodes -w
 - Set up billing alerts
 - Monitor resource utilization
 
-## 🔒 Security
+##  Security
 
 ### IAM Best Practices
 - Least privilege access

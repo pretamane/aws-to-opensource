@@ -59,16 +59,16 @@ k8s/aws-credentials-secret.yaml   # Basic secrets (UNUSED)
 
 ##  **SERVICE OVERLAP ANALYSIS**
 
-### **🚨 CONFLICTS & OVERLAPS IDENTIFIED:**
+### ** CONFLICTS & OVERLAPS IDENTIFIED:**
 
 #### **1. EFS Storage (Multiple Configurations):**
 ```
 CONFLICT: Multiple EFS configurations
-├── k8s/advanced-efs-pv.yaml      #  ADVANCED: CSI driver, access points, advanced config
-├── k8s/efs-basic.yaml            #  BASIC: Simple EFS
-├── k8s/efs-contact-api.yaml      #  SPECIFIC: Contact API only
-├── k8s/efs-pv.yaml               #  STANDARD: Standard EFS
-└── k8s/efs-static-simple.yaml    #  SIMPLE: Static simple EFS
+ k8s/advanced-efs-pv.yaml      #  ADVANCED: CSI driver, access points, advanced config
+ k8s/efs-basic.yaml            #  BASIC: Simple EFS
+ k8s/efs-contact-api.yaml      #  SPECIFIC: Contact API only
+ k8s/efs-pv.yaml               #  STANDARD: Standard EFS
+ k8s/efs-static-simple.yaml    #  SIMPLE: Static simple EFS
 
 CHOICE NEEDED: Which EFS configuration to use?
 ```
@@ -76,12 +76,12 @@ CHOICE NEEDED: Which EFS configuration to use?
 #### **2. Application Deployment (Multiple Variants):**
 ```
 CONFLICT: Multiple deployment configurations
-├── k8s/advanced-deployment.yaml  #  ADVANCED: Multi-container, init containers, sidecars
-├── k8s/deployment.yaml           #  BASIC: Single container
-├── k8s/free-tier-deployment.yaml #  FREE TIER: Optimized for free tier
-├── k8s/simple-deployment.yaml    #  SIMPLE: Simple version
-├── k8s/rclone-sidecar.yaml       #  ADVANCED: S3 mounting sidecar
-└── k8s/init-container-mount.yaml #  ADVANCED: Init container for data prep
+ k8s/advanced-deployment.yaml  #  ADVANCED: Multi-container, init containers, sidecars
+ k8s/deployment.yaml           #  BASIC: Single container
+ k8s/free-tier-deployment.yaml #  FREE TIER: Optimized for free tier
+ k8s/simple-deployment.yaml    #  SIMPLE: Simple version
+ k8s/rclone-sidecar.yaml       #  ADVANCED: S3 mounting sidecar
+ k8s/init-container-mount.yaml #  ADVANCED: Init container for data prep
 
 CHOICE NEEDED: Which deployment approach to use?
 ```
@@ -89,8 +89,8 @@ CHOICE NEEDED: Which deployment approach to use?
 #### **3. Secrets Management (Multiple Approaches):**
 ```
 CONFLICT: Multiple secrets configurations
-├── k8s/advanced-storage-secrets.yaml #  ADVANCED: Comprehensive secrets
-└── k8s/aws-credentials-secret.yaml   #  BASIC: Basic AWS credentials only
+ k8s/advanced-storage-secrets.yaml #  ADVANCED: Comprehensive secrets
+ k8s/aws-credentials-secret.yaml   #  BASIC: Basic AWS credentials only
 
 CHOICE NEEDED: Which secrets approach to use?
 ```
@@ -98,8 +98,8 @@ CHOICE NEEDED: Which secrets approach to use?
 #### **4. Auto-scaling (Multiple HPA Configs):**
 ```
 CONFLICT: Multiple HPA configurations
-├── k8s/hpa.yaml                  #  STANDARD: Standard HPA
-└── k8s/hpa-portfolio-demo.yaml   #  SPECIFIC: Portfolio demo specific
+ k8s/hpa.yaml                  #  STANDARD: Standard HPA
+ k8s/hpa-portfolio-demo.yaml   #  SPECIFIC: Portfolio demo specific
 
 CHOICE NEEDED: Which HPA configuration to use?
 ```
@@ -141,27 +141,27 @@ CHOICE NEEDED: Which HPA configuration to use?
 #### **Proposed Structure:**
 ```
 complete-advanced-setup/
-├── infrastructure/
-│   ├── terraform/
-│   │   ├── main.tf                 # Single orchestrator
-│   │   ├── variables.tf            # All variables
-│   │   ├── outputs.tf              # All outputs
-│   │   └── modules/                # All modules (unchanged)
-│   └── kubernetes/
-│       ├── complete-advanced-deployment.yaml    # Consolidated deployment
-│       ├── complete-advanced-storage.yaml       # Consolidated storage
-│       ├── complete-advanced-secrets.yaml       # Consolidated secrets
-│       ├── complete-advanced-services.yaml      # Consolidated services
-│       └── kustomization.yaml                   # Kustomize orchestration
-├── deployment/
-│   └── ansible/                    # Ansible orchestration
-└── config/
-    └── environments/               # Environment-specific configs
+ infrastructure/
+    terraform/
+       main.tf                 # Single orchestrator
+       variables.tf            # All variables
+       outputs.tf              # All outputs
+       modules/                # All modules (unchanged)
+    kubernetes/
+        complete-advanced-deployment.yaml    # Consolidated deployment
+        complete-advanced-storage.yaml       # Consolidated storage
+        complete-advanced-secrets.yaml       # Consolidated secrets
+        complete-advanced-services.yaml      # Consolidated services
+        kustomization.yaml                   # Kustomize orchestration
+ deployment/
+    ansible/                    # Ansible orchestration
+ config/
+     environments/               # Environment-specific configs
 ```
 
 ### ** PHASE 3: CONSOLIDATION DECISIONS NEEDED**
 
-#### **🔴 CRITICAL CHOICES TO MAKE:**
+#### ** CRITICAL CHOICES TO MAKE:**
 
 ##### **1. EFS Storage Configuration:**
 ```
@@ -225,18 +225,18 @@ RECOMMENDATION: Option A (hpa.yaml)
 ### ** PROPOSED FILE STRUCTURE:**
 ```
 complete-advanced-setup/
-├── infrastructure/
-│   ├── terraform/                 # Keep all existing Terraform files
-│   └── kubernetes/
-│       ├── 01-complete-deployment.yaml      # Multi-container deployment
-│       ├── 02-complete-storage.yaml         # EFS + S3 storage
-│       ├── 03-complete-secrets.yaml         # All secrets
-│       ├── 04-complete-services.yaml        # Service + Ingress + HPA
-│       └── kustomization.yaml               # Orchestration
-├── deployment/
-│   └── ansible/                   # Ansible orchestration
-└── config/
-    └── environments/              # Environment configs
+ infrastructure/
+    terraform/                 # Keep all existing Terraform files
+    kubernetes/
+        01-complete-deployment.yaml      # Multi-container deployment
+        02-complete-storage.yaml         # EFS + S3 storage
+        03-complete-secrets.yaml         # All secrets
+        04-complete-services.yaml        # Service + Ingress + HPA
+        kustomization.yaml               # Orchestration
+ deployment/
+    ansible/                   # Ansible orchestration
+ config/
+     environments/              # Environment configs
 ```
 
 ### ** CONSOLIDATION PROCESS:**
@@ -259,7 +259,7 @@ complete-advanced-setup/
 - Remove all unused/redundant YAML files
 - Keep only the consolidated advanced setup
 
-## 🚨 **CRITICAL QUESTIONS FOR YOU:**
+##  **CRITICAL QUESTIONS FOR YOU:**
 
 ### **1. EFS Storage:**
 **Which EFS configuration do you want to keep?**

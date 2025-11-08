@@ -57,15 +57,15 @@ Orchestration Provisioning  Config   Deployment
 ### **Proposed Structure**
 ```
 realistic-demo-pretamane/
-├──  terraform/              # Existing (unchanged)
-├──  ansible/                # New (parallel)
-│   ├── playbooks/
-│   ├── roles/
-│   ├── inventory/
-│   └── group_vars/
-├──  scripts/                # Existing (gradually deprecated)
-├──  k8s/                    # Existing (unchanged)
-└──  docker/                 # Existing (unchanged)
+  terraform/              # Existing (unchanged)
+  ansible/                # New (parallel)
+    playbooks/
+    roles/
+    inventory/
+    group_vars/
+  scripts/                # Existing (gradually deprecated)
+  k8s/                    # Existing (unchanged)
+  docker/                 # Existing (unchanged)
 ```
 
 ##  **Key Benefits**

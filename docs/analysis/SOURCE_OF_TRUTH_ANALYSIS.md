@@ -9,7 +9,7 @@
    - **Modules**: `terraform/modules/*/` - Individual service definitions
    - **Variables**: `terraform/variables.tf` - Configuration parameters
 
-2. **☸️ Kubernetes Manifests**: `k8s/` directory
+2. ** Kubernetes Manifests**: `k8s/` directory
    - **Advanced**: `k8s/advanced-*.yaml` - Sophisticated multi-container setup
    - **Basic**: `k8s/*.yaml` - Standard Kubernetes resources
    - **These are the ACTUAL resource definitions**
@@ -22,30 +22,30 @@
 
 ### **Current Working Architecture:**
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    SOURCE OF TRUTH                          │
-├─────────────────────────────────────────────────────────────┤
-│   terraform/main.tf                                       │
-│     ├── VPC Module                                          │
-│     ├── EKS Module                                          │
-│     ├── EFS Module                                          │
-│     ├── Storage Module (S3, OpenSearch)                    │
-│     └── Database Module (DynamoDB)                         │
-├─────────────────────────────────────────────────────────────┤
-│  ☸️ k8s/advanced-*.yaml                                     │
-│     ├── advanced-deployment.yaml (Multi-container)         │
-│     ├── advanced-storage-secrets.yaml (Comprehensive)      │
-│     ├── advanced-efs-pv.yaml (Advanced EFS)                │
-│     ├── rclone-sidecar.yaml (S3 mounting)                  │
-│     └── init-container-mount.yaml (Data prep)              │
-├─────────────────────────────────────────────────────────────┤
-│   scripts/deploy-comprehensive.sh                        │
-│     ├── create_terraform_backend()                         │
-│     ├── deploy_infrastructure()                            │
-│     ├── configure_kubectl()                                │
-│     ├── deploy_helm_releases()                             │
-│     └── deploy_kubernetes()                                │
-└─────────────────────────────────────────────────────────────┘
+
+                    SOURCE OF TRUTH                          
+
+   terraform/main.tf                                       
+      VPC Module                                          
+      EKS Module                                          
+      EFS Module                                          
+      Storage Module (S3, OpenSearch)                    
+      Database Module (DynamoDB)                         
+
+   k8s/advanced-*.yaml                                     
+      advanced-deployment.yaml (Multi-container)         
+      advanced-storage-secrets.yaml (Comprehensive)      
+      advanced-efs-pv.yaml (Advanced EFS)                
+      rclone-sidecar.yaml (S3 mounting)                  
+      init-container-mount.yaml (Data prep)              
+
+   scripts/deploy-comprehensive.sh                        
+      create_terraform_backend()                         
+      deploy_infrastructure()                            
+      configure_kubectl()                                
+      deploy_helm_releases()                             
+      deploy_kubernetes()                                
+
 ```
 
 ##  **ANSIBLE INFUSION STRATEGY**
@@ -55,28 +55,28 @@
 ### **Approach**: Replace the EXECUTION ENGINE, keep the SOURCE OF TRUTH
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                NEW ANSIBLE-INFUSED ARCHITECTURE             │
-├─────────────────────────────────────────────────────────────┤
-│   terraform/main.tf (UNCHANGED - Source of Truth)        │
-│     ├── VPC Module                                          │
-│     ├── EKS Module                                          │
-│     ├── EFS Module                                          │
-│     ├── Storage Module (S3, OpenSearch)                    │
-│     └── Database Module (DynamoDB)                         │
-├─────────────────────────────────────────────────────────────┤
-│  ☸️ k8s/advanced-*.yaml (UNCHANGED - Source of Truth)      │
-│     ├── advanced-deployment.yaml (Multi-container)         │
-│     ├── advanced-storage-secrets.yaml (Comprehensive)      │
-│     ├── advanced-efs-pv.yaml (Advanced EFS)                │
-│     ├── rclone-sidecar.yaml (S3 mounting)                  │
-│     └── init-container-mount.yaml (Data prep)              │
-├─────────────────────────────────────────────────────────────┤
-│   ansible/playbooks/ (NEW - Execution Engine)            │
-│     ├── 01-terraform-orchestration.yml                     │
-│     ├── 02-kubernetes-setup.yml                            │
-│     └── 03-application-deployment.yml                      │
-└─────────────────────────────────────────────────────────────┘
+
+                NEW ANSIBLE-INFUSED ARCHITECTURE             
+
+   terraform/main.tf (UNCHANGED - Source of Truth)        
+      VPC Module                                          
+      EKS Module                                          
+      EFS Module                                          
+      Storage Module (S3, OpenSearch)                    
+      Database Module (DynamoDB)                         
+
+   k8s/advanced-*.yaml (UNCHANGED - Source of Truth)      
+      advanced-deployment.yaml (Multi-container)         
+      advanced-storage-secrets.yaml (Comprehensive)      
+      advanced-efs-pv.yaml (Advanced EFS)                
+      rclone-sidecar.yaml (S3 mounting)                  
+      init-container-mount.yaml (Data prep)              
+
+   ansible/playbooks/ (NEW - Execution Engine)            
+      01-terraform-orchestration.yml                     
+      02-kubernetes-setup.yml                            
+      03-application-deployment.yml                      
+
 ```
 
 ##  **DETAILED INFUSION PLAN**
@@ -165,7 +165,7 @@
 4. **Validate all advanced features** are preserved
 5. **Create comprehensive testing** to ensure no regression
 
-## 🚨 **CRITICAL SUCCESS FACTORS**
+##  **CRITICAL SUCCESS FACTORS**
 
 1. **DO NOT modify** `terraform/` or `k8s/advanced-*.yaml` files
 2. **DO NOT simplify** the advanced features

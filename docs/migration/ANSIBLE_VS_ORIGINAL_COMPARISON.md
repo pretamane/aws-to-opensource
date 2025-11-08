@@ -14,7 +14,7 @@ After analyzing your original working setup vs. the Ansible implementation, I fo
 | **Storage Configuration** |  Advanced |  **BASIC** |  **MISSING FEATURES** |
 | **Application Deployment** |  Multi-container |  **SINGLE CONTAINER** |  **MAJOR GAPS** |
 
-## 🚨 **CRITICAL MISSING COMPONENTS in Ansible**
+##  **CRITICAL MISSING COMPONENTS in Ansible**
 
 ### **1. Advanced Kubernetes Manifests (MAJOR GAP)**
 
@@ -115,7 +115,7 @@ containers:
 - Service and Ingress
 - HPA configuration
 
-## 🚨 **DEPLOYMENT RISK ASSESSMENT**
+##  **DEPLOYMENT RISK ASSESSMENT**
 
 ### **Current Ansible Implementation: 40% Complete**
 -  Infrastructure: 100% retained

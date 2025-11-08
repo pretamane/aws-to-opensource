@@ -9,22 +9,22 @@ This document outlines a comprehensive strategy for integrating Ansible alongsid
 ### **Existing Infrastructure Stack**
 ```
 Current Architecture:
-├──  Terraform (Infrastructure Provisioning)
-│   ├── VPC, EKS, EFS, S3, OpenSearch
-│   ├── IAM roles and policies
-│   ├── DynamoDB tables
-│   └── Lambda functions
-├── 📜 Shell Scripts (Orchestration)
-│   ├── deploy-comprehensive.sh (482 lines)
-│   ├── secure-deploy.sh
-│   ├── cleanup-comprehensive.sh
-│   └── monitor-costs.sh
-├── ☸️ Kubernetes Manifests (Application Deployment)
-│   ├── 22 YAML files
-│   ├── Deployments, Services, Ingress
-│   └── ConfigMaps, Secrets, PVCs
-└──  Docker (Containerization)
-    └── FastAPI application
+  Terraform (Infrastructure Provisioning)
+    VPC, EKS, EFS, S3, OpenSearch
+    IAM roles and policies
+    DynamoDB tables
+    Lambda functions
+  Shell Scripts (Orchestration)
+    deploy-comprehensive.sh (482 lines)
+    secure-deploy.sh
+    cleanup-comprehensive.sh
+    monitor-costs.sh
+  Kubernetes Manifests (Application Deployment)
+    22 YAML files
+    Deployments, Services, Ingress
+    ConfigMaps, Secrets, PVCs
+  Docker (Containerization)
+     FastAPI application
 ```
 
 ### **Current Pain Points**
@@ -40,21 +40,21 @@ Current Architecture:
 ### **Ansible-Terraform Integration Strategy**
 ```
 Proposed Hybrid Architecture:
-├──  Terraform (Infrastructure Layer)
-│   ├── AWS resource provisioning
-│   ├── Infrastructure state management
-│   └── Resource dependency management
-├──  Ansible (Orchestration Layer)
-│   ├── Terraform execution orchestration
-│   ├── Kubernetes configuration management
-│   ├── Application deployment automation
-│   └── Cross-platform compatibility
-├── ☸️ Kubernetes (Application Layer)
-│   ├── Container orchestration
-│   ├── Service management
-│   └── Auto-scaling
-└──  Docker (Container Layer)
-    └── Application containerization
+  Terraform (Infrastructure Layer)
+    AWS resource provisioning
+    Infrastructure state management
+    Resource dependency management
+  Ansible (Orchestration Layer)
+    Terraform execution orchestration
+    Kubernetes configuration management
+    Application deployment automation
+    Cross-platform compatibility
+  Kubernetes (Application Layer)
+    Container orchestration
+    Service management
+    Auto-scaling
+  Docker (Container Layer)
+     Application containerization
 ```
 
 ### **Integration Benefits**
@@ -71,33 +71,33 @@ Proposed Hybrid Architecture:
 #### **1.1 Directory Structure**
 ```
 realistic-demo-pretamane/
-├──  terraform/              # Existing (unchanged)
-│   ├── main.tf
-│   ├── modules/
-│   └── ...
-├──  ansible/                # New (parallel to terraform)
-│   ├── playbooks/
-│   │   ├── 01-terraform-orchestration.yml
-│   │   ├── 02-kubernetes-setup.yml
-│   │   ├── 03-application-deployment.yml
-│   │   └── 04-monitoring-setup.yml
-│   ├── roles/
-│   │   ├── terraform-executor/
-│   │   ├── kubernetes-configurator/
-│   │   └── application-deployer/
-│   ├── inventory/
-│   │   └── hosts.yml
-│   ├── group_vars/
-│   │   └── all.yml
-│   └── ansible.cfg
-├──  scripts/                # Existing (gradually deprecated)
-│   ├── deploy-comprehensive.sh
-│   └── ...
-├──  k8s/                    # Existing (unchanged)
-│   ├── portfolio-demo.yaml
-│   └── ...
-└──  docker/                 # Existing (unchanged)
-    └── api/
+  terraform/              # Existing (unchanged)
+    main.tf
+    modules/
+    ...
+  ansible/                # New (parallel to terraform)
+    playbooks/
+       01-terraform-orchestration.yml
+       02-kubernetes-setup.yml
+       03-application-deployment.yml
+       04-monitoring-setup.yml
+    roles/
+       terraform-executor/
+       kubernetes-configurator/
+       application-deployer/
+    inventory/
+       hosts.yml
+    group_vars/
+       all.yml
+    ansible.cfg
+  scripts/                # Existing (gradually deprecated)
+    deploy-comprehensive.sh
+    ...
+  k8s/                    # Existing (unchanged)
+    portfolio-demo.yaml
+    ...
+  docker/                 # Existing (unchanged)
+     api/
 ```
 
 #### **1.2 Ansible-Terraform Integration Points**
@@ -234,24 +234,24 @@ staging:
 ```
 Migration Timeline:
 Week 1-2: Foundation Setup
-├── Create Ansible structure
-├── Implement Terraform orchestration
-└── Test alongside existing scripts
+ Create Ansible structure
+ Implement Terraform orchestration
+ Test alongside existing scripts
 
 Week 3: Kubernetes Integration
-├── Replace kubectl commands
-├── Implement Helm management
-└── Test application deployment
+ Replace kubectl commands
+ Implement Helm management
+ Test application deployment
 
 Week 4: Advanced Features
-├── Multi-environment support
-├── Configuration management
-└── Monitoring integration
+ Multi-environment support
+ Configuration management
+ Monitoring integration
 
 Week 5: Validation & Cleanup
-├── Comprehensive testing
-├── Documentation update
-└── Gradual script deprecation
+ Comprehensive testing
+ Documentation update
+ Gradual script deprecation
 ```
 
 ### **Backward Compatibility**
@@ -263,7 +263,7 @@ Week 5: Validation & Cleanup
 ##  **Implementation Phases**
 
 ### **Phase 1: Foundation (Week 1-2)**
-**Priority**: **HIGH** 🔴
+**Priority**: **HIGH** 
 
 **Deliverables**:
 - [ ] Create Ansible directory structure
@@ -277,7 +277,7 @@ Week 5: Validation & Cleanup
 -  No disruption to existing workflow
 
 ### **Phase 2: Kubernetes Integration (Week 3)**
-**Priority**: **HIGH** 🔴
+**Priority**: **HIGH** 
 
 **Deliverables**:
 - [ ] Kubernetes configuration playbook
@@ -425,11 +425,11 @@ Week 5: Validation & Cleanup
 ### **Documentation Structure**
 ```
 docs/
-├── ANSIBLE_TERRAFORM_INTEGRATION_PLAN.md    # This document
-├── ANSIBLE_IMPLEMENTATION_GUIDE.md          # Implementation details
-├── ANSIBLE_TESTING_STRATEGY.md              # Testing approach
-├── ANSIBLE_TROUBLESHOOTING.md               # Common issues
-└── ANSIBLE_MIGRATION_CHECKLIST.md           # Migration steps
+ ANSIBLE_TERRAFORM_INTEGRATION_PLAN.md    # This document
+ ANSIBLE_IMPLEMENTATION_GUIDE.md          # Implementation details
+ ANSIBLE_TESTING_STRATEGY.md              # Testing approach
+ ANSIBLE_TROUBLESHOOTING.md               # Common issues
+ ANSIBLE_MIGRATION_CHECKLIST.md           # Migration steps
 ```
 
 ### **Code Documentation**

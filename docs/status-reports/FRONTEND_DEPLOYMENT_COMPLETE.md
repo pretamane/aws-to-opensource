@@ -141,24 +141,24 @@ User Browser
     ↓
 Caddy Reverse Proxy (:80)
     ↓
-┌─────────────────┬─────────────────────┐
-│  Static Files   │    API Endpoints    │
-│  (Frontend)     │    (Backend)        │
-└─────────────────┴─────────────────────┘
-         │                   │
+
+  Static Files       API Endpoints    
+  (Frontend)         (Backend)        
+
+                            
     Pretamane              FastAPI
     Website                App (:8000)
-         │                   │
-         └───────┬───────────┘
-                 │
-        ┌────────┴────────┐
-        │   Data Layer    │
-        ├─────────────────┤
-        │ PostgreSQL      │
-        │ Meilisearch     │
-        │ MinIO           │
-        │ Prometheus      │
-        └─────────────────┘
+                            
+         
+                 
+        
+           Data Layer    
+        
+         PostgreSQL      
+         Meilisearch     
+         MinIO           
+         Prometheus      
+        
 ```
 
 ### API Endpoints Used

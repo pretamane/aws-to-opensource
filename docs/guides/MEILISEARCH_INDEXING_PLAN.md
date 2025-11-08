@@ -22,33 +22,33 @@ Currently, when a document is uploaded:
 ### Architecture
 
 ```
-┌─────────────────────────────────────────────────┐
-│                Upload Flow                       │
-├─────────────────────────────────────────────────┤
-│                                                  │
-│  1. User uploads document                       │
-│     │                                            │
-│     ▼                                            │
-│  2. FastAPI receives file                       │
-│     │                                            │
-│     ├──> Save to MinIO                          │
-│     │                                            │
-│     ├──> Save metadata to PostgreSQL            │
-│     │    (status: "pending_index")              │
-│     │                                            │
-│     └──> Trigger indexing job (async)           │
-│          │                                       │
-│          ▼                                       │
-│  3. Background Worker                           │
-│     │                                            │
-│     ├──> Extract text from document             │
-│     │                                            │
-│     ├──> Index in Meilisearch                   │
-│     │                                            │
-│     └──> Update PostgreSQL                      │
-│          (status: "indexed")                    │
-│                                                  │
-└─────────────────────────────────────────────────┘
+
+                Upload Flow                       
+
+                                                  
+  1. User uploads document                       
+                                                 
+                                                 
+  2. FastAPI receives file                       
+                                                 
+     > Save to MinIO                          
+                                                 
+     > Save metadata to PostgreSQL            
+         (status: "pending_index")              
+                                                 
+     > Trigger indexing job (async)           
+                                                 
+                                                 
+  3. Background Worker                           
+                                                 
+     > Extract text from document             
+                                                 
+     > Index in Meilisearch                   
+                                                 
+     > Update PostgreSQL                      
+          (status: "indexed")                    
+                                                  
+
 ```
 
 ### Implementation Options

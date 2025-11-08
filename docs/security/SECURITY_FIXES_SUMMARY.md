@@ -1,6 +1,6 @@
 #  Security Fixes Summary
 
-## 🚨 Critical Security Issues Fixed
+##  Critical Security Issues Fixed
 
 ### 1. Hardcoded AWS Credentials Removed
 **Files Fixed:**
@@ -95,7 +95,7 @@ kubectl create secret generic aws-credentials \
 kubectl apply -f k8s/portfolio-demo.yaml
 ```
 
-## 🚨 Security Warnings
+##  Security Warnings
 
 ###  Never Do These:
 -  Commit credentials to version control

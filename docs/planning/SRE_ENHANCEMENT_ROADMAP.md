@@ -14,31 +14,31 @@ Transform your current sophisticated cloud-native portfolio into an **enterprise
 ### ** EXISTING STRENGTHS:**
 ```
  Infrastructure:
-├── AWS EKS with managed node groups
-├── Terraform IaC with 7 modules
-├── Multi-container applications (329-line FastAPI)
-├── Advanced storage (EFS + S3 integration)
-├── Auto-scaling (HPA + Cluster Autoscaler)
-└── Basic monitoring (CloudWatch)
+ AWS EKS with managed node groups
+ Terraform IaC with 7 modules
+ Multi-container applications (329-line FastAPI)
+ Advanced storage (EFS + S3 integration)
+ Auto-scaling (HPA + Cluster Autoscaler)
+ Basic monitoring (CloudWatch)
 
  Deployment:
-├── Kustomize-ready modular structure
-├── Enhanced deployment scripts
-├── Multiple deployment modes
-├── Comprehensive testing (17 tests)
-└── GitOps-ready architecture
+ Kustomize-ready modular structure
+ Enhanced deployment scripts
+ Multiple deployment modes
+ Comprehensive testing (17 tests)
+ GitOps-ready architecture
 
  Cost Optimization:
-├── AWS Free Tier compliance
-├── Resource monitoring
-├── Automated cleanup
-└── Efficient resource allocation
+ AWS Free Tier compliance
+ Resource monitoring
+ Automated cleanup
+ Efficient resource allocation
 ```
 
 ### ** SRE ENHANCEMENT OPPORTUNITIES:**
 ```
  Observability: Basic → Advanced (SLI/SLO/Error Budgets)
-🚨 Alerting: CloudWatch → Multi-tier alerting with escalation
+ Alerting: CloudWatch → Multi-tier alerting with escalation
  Reliability: Manual → Automated chaos engineering
  Performance: Basic metrics → Deep APM and tracing
  Security: Good → Zero-trust with continuous compliance
@@ -54,11 +54,11 @@ Transform your current sophisticated cloud-native portfolio into an **enterprise
 #### **1.1 Advanced Metrics & SLI Implementation**
 ```yaml
 # New Components:
-├── Prometheus + Grafana stack
-├── Custom SLI dashboards
-├── Business metrics collection
-├── Application Performance Monitoring (APM)
-└── Distributed tracing with Jaeger
+ Prometheus + Grafana stack
+ Custom SLI dashboards
+ Business metrics collection
+ Application Performance Monitoring (APM)
+ Distributed tracing with Jaeger
 
 # SLI Examples:
 - API Response Time: 95th percentile < 200ms
@@ -86,11 +86,11 @@ services:
 #### **1.3 Error Budget Management**
 ```yaml
 # Error Budget Tracking:
-├── Automated error budget calculations
-├── Burn rate alerts
-├── Feature freeze triggers
-├── Error budget reports
-└── Stakeholder notifications
+ Automated error budget calculations
+ Burn rate alerts
+ Feature freeze triggers
+ Error budget reports
+ Stakeholder notifications
 ```
 
 ### ** PHASE 2: ADVANCED ALERTING & INCIDENT RESPONSE (Weeks 4-5)**
@@ -98,35 +98,35 @@ services:
 #### **2.1 Multi-Tier Alerting System**
 ```yaml
 # Alert Hierarchy:
-├── P0: Service Down (Page immediately)
-├── P1: SLO Breach (Page during business hours)
-├── P2: Warning Threshold (Slack notification)
-├── P3: Informational (Dashboard only)
-└── P4: Capacity Planning (Weekly reports)
+ P0: Service Down (Page immediately)
+ P1: SLO Breach (Page during business hours)
+ P2: Warning Threshold (Slack notification)
+ P3: Informational (Dashboard only)
+ P4: Capacity Planning (Weekly reports)
 
 # Alert Channels:
-├── PagerDuty integration
-├── Slack notifications
-├── Email escalation
-├── SMS for critical alerts
-└── Webhook integrations
+ PagerDuty integration
+ Slack notifications
+ Email escalation
+ SMS for critical alerts
+ Webhook integrations
 ```
 
 #### **2.2 Incident Response Automation**
 ```yaml
 # Automated Response:
-├── Auto-scaling triggers
-├── Circuit breaker patterns
-├── Automatic failover
-├── Self-healing mechanisms
-└── Incident timeline tracking
+ Auto-scaling triggers
+ Circuit breaker patterns
+ Automatic failover
+ Self-healing mechanisms
+ Incident timeline tracking
 
 # Runbooks:
-├── Service restart procedures
-├── Database recovery steps
-├── Network troubleshooting
-├── Capacity scaling guides
-└── Security incident response
+ Service restart procedures
+ Database recovery steps
+ Network troubleshooting
+ Capacity scaling guides
+ Security incident response
 ```
 
 ### ** PHASE 3: RELIABILITY & CHAOS ENGINEERING (Weeks 6-7)**
@@ -134,37 +134,37 @@ services:
 #### **3.1 Chaos Engineering Implementation**
 ```yaml
 # Chaos Experiments:
-├── Pod failure simulation
-├── Network latency injection
-├── Resource exhaustion tests
-├── Database connection failures
-├── DNS resolution issues
-└── Availability zone failures
+ Pod failure simulation
+ Network latency injection
+ Resource exhaustion tests
+ Database connection failures
+ DNS resolution issues
+ Availability zone failures
 
 # Tools Integration:
-├── Chaos Monkey for Kubernetes
-├── Litmus Chaos Engineering
-├── Gremlin integration
-├── Custom chaos scripts
-└── Automated experiment scheduling
+ Chaos Monkey for Kubernetes
+ Litmus Chaos Engineering
+ Gremlin integration
+ Custom chaos scripts
+ Automated experiment scheduling
 ```
 
 #### **3.2 Disaster Recovery & Business Continuity**
 ```yaml
 # DR Capabilities:
-├── Multi-region deployment
-├── Automated backup verification
-├── RTO/RPO measurement
-├── Disaster recovery testing
-├── Data replication strategies
-└── Failover automation
+ Multi-region deployment
+ Automated backup verification
+ RTO/RPO measurement
+ Disaster recovery testing
+ Data replication strategies
+ Failover automation
 
 # Recovery Objectives:
-├── RTO: < 15 minutes
-├── RPO: < 5 minutes
-├── Data Loss: 0%
-├── Service Degradation: < 30 seconds
-└── Full Recovery: < 1 hour
+ RTO: < 15 minutes
+ RPO: < 5 minutes
+ Data Loss: 0%
+ Service Degradation: < 30 seconds
+ Full Recovery: < 1 hour
 ```
 
 ### ** PHASE 4: PERFORMANCE & CAPACITY ENGINEERING (Weeks 8-9)**
@@ -172,37 +172,37 @@ services:
 #### **4.1 Advanced Performance Monitoring**
 ```yaml
 # Performance Metrics:
-├── Application latency (P50, P95, P99)
-├── Database query performance
-├── Cache hit rates
-├── Network throughput
-├── Resource utilization trends
-└── User experience metrics
+ Application latency (P50, P95, P99)
+ Database query performance
+ Cache hit rates
+ Network throughput
+ Resource utilization trends
+ User experience metrics
 
 # APM Integration:
-├── New Relic / Datadog
-├── Custom performance dashboards
-├── Real User Monitoring (RUM)
-├── Synthetic monitoring
-└── Performance budgets
+ New Relic / Datadog
+ Custom performance dashboards
+ Real User Monitoring (RUM)
+ Synthetic monitoring
+ Performance budgets
 ```
 
 #### **4.2 Capacity Planning & Optimization**
 ```yaml
 # Capacity Management:
-├── Predictive scaling algorithms
-├── Resource utilization forecasting
-├── Cost optimization recommendations
-├── Performance bottleneck identification
-├── Capacity planning reports
-└── Right-sizing automation
+ Predictive scaling algorithms
+ Resource utilization forecasting
+ Cost optimization recommendations
+ Performance bottleneck identification
+ Capacity planning reports
+ Right-sizing automation
 
 # Optimization Strategies:
-├── Vertical Pod Autoscaling (VPA)
-├── Node auto-provisioning
-├── Spot instance integration
-├── Resource quotas and limits
-└── Multi-tier storage optimization
+ Vertical Pod Autoscaling (VPA)
+ Node auto-provisioning
+ Spot instance integration
+ Resource quotas and limits
+ Multi-tier storage optimization
 ```
 
 ### ** PHASE 5: SECURITY & COMPLIANCE (Weeks 10-11)**
@@ -210,37 +210,37 @@ services:
 #### **5.1 Zero-Trust Security Model**
 ```yaml
 # Security Enhancements:
-├── Service mesh (Istio) implementation
-├── mTLS for all communications
-├── Network policies enforcement
-├── Pod Security Standards
-├── RBAC fine-tuning
-└── Secret rotation automation
+ Service mesh (Istio) implementation
+ mTLS for all communications
+ Network policies enforcement
+ Pod Security Standards
+ RBAC fine-tuning
+ Secret rotation automation
 
 # Compliance Framework:
-├── SOC 2 compliance checks
-├── PCI DSS requirements
-├── GDPR data protection
-├── HIPAA security controls
-└── Automated compliance reporting
+ SOC 2 compliance checks
+ PCI DSS requirements
+ GDPR data protection
+ HIPAA security controls
+ Automated compliance reporting
 ```
 
 #### **5.2 Security Monitoring & Response**
 ```yaml
 # Security Observability:
-├── Runtime security monitoring
-├── Vulnerability scanning automation
-├── Intrusion detection system
-├── Audit log analysis
-├── Threat intelligence integration
-└── Security incident automation
+ Runtime security monitoring
+ Vulnerability scanning automation
+ Intrusion detection system
+ Audit log analysis
+ Threat intelligence integration
+ Security incident automation
 
 # Tools Integration:
-├── Falco for runtime security
-├── Trivy for vulnerability scanning
-├── OPA Gatekeeper for policy
-├── Cert-manager for TLS
-└── External-secrets operator
+ Falco for runtime security
+ Trivy for vulnerability scanning
+ OPA Gatekeeper for policy
+ Cert-manager for TLS
+ External-secrets operator
 ```
 
 ### ** PHASE 6: ADVANCED AUTOMATION & GITOPS (Weeks 12-13)**
@@ -248,38 +248,38 @@ services:
 #### **6.1 Full GitOps Implementation**
 ```yaml
 # GitOps Pipeline:
-├── ArgoCD deployment
-├── Multi-environment promotion
-├── Automated rollbacks
-├── Configuration drift detection
-├── Policy as Code
-└── Progressive delivery
+ ArgoCD deployment
+ Multi-environment promotion
+ Automated rollbacks
+ Configuration drift detection
+ Policy as Code
+ Progressive delivery
 
 # CI/CD Enhancements:
-├── GitHub Actions workflows
-├── Automated testing pipeline
-├── Security scanning integration
-├── Performance testing
-├── Canary deployments
-└── Blue-green deployments
+ GitHub Actions workflows
+ Automated testing pipeline
+ Security scanning integration
+ Performance testing
+ Canary deployments
+ Blue-green deployments
 ```
 
 #### **6.2 Infrastructure as Code Evolution**
 ```yaml
 # Advanced IaC:
-├── Terraform Cloud integration
-├── Policy as Code (Sentinel)
-├── Cost estimation automation
-├── Compliance scanning
-├── Multi-environment management
-└── Infrastructure testing
+ Terraform Cloud integration
+ Policy as Code (Sentinel)
+ Cost estimation automation
+ Compliance scanning
+ Multi-environment management
+ Infrastructure testing
 
 # Configuration Management:
-├── Helm chart optimization
-├── Kustomize overlays
-├── ConfigMap automation
-├── Secret management
-└── Environment parity
+ Helm chart optimization
+ Kustomize overlays
+ ConfigMap automation
+ Secret management
+ Environment parity
 ```
 
 ---
@@ -295,7 +295,7 @@ services:
 5. Performance dashboards (Week 2)
 ```
 
-### **⚡ HIGH IMPACT, HIGH COMPLEXITY (Phase 2)**
+### ** HIGH IMPACT, HIGH COMPLEXITY (Phase 2)**
 ```
 1. Multi-region deployment (Week 6-7)
 2. Service mesh implementation (Week 8-9)
@@ -315,89 +315,89 @@ services:
 
 ---
 
-## 🛠️ **TECHNICAL IMPLEMENTATION DETAILS**
+##  **TECHNICAL IMPLEMENTATION DETAILS**
 
 ### ** New Technology Stack Additions**
 
 #### **Observability Stack:**
 ```yaml
 # Monitoring & Alerting:
-├── Prometheus (metrics collection)
-├── Grafana (visualization)
-├── AlertManager (alert routing)
-├── Jaeger (distributed tracing)
-├── Fluentd (log aggregation)
-└── ElasticSearch (log storage)
+ Prometheus (metrics collection)
+ Grafana (visualization)
+ AlertManager (alert routing)
+ Jaeger (distributed tracing)
+ Fluentd (log aggregation)
+ ElasticSearch (log storage)
 
 # APM & Performance:
-├── New Relic / Datadog
-├── Synthetic monitoring
-├── Real User Monitoring
-├── Performance budgets
-└── Custom metrics exporters
+ New Relic / Datadog
+ Synthetic monitoring
+ Real User Monitoring
+ Performance budgets
+ Custom metrics exporters
 ```
 
 #### **Reliability & Automation:**
 ```yaml
 # Chaos Engineering:
-├── Chaos Monkey for K8s
-├── Litmus Chaos
-├── Gremlin (optional)
-├── Custom chaos scripts
-└── Experiment scheduling
+ Chaos Monkey for K8s
+ Litmus Chaos
+ Gremlin (optional)
+ Custom chaos scripts
+ Experiment scheduling
 
 # GitOps & CI/CD:
-├── ArgoCD
-├── GitHub Actions
-├── Tekton Pipelines
-├── Flux (alternative)
-└── Progressive delivery tools
+ ArgoCD
+ GitHub Actions
+ Tekton Pipelines
+ Flux (alternative)
+ Progressive delivery tools
 ```
 
 #### **Security & Compliance:**
 ```yaml
 # Security Tools:
-├── Istio service mesh
-├── Falco runtime security
-├── OPA Gatekeeper
-├── Cert-manager
-├── External-secrets
-└── Trivy vulnerability scanner
+ Istio service mesh
+ Falco runtime security
+ OPA Gatekeeper
+ Cert-manager
+ External-secrets
+ Trivy vulnerability scanner
 
 # Compliance & Governance:
-├── Policy as Code
-├── Compliance dashboards
-├── Audit automation
-├── Risk assessment tools
-└── Security reporting
+ Policy as Code
+ Compliance dashboards
+ Audit automation
+ Risk assessment tools
+ Security reporting
 ```
 
 ### ** New Directory Structure**
 ```
 k8s/
-├── observability/
-│   ├── prometheus/
-│   ├── grafana/
-│   ├── jaeger/
-│   └── alertmanager/
-├── security/
-│   ├── istio/
-│   ├── falco/
-│   ├── opa-gatekeeper/
-│   └── cert-manager/
-├── chaos-engineering/
-│   ├── chaos-monkey/
-│   ├── litmus/
-│   └── experiments/
-├── gitops/
-│   ├── argocd/
-│   ├── applications/
-│   └── projects/
-└── sre-tools/
-    ├── runbooks/
-    ├── dashboards/
-    ├── alerts/
-    └── policies/
+ observability/
+    prometheus/
+    grafana/
+    jaeger/
+    alertmanager/
+ security/
+    istio/
+    falco/
+    opa-gatekeeper/
+    cert-manager/
+ chaos-engineering/
+    chaos-monkey/
+    litmus/
+    experiments/
+ gitops/
+    argocd/
+    applications/
+    projects/
+ sre-tools/
+     runbooks/
+     dashboards/
+     alerts/
+     policies/
 ```
 
 ---
@@ -407,46 +407,46 @@ k8s/
 ### ** SRE Maturity Indicators**
 ```yaml
 Reliability:
-├── 99.9% service availability
-├── < 15 minute MTTR
-├── < 0.1% error rate
-├── Zero data loss incidents
-└── 95% automated incident response
+ 99.9% service availability
+ < 15 minute MTTR
+ < 0.1% error rate
+ Zero data loss incidents
+ 95% automated incident response
 
 Performance:
-├── < 200ms API response time (P95)
-├── < 1 second page load time
-├── > 1000 RPS throughput
-├── 99% cache hit rate
-└── < 5% resource waste
+ < 200ms API response time (P95)
+ < 1 second page load time
+ > 1000 RPS throughput
+ 99% cache hit rate
+ < 5% resource waste
 
 Operational Excellence:
-├── 100% infrastructure as code
-├── < 1 hour deployment time
-├── 95% test coverage
-├── Zero manual interventions
-└── 100% runbook automation
+ 100% infrastructure as code
+ < 1 hour deployment time
+ 95% test coverage
+ Zero manual interventions
+ 100% runbook automation
 ```
 
-### **💼 Portfolio Demonstration Value**
+### ** Portfolio Demonstration Value**
 ```yaml
 SRE Skills Demonstrated:
-├── Google SRE principles implementation
-├── Error budget management
-├── Chaos engineering practices
-├── Advanced observability
-├── Incident response automation
-├── Capacity planning
-├── Security-first approach
-└── Full automation mindset
+ Google SRE principles implementation
+ Error budget management
+ Chaos engineering practices
+ Advanced observability
+ Incident response automation
+ Capacity planning
+ Security-first approach
+ Full automation mindset
 
 Business Impact:
-├── Cost optimization (30% reduction)
-├── Reliability improvement (99.9% uptime)
-├── Performance enhancement (50% faster)
-├── Security posture (zero incidents)
-├── Operational efficiency (95% automation)
-└── Developer productivity (2x faster deployments)
+ Cost optimization (30% reduction)
+ Reliability improvement (99.9% uptime)
+ Performance enhancement (50% faster)
+ Security posture (zero incidents)
+ Operational efficiency (95% automation)
+ Developer productivity (2x faster deployments)
 ```
 
 ---
@@ -480,7 +480,7 @@ kubectl apply -f k8s/chaos-engineering/experiments/pod-failure.yaml
 
 ---
 
-## 💡 **PORTFOLIO PRESENTATION STRATEGY**
+##  **PORTFOLIO PRESENTATION STRATEGY**
 
 ### ** SRE Story Arc:**
 1. **Problem**: "How do you ensure 99.9% uptime for critical services?"
@@ -498,7 +498,7 @@ kubectl apply -f k8s/chaos-engineering/experiments/pod-failure.yaml
 
 ---
 
-## 🎊 **CONCLUSION**
+##  **CONCLUSION**
 
 This roadmap transforms your current sophisticated setup into a **world-class SRE demonstration** that showcases:
 

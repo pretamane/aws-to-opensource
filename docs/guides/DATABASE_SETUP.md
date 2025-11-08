@@ -2,7 +2,7 @@
 
 This document describes the comprehensive database setup for the EKS application.
 
-## 🗄️ **Database Architecture**
+##  **Database Architecture**
 
 ### **DynamoDB Tables**
 
@@ -149,7 +149,7 @@ metadata:
     eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT:role/realistic-demo-pretamane-app-role
 ```
 
-## 🛠️ **Troubleshooting**
+##  **Troubleshooting**
 
 ### **Common Issues**
 
@@ -232,7 +232,7 @@ aws dynamodb restore-table-to-point-in-time \
 - Implement proper error handling to avoid unnecessary retries
 - Monitor CloudWatch metrics for cost optimization
 
-## 🔒 **Security Best Practices**
+##  **Security Best Practices**
 
 1. **Least Privilege Access**: IAM roles with minimal required permissions
 2. **Encryption**: All data encrypted at rest and in transit

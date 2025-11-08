@@ -1,4 +1,4 @@
-# 🎬 Portfolio Demo Script
+#  Portfolio Demo Script
 
 ## **Demo Overview**
 This script will guide you through demonstrating your cloud-native application with advanced mounting techniques, optimized for AWS Free Tier.
@@ -119,11 +119,11 @@ kubectl apply -f k8s/free-tier-deployment.yaml
 ### **1. Show Application Status**
 ```bash
 # Show running pods
-echo "📦 Application Status:"
+echo " Application Status:"
 kubectl get pods -l app=contact-api
 
 # Show services
-echo "🌐 Services:"
+echo " Services:"
 kubectl get svc
 
 # Show persistent volumes
@@ -188,7 +188,7 @@ kubectl get pods -n kube-system -l app.kubernetes.io/name=metrics-server
 ### **2. Show CloudWatch Integration**
 ```bash
 # Show CloudWatch agent
-echo "☁️ CloudWatch Agent:"
+echo " CloudWatch Agent:"
 kubectl get pods -n amazon-cloudwatch
 
 # Show logs
@@ -226,7 +226,7 @@ echo "Total Monthly Cost: $0.00"
 
 ### **1. Technical Skills Demonstrated**
 ```bash
-echo "🛠️ Technical Skills:"
+echo " Technical Skills:"
 echo "==================="
 echo " Cloud Platforms: AWS (EKS, DynamoDB, SES, S3, CloudWatch)"
 echo " Containerization: Docker, Kubernetes"
@@ -242,7 +242,7 @@ echo " Advanced Patterns: Sidecar, Init containers, PV/PVC"
 
 ### **2. Business Value**
 ```bash
-echo "💼 Business Value:"
+echo " Business Value:"
 echo "=================="
 echo " Cost-Effective: $0/month on Free Tier"
 echo " Scalable: Auto-scaling with HPA and Cluster Autoscaler"
@@ -254,7 +254,7 @@ echo " Production-Ready: Monitoring, logging, alerting"
 
 ### **3. Portfolio Differentiation**
 ```bash
-echo "🌟 Portfolio Differentiation:"
+echo " Portfolio Differentiation:"
 echo "============================="
 echo " Advanced Kubernetes Patterns: Sidecar, Init containers"
 echo " Multiple Storage Solutions: EFS, S3 mounting, EmptyDir"
@@ -266,11 +266,11 @@ echo " Automated Operations: Deployment and cleanup scripts"
 
 ---
 
-## **🧹 Demo Cleanup (2 minutes)**
+## ** Demo Cleanup (2 minutes)**
 
 ### **1. Show Cleanup Process**
 ```bash
-echo "🧹 Automatic Cleanup:"
+echo " Automatic Cleanup:"
 echo "===================="
 echo "The deployment includes automatic cleanup after 1 hour"
 echo "Manual cleanup available:"
@@ -288,7 +288,7 @@ echo "Automatic resource cleanup"
 
 ---
 
-## **🎤 Demo Talking Points**
+## ** Demo Talking Points**
 
 ### **Opening (2 minutes)**
 "Today I'll demonstrate a full-stack cloud-native application that showcases advanced Kubernetes patterns, AWS integration, and cost optimization. This project demonstrates production-ready skills while maintaining cost-effectiveness through AWS Free Tier utilization."

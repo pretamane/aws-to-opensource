@@ -44,14 +44,14 @@ kubectl get pv,pvc
 
 ```
 PERSISTENT VOLUMES - ALL BOUND:
-  ✓ advanced-efs-pv   → Bound to advanced-efs-pvc  (10Gi, RWX)
-  ✓ shared-efs-pv     → Bound to shared-efs-pvc    (20Gi, RWX)
-  ✓ secure-efs-pv     → Bound to secure-efs-pvc    (5Gi, RWX)
+   advanced-efs-pv   → Bound to advanced-efs-pvc  (10Gi, RWX)
+   shared-efs-pv     → Bound to shared-efs-pvc    (20Gi, RWX)
+   secure-efs-pv     → Bound to secure-efs-pvc    (5Gi, RWX)
 
 PERSISTENT VOLUME CLAIMS - ALL BOUND:
-  ✓ advanced-efs-pvc  → Bound to advanced-efs-pv   (10Gi, RWX)
-  ✓ shared-efs-pvc    → Bound to shared-efs-pv     (20Gi, RWX)
-  ✓ secure-efs-pvc    → Bound to secure-efs-pv     (5Gi, RWX)
+   advanced-efs-pvc  → Bound to advanced-efs-pv   (10Gi, RWX)
+   shared-efs-pvc    → Bound to shared-efs-pv     (20Gi, RWX)
+   secure-efs-pvc    → Bound to secure-efs-pv     (5Gi, RWX)
 ```
 
 ---
@@ -97,7 +97,7 @@ csi:
 
 ## Next Steps
 
-1. ✓ Storage infrastructure ready
+1.  Storage infrastructure ready
 2. → Deploy applications using these PVCs
 3. → Test pod mounting with EFS volumes
 4. → Monitor storage performance and usage

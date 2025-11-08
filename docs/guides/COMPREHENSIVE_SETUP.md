@@ -42,29 +42,29 @@ This document describes the **COMPLETE** Terraform setup that includes all advan
 
 ```
 terraform/
-├── main.tf                          # Main Terraform configuration
-├── modules/
-│   ├── backend/                     # S3 backend for state
-│   ├── vpc/                         # VPC and networking
-│   ├── eks/                         # EKS cluster
-│   ├── iam/                         # IAM roles and policies
-│   ├── database/                    # DynamoDB and SES
-│   ├── efs/                         # EFS file system
-│   └── storage/                     # S3, OpenSearch, advanced storage
+ main.tf                          # Main Terraform configuration
+ modules/
+    backend/                     # S3 backend for state
+    vpc/                         # VPC and networking
+    eks/                         # EKS cluster
+    iam/                         # IAM roles and policies
+    database/                    # DynamoDB and SES
+    efs/                         # EFS file system
+    storage/                     # S3, OpenSearch, advanced storage
 k8s/
-├── serviceaccount.yaml              # Service account with IRSA
-├── configmap.yaml                   # Application configuration
-├── advanced-efs-pv.yaml            # Advanced EFS persistent volumes
-├── advanced-storage-secrets.yaml   # Storage credentials and config
-├── advanced-deployment.yaml        # Comprehensive deployment
-├── rclone-sidecar.yaml             # RClone S3 mounting
-├── init-container-mount.yaml       # Init container data prep
-├── service.yaml                    # Kubernetes service
-├── ingress.yaml                    # ALB ingress
-└── hpa.yaml                        # Horizontal pod autoscaler
+ serviceaccount.yaml              # Service account with IRSA
+ configmap.yaml                   # Application configuration
+ advanced-efs-pv.yaml            # Advanced EFS persistent volumes
+ advanced-storage-secrets.yaml   # Storage credentials and config
+ advanced-deployment.yaml        # Comprehensive deployment
+ rclone-sidecar.yaml             # RClone S3 mounting
+ init-container-mount.yaml       # Init container data prep
+ service.yaml                    # Kubernetes service
+ ingress.yaml                    # ALB ingress
+ hpa.yaml                        # Horizontal pod autoscaler
 lambda-code/
-├── index.py                        # S3 to OpenSearch indexing
-└── requirements.txt                # Lambda dependencies
+ index.py                        # S3 to OpenSearch indexing
+ requirements.txt                # Lambda dependencies
 deploy-comprehensive.sh             # Complete deployment script
 cleanup-comprehensive.sh            # Complete cleanup script
 ```
@@ -278,7 +278,7 @@ kubectl logs <pod-name> -c data-prep
 kubectl logs <pod-name> -c opensearch-indexer
 ```
 
-## 🚨 Troubleshooting
+##  Troubleshooting
 
 ### **Common Issues**
 

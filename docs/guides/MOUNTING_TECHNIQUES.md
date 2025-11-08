@@ -211,7 +211,7 @@ emptyDir:
 -  Security with secrets management
 -  Monitoring and logging
 
-## 🛠️ **Deployment Commands**
+##  **Deployment Commands**
 
 ### **Deploy Free Tier Version**
 ```bash
@@ -295,7 +295,7 @@ aws ce get-cost-and-usage --time-period Start=2024-01-01,End=2024-01-31
 - **Reliability**: 99.9% successful deployments
 - **Maintainability**: Centralized data preparation
 
-## 🔒 **Security Considerations**
+##  **Security Considerations**
 
 ### **Secret Management**
 ```yaml

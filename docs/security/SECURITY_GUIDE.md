@@ -2,12 +2,12 @@
 
 ##  CRITICAL SECURITY WARNINGS
 
-### 🚨 Never Commit Credentials to Version Control
+###  Never Commit Credentials to Version Control
 - **NEVER** commit AWS access keys, secret keys, or passwords to Git
 - **NEVER** hardcode credentials in YAML files
 - **ALWAYS** use environment variables or secure secret management
 
-### 🔑 Credential Management Best Practices
+###  Credential Management Best Practices
 
 #### 1. Environment Variables (Recommended for Development)
 ```bash
@@ -99,7 +99,7 @@ kubectl create secret generic storage-credentials \
 ./scripts/secure-deploy.sh
 ```
 
-## 🚨 Emergency Response
+##  Emergency Response
 
 ### If Credentials Are Compromised
 1. **Immediately rotate AWS credentials** in AWS Console

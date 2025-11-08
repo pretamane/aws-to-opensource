@@ -26,7 +26,7 @@ curl -s http://localhost:8080/health | jq '.status'
 
 ---
 
-## 🏢 **Scenario 1: Legal Document Processing Workflow**
+##  **Scenario 1: Legal Document Processing Workflow**
 
 ### **Business Context**
 A law firm needs to process confidential legal documents through a secure, auditable system. Documents must be uploaded, processed, and archived with complete audit trails.
@@ -112,7 +112,7 @@ kubectl exec -it $(kubectl get pods -l app=portfolio-demo -o jsonpath='{.items[0
 
 ---
 
-## 🏥 **Scenario 2: Medical Records Processing**
+##  **Scenario 2: Medical Records Processing**
 
 ### **Business Context**
 A healthcare provider needs to process patient medical records with HIPAA compliance. Records must be securely stored, processed, and backed up to S3 for disaster recovery.
@@ -176,7 +176,7 @@ kubectl logs -l app=portfolio-demo -c s3-sync --tail=20
 
 ---
 
-## 🏦 **Scenario 3: Financial Document Processing**
+##  **Scenario 3: Financial Document Processing**
 
 ### **Business Context**
 A bank needs to process loan applications and financial documents. The system must handle high-volume processing with real-time monitoring and alerting.
@@ -231,7 +231,7 @@ kubectl get nodes
 
 ---
 
-## 🎓 **Scenario 4: Educational Institution Document Management**
+##  **Scenario 4: Educational Institution Document Management**
 
 ### **Business Context**
 A university needs to process student transcripts, research papers, and administrative documents. The system must support multiple file types and maintain academic integrity.
@@ -312,7 +312,7 @@ curl -X POST http://localhost:8080/process/research-paper-ai-ethics.txt | jq .
 
 ---
 
-## 🏭 **Scenario 5: Manufacturing Quality Control**
+##  **Scenario 5: Manufacturing Quality Control**
 
 ### **Business Context**
 A manufacturing company needs to process quality control reports, inspection documents, and compliance certificates. The system must ensure document versioning and regulatory compliance.
@@ -437,7 +437,7 @@ curl -s http://localhost:8080/logs | jq '.logs[] | .file'
 
 ---
 
-## 🚨 **Scenario 7: Disaster Recovery Testing**
+##  **Scenario 7: Disaster Recovery Testing**
 
 ### **Business Context**
 Test the system's ability to recover from failures and maintain data integrity during outages.
@@ -494,7 +494,7 @@ curl -s http://localhost:8080/files | jq '.count'
 | **File Upload Fails** | 500 error on upload | Check disk space: `kubectl exec <pod> -- df -h` |
 | **S3 Sync Errors** | Credential errors in logs | Check AWS credentials in secrets |
 
-### **📞 Escalation Procedures:**
+### ** Escalation Procedures:**
 
 1. **Level 1**: Basic troubleshooting using this guide
 2. **Level 2**: Check AWS console for resource status

@@ -194,7 +194,7 @@ Submission    Processing Pipeline    with pandas/numpy  Creation
 
 ---
 
-### **🔒 SECURITY IMPLEMENTATION (From Real Code)**
+### ** SECURITY IMPLEMENTATION (From Real Code)**
 
 #### **IRSA Role Dependencies**
 ```hcl

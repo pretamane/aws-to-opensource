@@ -97,30 +97,30 @@ IMPROVEMENTS:
 
 ```
 realistic-demo-pretamane/
-├──  complete-advanced-setup/          # PRIMARY SOURCE OF TRUTH
-│   ├── kustomization.yaml               # Kubernetes-native config management
-│   ├── deployments/                     # Application deployments
-│   ├── storage/                         # EFS and storage configurations
-│   ├── secrets/                         # Security and credentials
-│   ├── networking/                      # Services and ingress
-│   ├── autoscaling/                     # HPA and scaling
-│   └── testing/                         # Validation containers
-│
-├──  scripts/                          # ENHANCED DEPLOYMENT AUTOMATION
-│   ├── deploy-enhanced.sh               # Main deployment orchestrator
-│   ├── lib/prerequisites.sh             # Prerequisites validation
-│   └── monitoring/health-checks.sh      # Comprehensive health monitoring
-│
-├── ⚙️  config/                          # CENTRALIZED CONFIGURATION
-│   ├── environments/production.env      # Environment-specific settings
-│   └── helm-repositories.yaml           # Helm repository management
-│
-├──  old-files-backup/                 # PRESERVED ANSIBLE (BACKUP)
-│   ├── ansible-original/                # Complete Ansible setup preserved
-│   └── MIGRATION_MAPPING.md             # Migration documentation
-│
-└──  terraform/                        # INFRASTRUCTURE AS CODE (UNCHANGED)
-    └── [existing sophisticated setup]    # 15+ AWS services orchestrated
+  complete-advanced-setup/          # PRIMARY SOURCE OF TRUTH
+    kustomization.yaml               # Kubernetes-native config management
+    deployments/                     # Application deployments
+    storage/                         # EFS and storage configurations
+    secrets/                         # Security and credentials
+    networking/                      # Services and ingress
+    autoscaling/                     # HPA and scaling
+    testing/                         # Validation containers
+
+  scripts/                          # ENHANCED DEPLOYMENT AUTOMATION
+    deploy-enhanced.sh               # Main deployment orchestrator
+    lib/prerequisites.sh             # Prerequisites validation
+    monitoring/health-checks.sh      # Comprehensive health monitoring
+
+   config/                          # CENTRALIZED CONFIGURATION
+    environments/production.env      # Environment-specific settings
+    helm-repositories.yaml           # Helm repository management
+
+  old-files-backup/                 # PRESERVED ANSIBLE (BACKUP)
+    ansible-original/                # Complete Ansible setup preserved
+    MIGRATION_MAPPING.md             # Migration documentation
+
+  terraform/                        # INFRASTRUCTURE AS CODE (UNCHANGED)
+     [existing sophisticated setup]    # 15+ AWS services orchestrated
 ```
 
 ---

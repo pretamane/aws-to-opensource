@@ -60,7 +60,7 @@ ls -la .git/hooks/pre-commit
 
 ### Instead of Icons
 - Use descriptive text in brackets: `[ROCKET]`, `[FILE]`, `[TOOLS]`
-- Avoid:  📁 🔧
+- Avoid:   
 
 ## Examples
 
@@ -107,7 +107,7 @@ Before committing code, ensure:
 
 ### Find Emojis Manually
 ```bash
-grep -rP '[😀-🿿🀀-🿽]|||' --include="*.md" --include="*.yaml" .
+grep -rP '[-🿿-🿽]|||' --include="*.md" --include="*.yaml" .
 ```
 
 ## Violations

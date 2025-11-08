@@ -167,36 +167,36 @@ behavior:
 #### **Current Advanced File Issues:**
 ```
  k8s/advanced-deployment.yaml (477 lines)
-  ├── Too monolithic - violates separation of concerns
-  ├── Missing real business logic
-  ├── Missing complete FastAPI application
-  ├── Missing scheduled services
-  └── Missing service/ingress definitions
+   Too monolithic - violates separation of concerns
+   Missing real business logic
+   Missing complete FastAPI application
+   Missing scheduled services
+   Missing service/ingress definitions
 ```
 
 #### **Proposed Industry Structure:**
 ```
  complete-advanced-setup/
-├── deployments/
-│   ├── 01-init-containers.yaml          # Data preparation & setup
-│   ├── 02-main-application.yaml         # FastAPI with business logic
-│   ├── 03-sidecar-services.yaml         # RClone, OpenSearch, S3-sync
-│   └── 04-testing-validation.yaml       # Testing containers
-├── storage/
-│   ├── 01-efs-storage-classes.yaml      # Multiple storage classes
-│   ├── 02-efs-persistent-volumes.yaml   # PV definitions
-│   └── 03-efs-claims.yaml               # PVC definitions
-├── secrets/
-│   ├── 01-aws-credentials.yaml          # AWS secrets
-│   ├── 02-opensearch-config.yaml        # OpenSearch secrets
-│   └── 03-storage-config.yaml           # Storage ConfigMaps
-├── networking/
-│   ├── 01-services.yaml                 # Service definitions
-│   └── 02-ingress.yaml                  # Ingress configurations
-├── autoscaling/
-│   └── 01-hpa.yaml                      # Horizontal Pod Autoscaler
-└── monitoring/
-    └── 01-health-checks.yaml            # Health check configurations
+ deployments/
+    01-init-containers.yaml          # Data preparation & setup
+    02-main-application.yaml         # FastAPI with business logic
+    03-sidecar-services.yaml         # RClone, OpenSearch, S3-sync
+    04-testing-validation.yaml       # Testing containers
+ storage/
+    01-efs-storage-classes.yaml      # Multiple storage classes
+    02-efs-persistent-volumes.yaml   # PV definitions
+    03-efs-claims.yaml               # PVC definitions
+ secrets/
+    01-aws-credentials.yaml          # AWS secrets
+    02-opensearch-config.yaml        # OpenSearch secrets
+    03-storage-config.yaml           # Storage ConfigMaps
+ networking/
+    01-services.yaml                 # Service definitions
+    02-ingress.yaml                  # Ingress configurations
+ autoscaling/
+    01-hpa.yaml                      # Horizontal Pod Autoscaler
+ monitoring/
+     01-health-checks.yaml            # Health check configurations
 ```
 
 ---
@@ -312,18 +312,18 @@ behavior:
 #### **Industry-Standard Structure:**
 ```
 complete-advanced-setup/
-├── deployments/          # Modular deployment files
-├── storage/             # Storage configurations
-├── secrets/             # Security configurations  
-├── networking/          # Service & ingress
-├── autoscaling/         # HPA configurations
-├── monitoring/          # Health checks
-└── testing/             # Validation containers
+ deployments/          # Modular deployment files
+ storage/             # Storage configurations
+ secrets/             # Security configurations  
+ networking/          # Service & ingress
+ autoscaling/         # HPA configurations
+ monitoring/          # Health checks
+ testing/             # Validation containers
 ```
 
 ---
 
-## ❓ **QUESTIONS FOR YOU:**
+##  **QUESTIONS FOR YOU:**
 
 ### **1. FastAPI Application Integration:**
 - **A)** Extract the complete FastAPI application (329 lines) from `portfolio-demo.yaml` and create a proper application container?

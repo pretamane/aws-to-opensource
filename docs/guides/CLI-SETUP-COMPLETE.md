@@ -1,11 +1,11 @@
-# CLI Tools Setup - Complete ✓
+# CLI Tools Setup - Complete 
 
 ## Overview
 All CLI tools are now installed and configured for direct command-line access to your stack services.
 
 ---
 
-## ✅ What's Been Set Up
+##  What's Been Set Up
 
 ### 1. **MinIO Client (mc)** - S3-Compatible Storage CLI
 - **Installed**: `/usr/local/bin/mc`
@@ -35,7 +35,7 @@ All CLI tools are now installed and configured for direct command-line access to
 
 ---
 
-## 📁 Helper Scripts Location: `~/stack-cli/`
+##  Helper Scripts Location: `~/stack-cli/`
 
 ### Quick Access Scripts:
 1. **`psql-connect.sh`** - One-command PostgreSQL connection
@@ -51,7 +51,7 @@ All CLI tools are now installed and configured for direct command-line access to
 
 ---
 
-## 🚀 Quick Start Commands
+##  Quick Start Commands
 
 ### PostgreSQL
 ```bash
@@ -154,7 +154,7 @@ curl -s -H "Authorization: Bearer $GRAFANA_API_KEY" \
 
 ---
 
-## 🔍 PostgreSQL - Advanced Examples
+##  PostgreSQL - Advanced Examples
 
 ### Get Database Statistics
 ```sql
@@ -216,7 +216,7 @@ ORDER BY n_dead_tup DESC;
 
 ---
 
-## 📊 PostgreSQL - Interactive Commands
+##  PostgreSQL - Interactive Commands
 
 Once inside `psql` session:
 ```
@@ -242,7 +242,7 @@ Once inside `psql` session:
 
 ---
 
-## 🔑 Getting Passwords
+##  Getting Passwords
 
 All passwords are stored in the EC2 environment file:
 
@@ -267,7 +267,7 @@ cat ~/app/docker-compose/.env
 
 ---
 
-## 🛠️ Troubleshooting
+##  Troubleshooting
 
 ### PostgreSQL Connection Issues
 ```bash
@@ -307,7 +307,7 @@ curl -s http://54.179.230.219/meilisearch/health
 
 ---
 
-## 📚 Additional Resources
+##  Additional Resources
 
 ### Official Documentation:
 - **PostgreSQL**: https://www.postgresql.org/docs/current/app-psql.html
@@ -327,7 +327,7 @@ curl -s http://54.179.230.219/meilisearch/health
 
 ---
 
-## 🎯 Next Steps
+##  Next Steps
 
 1. **Set your PostgreSQL password**:
    ```bash
@@ -356,14 +356,14 @@ curl -s http://54.179.230.219/meilisearch/health
 
 ---
 
-## ✨ Summary
+##  Summary
 
 You now have full CLI access to:
-- ✅ PostgreSQL database (psql)
-- ✅ MinIO object storage (mc + aws s3)
-- ✅ Prometheus metrics (HTTP API)
-- ✅ Grafana dashboards (HTTP API)
-- ✅ Meilisearch (HTTP API)
+-  PostgreSQL database (psql)
+-  MinIO object storage (mc + aws s3)
+-  Prometheus metrics (HTTP API)
+-  Grafana dashboards (HTTP API)
+-  Meilisearch (HTTP API)
 
 All commands can be run directly from your terminal, just like you would with AWS CLI or Terraform!
 

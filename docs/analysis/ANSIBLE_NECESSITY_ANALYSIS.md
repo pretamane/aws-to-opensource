@@ -13,86 +13,86 @@ Your project already has a **complete, sophisticated deployment pipeline** witho
 ### ** INFRASTRUCTURE LAYER:**
 ```
  COMPLETE & SOPHISTICATED:
-├── Terraform (Infrastructure as Code)
-│   ├── 7 modules (VPC, EKS, IAM, Database, EFS, Storage, Backend)
-│   ├── 15+ AWS services orchestrated
-│   ├── State management (S3 + DynamoDB)
-│   └── Modular, production-ready architecture
+ Terraform (Infrastructure as Code)
+    7 modules (VPC, EKS, IAM, Database, EFS, Storage, Backend)
+    15+ AWS services orchestrated
+    State management (S3 + DynamoDB)
+    Modular, production-ready architecture
 
-├── AWS Services (15+ services)
-│   ├── EKS (Kubernetes cluster)
-│   ├── VPC (Networking)
-│   ├── EFS (File storage)
-│   ├── S3 (Object storage - 6 buckets)
-│   ├── DynamoDB (Database - 2 tables)
-│   ├── OpenSearch (Search & analytics)
-│   ├── SES (Email service)
-│   ├── IAM (Identity & access)
-│   ├── CloudWatch (Monitoring)
-│   ├── ALB (Load balancing)
-│   └── Lambda (Serverless functions)
+ AWS Services (15+ services)
+    EKS (Kubernetes cluster)
+    VPC (Networking)
+    EFS (File storage)
+    S3 (Object storage - 6 buckets)
+    DynamoDB (Database - 2 tables)
+    OpenSearch (Search & analytics)
+    SES (Email service)
+    IAM (Identity & access)
+    CloudWatch (Monitoring)
+    ALB (Load balancing)
+    Lambda (Serverless functions)
 
-└── Kubernetes Ecosystem
-    ├── Helm (Package management)
-    ├── Metrics Server (Resource metrics)
-    ├── Cluster Autoscaler (Node scaling)
-    ├── ALB Ingress Controller (Traffic routing)
-    ├── EFS CSI Driver (Storage)
-    └── CloudWatch Agent (Monitoring)
+ Kubernetes Ecosystem
+     Helm (Package management)
+     Metrics Server (Resource metrics)
+     Cluster Autoscaler (Node scaling)
+     ALB Ingress Controller (Traffic routing)
+     EFS CSI Driver (Storage)
+     CloudWatch Agent (Monitoring)
 ```
 
 ### ** APPLICATION LAYER:**
 ```
  COMPLETE & SOPHISTICATED:
-├── FastAPI Application (329+ lines)
-│   ├── Advanced file processing
-│   ├── Business rules engine
-│   ├── Storage monitoring
-│   ├── Real-time logging
-│   └── Comprehensive health checks
+ FastAPI Application (329+ lines)
+    Advanced file processing
+    Business rules engine
+    Storage monitoring
+    Real-time logging
+    Comprehensive health checks
 
-├── Multi-Container Architecture
-│   ├── Main application container
-│   ├── RClone sidecar (S3 mounting)
-│   ├── OpenSearch indexer
-│   ├── S3 sync service
-│   └── Init containers (data preparation)
+ Multi-Container Architecture
+    Main application container
+    RClone sidecar (S3 mounting)
+    OpenSearch indexer
+    S3 sync service
+    Init containers (data preparation)
 
-└── Third-Party Integrations
-    ├── RClone (S3 filesystem mounting)
-    ├── OpenSearch/Elasticsearch (Search)
-    ├── Boto3 (AWS SDK)
-    ├── FastAPI (Web framework)
-    ├── Pydantic (Data validation)
-    └── Uvicorn (ASGI server)
+ Third-Party Integrations
+     RClone (S3 filesystem mounting)
+     OpenSearch/Elasticsearch (Search)
+     Boto3 (AWS SDK)
+     FastAPI (Web framework)
+     Pydantic (Data validation)
+     Uvicorn (ASGI server)
 ```
 
 ### ** DEPLOYMENT & ORCHESTRATION:**
 ```
  ALREADY COMPLETE WITHOUT ANSIBLE:
-├── Bash Scripts (Comprehensive deployment)
-│   ├── deploy-comprehensive.sh (474 lines)
-│   ├── cleanup-comprehensive.sh
-│   ├── secure-deploy.sh
-│   ├── nuke-aws-everything.sh
-│   └── Multiple specialized scripts
+ Bash Scripts (Comprehensive deployment)
+    deploy-comprehensive.sh (474 lines)
+    cleanup-comprehensive.sh
+    secure-deploy.sh
+    nuke-aws-everything.sh
+    Multiple specialized scripts
 
-├── Kubernetes Native
-│   ├── 14 modular YAML manifests
-│   ├── Kustomize-ready structure
-│   ├── Helm integration
-│   └── GitOps-ready
+ Kubernetes Native
+    14 modular YAML manifests
+    Kustomize-ready structure
+    Helm integration
+    GitOps-ready
 
-└── Infrastructure as Code
-    ├── Terraform (complete automation)
-    ├── State management
-    ├── Module-based architecture
-    └── Environment separation
+ Infrastructure as Code
+     Terraform (complete automation)
+     State management
+     Module-based architecture
+     Environment separation
 ```
 
 ---
 
-## 🤔 **ANSIBLE NECESSITY EVALUATION**
+##  **ANSIBLE NECESSITY EVALUATION**
 
 ### ** ANSIBLE IS NOT NECESSARY BECAUSE:**
 
@@ -124,10 +124,10 @@ Your project already has a **complete, sophisticated deployment pipeline** witho
 #### **3. No Multi-Environment Complexity:**
 ```
 Your project scope:
-├── Single environment (production-like)
-├── Single cloud provider (AWS)
-├── Single region (ap-southeast-1)
-└── Single cluster architecture
+ Single environment (production-like)
+ Single cloud provider (AWS)
+ Single region (ap-southeast-1)
+ Single cluster architecture
 
 Ansible benefits (multi-env, multi-cloud, config drift) = NOT APPLICABLE
 ```
@@ -202,24 +202,24 @@ Ansible benefits (multi-env, multi-cloud, config drift) = NOT APPLICABLE
 
 ```
  Your current stack is ENTERPRISE-GRADE:
-├── Terraform (Infrastructure as Code)
-├── Kubernetes (Container orchestration)
-├── Helm (Package management)
-├── 15+ AWS services
-├── Multi-container applications
-├── Advanced storage (EFS + S3)
-├── Real-time search (OpenSearch)
-├── Comprehensive monitoring
-└── Complete automation scripts
+ Terraform (Infrastructure as Code)
+ Kubernetes (Container orchestration)
+ Helm (Package management)
+ 15+ AWS services
+ Multi-container applications
+ Advanced storage (EFS + S3)
+ Real-time search (OpenSearch)
+ Comprehensive monitoring
+ Complete automation scripts
 
  Portfolio talking points:
-├── "Built enterprise-grade infrastructure with Terraform"
-├── "Orchestrated 15+ AWS services"
-├── "Implemented advanced Kubernetes patterns"
-├── "Created sophisticated multi-container applications"
-├── "Designed conflict-free S3 architecture"
-├── "Built real-time search and indexing"
-└── "Achieved complete deployment automation"
+ "Built enterprise-grade infrastructure with Terraform"
+ "Orchestrated 15+ AWS services"
+ "Implemented advanced Kubernetes patterns"
+ "Created sophisticated multi-container applications"
+ "Designed conflict-free S3 architecture"
+ "Built real-time search and indexing"
+ "Achieved complete deployment automation"
 ```
 
 ### ** OPTION 2: ADD ANSIBLE (For Portfolio Breadth)**
@@ -233,30 +233,30 @@ Ansible benefits (multi-env, multi-cloud, config drift) = NOT APPLICABLE
  Document both approaches in README
 
 Portfolio value:
-├── "Implemented multiple deployment strategies"
-├── "Demonstrated tool flexibility and adaptability"
-├── "Showed enterprise configuration management"
-└── "Proved ability to work with diverse toolchains"
+ "Implemented multiple deployment strategies"
+ "Demonstrated tool flexibility and adaptability"
+ "Showed enterprise configuration management"
+ "Proved ability to work with diverse toolchains"
 ```
 
-### **🎪 OPTION 3: HYBRID APPROACH (Best of Both Worlds)**
+### ** OPTION 3: HYBRID APPROACH (Best of Both Worlds)**
 
 **Use Ansible for specific use cases:**
 
 ```
  Primary deployment: Bash + Terraform + kubectl
  Ansible for: 
-├── Multi-environment configuration
-├── Secrets rotation
-├── Maintenance tasks
-├── Compliance checks
-└── Operational procedures
+ Multi-environment configuration
+ Secrets rotation
+ Maintenance tasks
+ Compliance checks
+ Operational procedures
 
 Portfolio narrative:
-├── "Used right tool for right job"
-├── "Demonstrated architectural decision-making"
-├── "Showed understanding of tool strengths"
-└── "Proved practical engineering judgment"
+ "Used right tool for right job"
+ "Demonstrated architectural decision-making"
+ "Showed understanding of tool strengths"
+ "Proved practical engineering judgment"
 ```
 
 ---
@@ -277,25 +277,25 @@ Portfolio narrative:
 
 ```
  Application sophistication:
-├── Add more business features to FastAPI app
-├── Implement advanced monitoring dashboards
-├── Add CI/CD pipeline (GitHub Actions)
-├── Implement blue-green deployments
-└── Add comprehensive testing
+ Add more business features to FastAPI app
+ Implement advanced monitoring dashboards
+ Add CI/CD pipeline (GitHub Actions)
+ Implement blue-green deployments
+ Add comprehensive testing
 
  Architecture sophistication:
-├── Multi-region deployment capability
-├── Disaster recovery procedures
-├── Security hardening
-├── Performance optimization
-└── Cost optimization strategies
+ Multi-region deployment capability
+ Disaster recovery procedures
+ Security hardening
+ Performance optimization
+ Cost optimization strategies
 
  Portfolio presentation:
-├── Architecture diagrams
-├── Demo videos
-├── Performance metrics
-├── Cost analysis
-└── Technical blog posts
+ Architecture diagrams
+ Demo videos
+ Performance metrics
+ Cost analysis
+ Technical blog posts
 ```
 
 ---
