@@ -21,7 +21,7 @@ echo " Waiting for cluster autoscaler to be ready..."
 kubectl wait --for=condition=available --timeout=300s deployment/cluster-autoscaler -n kube-system
 
 # Deploy the application
-echo "📦 Deploying application..."
+echo " Deploying application..."
 kubectl apply -f serviceaccount.yaml
 kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
@@ -36,7 +36,7 @@ echo " Waiting for application to be ready..."
 kubectl wait --for=condition=available --timeout=300s deployment/contact-api
 
 # Get the ALB endpoint
-echo "🌐 Getting ALB endpoint..."
+echo " Getting ALB endpoint..."
 kubectl get ingress contact-api-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 
 echo " Deployment completed successfully!"

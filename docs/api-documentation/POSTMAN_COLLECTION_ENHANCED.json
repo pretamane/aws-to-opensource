@@ -49,7 +49,7 @@
   ],
   "item": [
     {
-      "name": "🏥 Health & Status",
+      "name": " Health & Status",
       "item": [
         {
           "name": "Health Check",
@@ -92,7 +92,7 @@
       ]
     },
     {
-      "name": "📝 Contact Forms",
+      "name": " Contact Forms",
       "item": [
         {
           "name": "Enhanced Contact Form",
@@ -151,7 +151,7 @@
       ]
     },
     {
-      "name": "📄 Document Management",
+      "name": " Document Management",
       "item": [
         {
           "name": "Upload Document",
@@ -256,7 +256,7 @@
       ]
     },
     {
-      "name": "📊 Analytics & Statistics",
+      "name": " Analytics & Statistics",
       "item": [
         {
           "name": "System Analytics",
@@ -299,7 +299,7 @@
       ]
     },
     {
-      "name": "⚙️ Admin Endpoints",
+      "name": "️ Admin Endpoints",
       "item": [
         {
           "name": "Background Processor Status",
@@ -350,7 +350,7 @@
       ]
     },
     {
-      "name": "🧪 Testing Scenarios",
+      "name": " Testing Scenarios",
       "item": [
         {
           "name": "Complete Workflow Test",

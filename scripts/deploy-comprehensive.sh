@@ -350,12 +350,12 @@ show_comprehensive_status() {
     
     # Kubernetes status
     echo ""
-    echo "☸️  Kubernetes Resources:"
+    echo "️  Kubernetes Resources:"
     kubectl get pods,svc,ingress,hpa 2>/dev/null || echo "Kubernetes resources deployed"
     
     # Storage status
     echo ""
-    echo "💾 Storage Resources:"
+    echo " Storage Resources:"
     kubectl get pv,pvc,storageclass 2>/dev/null || echo "Storage resources deployed"
     
     # Application status
@@ -463,10 +463,10 @@ main() {
     log "    Complete Monitoring & Scaling"
     log "    All Helm Releases"
     log ""
-    log "🔗 Access your application:"
+    log " Access your application:"
     ALB_ENDPOINT=$(kubectl get ingress contact-api-ingress -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' 2>/dev/null || echo "pending")
     if [ "$ALB_ENDPOINT" != "pending" ] && [ -n "$ALB_ENDPOINT" ]; then
-        log "   🌐 Application: http://$ALB_ENDPOINT"
+        log "    Application: http://$ALB_ENDPOINT"
         log "    API Docs: http://$ALB_ENDPOINT/docs"
         log "    Health: http://$ALB_ENDPOINT/health"
     fi

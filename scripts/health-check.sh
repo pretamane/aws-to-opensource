@@ -37,14 +37,14 @@ check_service() {
     
     if response=$(curl -s -f "$url" 2>/dev/null); then
         if [ -z "$expected" ] || echo "$response" | grep -q "$expected"; then
-            echo -e "${GREEN}✓ HEALTHY${NC}"
+            echo -e "${GREEN} HEALTHY${NC}"
             return 0
         else
-            echo -e "${YELLOW}⚠ DEGRADED${NC}"
+            echo -e "${YELLOW} DEGRADED${NC}"
             return 1
         fi
     else
-        echo -e "${RED}✗ DOWN${NC}"
+        echo -e "${RED} DOWN${NC}"
         return 1
     fi
 }
@@ -137,25 +137,25 @@ echo "========================================"
 # Test visitor stats
 echo -n "Testing /stats endpoint... "
 if curl -s -f "$BASE_URL/stats" > /dev/null 2>&1; then
-    echo -e "${GREEN}✓ PASS${NC}"
+    echo -e "${GREEN} PASS${NC}"
 else
-    echo -e "${RED}✗ FAIL${NC}"
+    echo -e "${RED} FAIL${NC}"
 fi
 
 # Test analytics
 echo -n "Testing /analytics/insights endpoint... "
 if curl -s -f "$BASE_URL/analytics/insights" > /dev/null 2>&1; then
-    echo -e "${GREEN}✓ PASS${NC}"
+    echo -e "${GREEN} PASS${NC}"
 else
-    echo -e "${RED}✗ FAIL${NC}"
+    echo -e "${RED} FAIL${NC}"
 fi
 
 # Test metrics
 echo -n "Testing /metrics endpoint... "
 if curl -s -f "$BASE_URL/metrics" | grep -q "# HELP"; then
-    echo -e "${GREEN}✓ PASS${NC}"
+    echo -e "${GREEN} PASS${NC}"
 else
-    echo -e "${RED}✗ FAIL${NC}"
+    echo -e "${RED} FAIL${NC}"
 fi
 
 # ============================================================================
@@ -169,7 +169,7 @@ if [ "$EC2_IP" = "localhost" ] && command -v docker &> /dev/null; then
     
     echo -n "PostgreSQL connection... "
     if docker exec postgresql pg_isready -U app_user -d pretamane_db > /dev/null 2>&1; then
-        echo -e "${GREEN}✓ CONNECTED${NC}"
+        echo -e "${GREEN} CONNECTED${NC}"
         
         # Get database stats
         DB_STATS=$(docker exec postgresql psql -U app_user -d pretamane_db -t -c "SELECT 
@@ -182,7 +182,7 @@ if [ "$EC2_IP" = "localhost" ] && command -v docker &> /dev/null; then
         echo "  Documents: $(echo $DB_STATS | awk '{print $3}')"
         echo "  Visitors: $(echo $DB_STATS | awk '{print $5}')"
     else
-        echo -e "${RED}✗ FAILED${NC}"
+        echo -e "${RED} FAILED${NC}"
     fi
 fi
 

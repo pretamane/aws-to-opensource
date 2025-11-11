@@ -35,13 +35,13 @@ if [ -z "$OPENSEARCH_USERNAME" ] || [ -z "$OPENSEARCH_PASSWORD" ]; then
 fi
 
 # Create secure Kubernetes secrets
-echo "🔑 Creating secure AWS credentials secret..."
+echo " Creating secure AWS credentials secret..."
 kubectl create secret generic aws-credentials \
     --from-literal=access-key-id="$AWS_ACCESS_KEY_ID" \
     --from-literal=secret-access-key="$AWS_SECRET_ACCESS_KEY" \
     --dry-run=client -o yaml | kubectl apply -f -
 
-echo "🔑 Creating secure storage credentials secret..."
+echo " Creating secure storage credentials secret..."
 kubectl create secret generic storage-credentials \
     --from-literal=aws-access-key-id="$AWS_ACCESS_KEY_ID" \
     --from-literal=aws-secret-access-key="$AWS_SECRET_ACCESS_KEY" \
@@ -63,7 +63,7 @@ echo "  kubectl get pods -l app=portfolio-demo"
 echo "  kubectl get services"
 echo "  kubectl get secrets"
 echo ""
-echo "🌐 To access the application:"
+echo " To access the application:"
 echo "  kubectl port-forward service/portfolio-demo-service 8080:80"
 echo "  Then open: http://localhost:8080"
 echo ""

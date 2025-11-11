@@ -40,7 +40,7 @@ check_pod_status() {
 
 # Function to generate load
 generate_load() {
-    echo -e "${YELLOW}⚡ Generating Load for Autoscaling Test...${NC}"
+    echo -e "${YELLOW} Generating Load for Autoscaling Test...${NC}"
     echo "This will create multiple concurrent requests to trigger autoscaling"
     echo ""
     
@@ -75,7 +75,7 @@ LOAD_EOF
 
 # Function to monitor autoscaling
 monitor_autoscaling() {
-    echo -e "${CYAN}👀 Monitoring Autoscaling (60 seconds)...${NC}"
+    echo -e "${CYAN} Monitoring Autoscaling (60 seconds)...${NC}"
     echo "Watching for pod count changes..."
     echo ""
     
@@ -101,7 +101,7 @@ monitor_autoscaling() {
 
 # Function to test scale down
 test_scale_down() {
-    echo -e "${RED}📉 Testing Scale Down...${NC}"
+    echo -e "${RED} Testing Scale Down...${NC}"
     echo "Stopping load generation and waiting for scale down..."
     
     # Kill load generator if running
@@ -175,7 +175,7 @@ STRESS_EOF
 
 # Function to clean up stress test
 cleanup_stress_test() {
-    echo -e "${YELLOW}🧹 Cleaning up stress test...${NC}"
+    echo -e "${YELLOW} Cleaning up stress test...${NC}"
     kubectl delete -f k8s/stress-test.yaml 2>/dev/null || true
     rm -f k8s/stress-test.yaml
     rm -f load-generator.sh

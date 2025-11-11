@@ -26,7 +26,7 @@ if ! ssh -o ConnectTimeout=5 -o StrictHostKeyChecking=no ubuntu@$INSTANCE_IP "ec
     echo "  2. Security group allows SSH from your IP"
     exit 1
 fi
-echo "✓ SSH connectivity OK"
+echo " SSH connectivity OK"
 echo ""
 
 # Upload corrected configs (Phase 0 already done locally)
@@ -55,7 +55,7 @@ scp /home/guest/aws-to-opensource/docker-compose/config/promtail/promtail-config
 scp /home/guest/aws-to-opensource/docker-compose/docker-compose.yml \
     ubuntu@$INSTANCE_IP:~/app/docker-compose/docker-compose.yml
 
-echo "✓ Configs uploaded"
+echo " Configs uploaded"
 echo ""
 
 # Start/restart monitoring services
@@ -64,7 +64,7 @@ ssh ubuntu@$INSTANCE_IP "cd ~/app/docker-compose && docker-compose up -d node-ex
 
 echo "Waiting 15 seconds for services to initialize..."
 sleep 15
-echo "✓ Services started"
+echo " Services started"
 echo ""
 
 # Verify services are running
@@ -76,11 +76,11 @@ echo ""
 echo "[5/6] Checking Prometheus targets..."
 echo ""
 echo "Fetching target health from Prometheus API..."
-ssh ubuntu@$INSTANCE_IP "curl -s http://localhost:9090/api/v1/targets | jq -r '.data.activeTargets[] | select(.health != \"up\") | \"❌ DOWN: \" + .labels.job + \" (\" + .scrapeUrl + \")\"' || echo '✓ All targets UP'"
+ssh ubuntu@$INSTANCE_IP "curl -s http://localhost:9090/api/v1/targets | jq -r '.data.activeTargets[] | select(.health != \"up\") | \" DOWN: \" + .labels.job + \" (\" + .scrapeUrl + \")\"' || echo ' All targets UP'"
 
 echo ""
 echo "Full target list:"
-ssh ubuntu@$INSTANCE_IP "curl -s http://localhost:9090/api/v1/targets | jq -r '.data.activeTargets[] | \"  \" + (.health | if . == \"up\" then \"✓\" else \"❌\" end) + \" \" + .labels.job + \" - \" + .scrapeUrl'"
+ssh ubuntu@$INSTANCE_IP "curl -s http://localhost:9090/api/v1/targets | jq -r '.data.activeTargets[] | \"  \" + (.health | if . == \"up\" then \"\" else \"\" end) + \" \" + .labels.job + \" - \" + .scrapeUrl'"
 echo ""
 
 # Test exporter endpoints
@@ -89,17 +89,17 @@ echo ""
 
 echo "Testing node-exporter (system metrics)..."
 ssh ubuntu@$INSTANCE_IP "curl -s http://localhost:9100/metrics | head -n 5"
-echo "  ✓ node-exporter responding"
+echo "   node-exporter responding"
 echo ""
 
 echo "Testing cAdvisor (container metrics)..."
 ssh ubuntu@$INSTANCE_IP "curl -s http://localhost:8080/metrics | head -n 5"
-echo "  ✓ cAdvisor responding"
+echo "   cAdvisor responding"
 echo ""
 
 echo "Testing blackbox-exporter (probe to Caddy)..."
 ssh ubuntu@$INSTANCE_IP "curl -s 'http://localhost:9115/probe?target=http://caddy:80&module=http_2xx' | grep 'probe_success'"
-echo "  ✓ blackbox-exporter responding"
+echo "   blackbox-exporter responding"
 echo ""
 
 echo "=========================================="

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local App Preview</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            display: block;
+        }
+        .controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: rgba(30, 30, 30, 0.9);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #3e3e3e;
+        }
+        .controls input {
+            background: #252526;
+            border: 1px solid #3e3e3e;
+            color: #d4d4d4;
+            padding: 5px 10px;
+            border-radius: 3px;
+            width: 300px;
+        }
+        .controls button {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+        .controls button:hover {
+            background: #1177bb;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <input type="text" id="urlInput" value="http://localhost:8080" placeholder="Enter URL">
+        <button onclick="loadUrl()">Load</button>
+        <button onclick="reload()">Reload</button>
+    </div>
+    <iframe id="previewFrame" src="http://localhost:8080"></iframe>
+    
+    <script>
+        const frame = document.getElementById('previewFrame');
+        const urlInput = document.getElementById('urlInput');
+        
+        function loadUrl() {
+            const url = urlInput.value || 'http://localhost:8080';
+            frame.src = url;
+        }
+        
+        function reload() {
+            frame.src = frame.src;
+        }
+        
+        // Allow Enter key to load URL
+        urlInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                loadUrl();
+            }
+        });
+        
+        // Auto-reload every 30 seconds (optional)
+        // setInterval(reload, 30000);
+    </script>
+</body>
+</html>
+

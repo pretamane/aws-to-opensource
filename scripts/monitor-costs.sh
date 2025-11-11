@@ -100,7 +100,7 @@ show_billing_info() {
     echo "3. Set date range to 'Last 24 hours'"
     echo "4. Filter by service (EKS, EC2, ELB, DynamoDB)"
     echo ""
-    echo "🔗 Direct link: https://console.aws.amazon.com/billing/home#/costexplorer"
+    echo " Direct link: https://console.aws.amazon.com/billing/home#/costexplorer"
     echo ""
     echo "  Note: Costs may take up to 24 hours to appear in billing"
 }
@@ -110,7 +110,7 @@ show_cleanup_instructions() {
     log "Cleanup Instructions:"
     
     echo ""
-    echo "🧹 To clean up resources immediately:"
+    echo " To clean up resources immediately:"
     echo "====================================="
     echo "1. Run: ./scripts/cleanup-now.sh"
     echo "2. Or manually:"
@@ -153,7 +153,7 @@ main() {
     show_cleanup_instructions
     
     echo ""
-    log "💡 Tips to minimize costs:"
+    log " Tips to minimize costs:"
     echo "========================="
     echo "1. Use SPOT instances (already configured)"
     echo "2. Use pay-per-request DynamoDB (already configured)"

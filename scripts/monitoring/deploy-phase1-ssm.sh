@@ -594,7 +594,7 @@ aws ssm send-command \
     --region $REGION \
     --output text > /dev/null
 
-echo "✓ Files uploaded"
+echo " Files uploaded"
 
 # Step 3: Start services
 echo "[3/4] Starting monitoring services..."
@@ -625,7 +625,7 @@ echo "Checking Prometheus targets..."
 aws ssm send-command \
     --instance-ids $INSTANCE_ID \
     --document-name AWS-RunShellScript \
-    --parameters '{"commands":["curl -s http://localhost:9090/api/v1/targets | jq -r \".data.activeTargets[] | select(.health != \\\"up\\\") | \\\"❌ DOWN: \\\" + .labels.job + \\\" (\\\" + .scrapeUrl + \\\")\\\"\" || echo \"✓ All targets UP\""]}' \
+    --parameters '{"commands":["curl -s http://localhost:9090/api/v1/targets | jq -r \".data.activeTargets[] | select(.health != \\\"up\\\") | \\\" DOWN: \\\" + .labels.job + \\\" (\\\" + .scrapeUrl + \\\")\\\"\" || echo \" All targets UP\""]}' \
     --region $REGION \
     --output text
 

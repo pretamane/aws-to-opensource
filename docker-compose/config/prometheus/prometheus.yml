@@ -16,9 +16,10 @@ alerting:
           labels:
             service: "alertmanager"
 
-# Rule files for alerting
+# Rule files for alerting and SLOs
 rule_files:
   - "/etc/prometheus/alert-rules.yml"
+  - "/etc/prometheus/slo-rules.yml"
 
 # Scrape configurations
 scrape_configs:
@@ -30,7 +31,7 @@ scrape_configs:
           service: "prometheus"
           component: "monitoring"
 
-  # FastAPI application metrics
+  # FastAPI application metrics (internal port for security)
   - job_name: "fastapi-app"
     static_configs:
       - targets: ["fastapi-app:9091"]
@@ -39,6 +40,7 @@ scrape_configs:
           component: "application"
     scrape_interval: 10s
     metrics_path: "/metrics"
+    # Note: Metrics exposed on internal port 9091, not public port 8000
 
   # PostgreSQL metrics (via postgres_exporter)
   # COMMENTED: postgres_exporter not installed yet (Phase 5)

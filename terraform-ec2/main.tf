@@ -243,6 +243,27 @@ resource "aws_iam_role_policy_attachment" "ssm_managed" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+# SSM Parameter Store access for secrets management
+resource "aws_iam_role_policy" "ssm_parameters_policy" {
+  name = "${var.project_name}-ssm-parameters-policy"
+  role = aws_iam_role.ec2_app_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParametersByPath"
+        ]
+        Resource = "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/${var.project_name}/${var.environment}/*"
+      }
+    ]
+  })
+}
+
 resource "aws_iam_instance_profile" "app_server" {
   name = "${var.project_name}-ec2-profile"
   role = aws_iam_role.ec2_app_role.name

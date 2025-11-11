@@ -1,0 +1,198 @@
+
+                    PGADMIN - VIEW DATABASE DATA GUIDE
+
+
+ QUICK ACCESS
+
+
+URL:      http://54.179.230.219/pgadmin
+Login:    admin@admin.com
+Password: admin123
+
+
+
+ FASTEST WAY TO SEE DATA (3 Clicks!)
+
+
+After adding the server connection:
+
+STEP 1: Expand the tree on the left
+   Click: Servers → Pretamane DB → Databases → pretamane_db → Schemas → public → Tables
+
+STEP 2: Right-click on "contact_submissions"
+
+STEP 3: Click "View/Edit Data" → "All Rows"
+
+BOOM! You'll see all your contacts in a spreadsheet-like view! 
+
+
+
+ SERVER CONNECTION DETAILS (One-Time Setup)
+
+
+Right-click "Servers" → Register → Server
+
+[General Tab]
+   Name: Pretamane DB
+
+[Connection Tab]
+   Host:     postgresql
+   Port:     5432
+   Database: pretamane_db
+   Username: app_user
+   Password: yH5dOE1nPp0w7q6VoBx/N+JDzzB6fCmkyCqaMJGAHk8=
+   
+    CHECK "Save password" (so you don't have to type it again)
+
+Click "Save"
+
+
+
+ YOUR 4 TABLES
+
+
+1. contact_submissions (10 rows) - All contact form submissions
+   Columns: id, name, email, company, service, budget, message, timestamp...
+
+2. documents (4 rows) - All uploaded documents
+   Columns: id, contact_id, filename, size, document_type, upload_timestamp...
+
+3. website_visitors (1 row) - Visitor counter
+   Columns: id, count, last_updated
+
+4. analytics_events (0 rows) - Analytics tracking
+   Columns: id, event_type, event_data, timestamp
+
+
+
+ VIEW DATA IN DIFFERENT WAYS
+
+
+METHOD 1: Grid View (Excel-like)
+   Right-click table → View/Edit Data → All Rows
+   - See data in columns and rows
+   - Sort by clicking column headers
+   - Scroll through all data
+   - Edit cells (double-click)
+
+METHOD 2: SQL Query (Most powerful)
+   Tools → Query Tool
+   - Type any SQL query
+   - Click  to run
+   - See results below
+   - Export to CSV/JSON
+
+METHOD 3: First 100 rows
+   Right-click table → View/Edit Data → First 100 Rows
+   - Faster for large tables
+   - Good for quick peek
+
+METHOD 4: Filtered rows
+   Right-click table → View/Edit Data → Filtered Rows
+   - Add WHERE conditions
+   - Search specific data
+
+
+
+ SAMPLE QUERIES (Copy these into Query Tool)
+
+
+-- See all your contacts
+SELECT * FROM contact_submissions ORDER BY timestamp DESC;
+
+-- See all your uploaded documents
+SELECT * FROM documents ORDER BY upload_timestamp DESC;
+
+-- See documents with contact names (JOIN query)
+SELECT 
+    c.name AS contact_name,
+    c.email,
+    d.filename,
+    d.document_type,
+    d.size,
+    d.upload_timestamp
+FROM contact_submissions c
+JOIN documents d ON c.id = d.contact_id
+ORDER BY d.upload_timestamp DESC;
+
+-- Count everything
+SELECT 
+    (SELECT COUNT(*) FROM contact_submissions) as total_contacts,
+    (SELECT COUNT(*) FROM documents) as total_documents,
+    (SELECT count FROM website_visitors WHERE id = 'visitor_count') as total_visitors;
+
+
+
+ NAVIGATION TREE (What you'll see on the left)
+
+
+ Servers
+     Pretamane DB                    ← Your database server
+         Databases (1)
+            pretamane_db              ← Your database
+                Schemas (1)
+                   public
+                       Tables (4)    ← CLICK HERE!
+                          contact_submissions (10)
+                          documents (4)
+                          website_visitors (1)
+                          analytics_events (0)
+                        Views (3)
+                       Functions (2)
+                       Foreign Keys (1)
+                Other options...
+
+
+
+ CURRENT DATA PREVIEW
+
+
+When you open "contact_submissions", you'll see 10 rows like this:
+
+id                           name           email                  timestamp
+
+contact_1760846159_edad2229  EC2 Test User  ec2test@example.com   2025-10-19...
+contact_1760845955_e2fda0c3  User           user@example.com      2025-10-19...
+contact_1760845896_4e4a2bd2  Test User      test@example.com      2025-10-19...
+... (7 more rows)
+
+
+When you open "documents", you'll see 4 rows like this:
+
+id                                    filename         contact_id
+
+09827db4-0200-4131-8831-b22717acb077  ec2-test.txt     contact_1760846159...
+f25bb925-ff34-4875-b457-ab1db22801ff  test-upload.txt  contact_1760845896...
+... (2 more rows)
+
+
+
+ START NOW!
+
+
+1. Open browser: http://54.179.230.219/pgadmin
+2. Login: admin@admin.com / admin123
+3. Click through the tree (left sidebar) to find Tables
+4. Right-click "contact_submissions" → View/Edit Data → All Rows
+5. You're in! See all your data! 
+
+
+
+ TROUBLESHOOTING
+
+
+Q: I don't see "Servers" in the left sidebar
+A: Refresh the page (F5). If still not there, you need to add a server.
+
+Q: Server connection failed
+A: Make sure you typed "postgresql" (not "localhost" or IP address)
+
+Q: Authentication failed
+A: Double-check the password (copy-paste from above)
+
+Q: I see the tables but they're empty
+A: Your data is there! Try running a SQL query to confirm:
+   SELECT COUNT(*) FROM contact_submissions;
+
+
+

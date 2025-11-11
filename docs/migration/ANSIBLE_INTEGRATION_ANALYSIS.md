@@ -126,7 +126,7 @@ This document provides a comprehensive analysis of how Ansible can be integrated
 **Impact**: **High** - Replaces 60% of shell script complexity
 
 ### **Phase 2: Application Deployment (Week 3)**
-**Priority**: **HIGH** 🟡
+**Priority**: **HIGH** 
 
 **Components**:
 - Application deployment automation
@@ -141,7 +141,7 @@ This document provides a comprehensive analysis of how Ansible can be integrated
 **Impact**: **Medium-High** - Replaces 30% of shell script complexity
 
 ### **Phase 3: Monitoring & Cleanup (Week 4)**
-**Priority**: **MEDIUM** 🟢
+**Priority**: **MEDIUM** 
 
 **Components**:
 - Comprehensive monitoring

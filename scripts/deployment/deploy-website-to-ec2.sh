@@ -16,14 +16,14 @@ echo ""
 echo "Step 1: Packaging website files..."
 cd /home/guest/aws-to-opensource
 tar czf /tmp/pretamane-website.tar.gz pretamane-website/
-echo "✓ Website packaged: /tmp/pretamane-website.tar.gz"
+echo " Website packaged: /tmp/pretamane-website.tar.gz"
 echo ""
 
 # Step 2: Upload to S3 temporarily
 echo "Step 2: Uploading to S3 (temporary storage)..."
 S3_BUCKET="pretamane-deployment-temp-1760776208"
 aws s3 cp /tmp/pretamane-website.tar.gz s3://$S3_BUCKET/pretamane-website.tar.gz --region $REGION
-echo "✓ Uploaded to S3"
+echo " Uploaded to S3"
 echo ""
 
 # Step 3: Download and extract on EC2
@@ -37,11 +37,11 @@ aws ssm send-command \
     "echo \"Extracting files...\"",
     "cd /home/ubuntu/app",
     "tar xzf /tmp/pretamane-website.tar.gz",
-    "echo \"✓ Website files extracted to /home/ubuntu/app/pretamane-website/\"",
+    "echo \" Website files extracted to /home/ubuntu/app/pretamane-website/\"",
     "echo \"Updating Caddy configuration...\"",
     "cd /home/ubuntu/app/docker-compose",
     "docker-compose up -d caddy",
-    "echo \"✓ Caddy restarted with new configuration\"",
+    "echo \" Caddy restarted with new configuration\"",
     "rm /tmp/pretamane-website.tar.gz",
     "echo \"Deployment complete!\""
   ]' \
@@ -65,23 +65,23 @@ rm /tmp/pretamane-website.tar.gz
 echo ""
 
 echo "════════════════════════════════════════════════════════════════════════════"
-echo "✅ DEPLOYMENT COMPLETE!"
+echo " DEPLOYMENT COMPLETE!"
 echo "════════════════════════════════════════════════════════════════════════════"
 echo ""
 echo "Your website is now live at:"
 echo ""
-echo "  🌐 Portfolio Website:  http://$EC2_IP/"
-echo "  📝 Contact Page:       http://$EC2_IP/pages/contact.html"
-echo "  👤 About Page:         http://$EC2_IP/pages/about.html"
-echo "  💼 Services Page:      http://$EC2_IP/pages/services.html"
+echo "   Portfolio Website:  http://$EC2_IP/"
+echo "   Contact Page:       http://$EC2_IP/pages/contact.html"
+echo "   About Page:         http://$EC2_IP/pages/about.html"
+echo "   Services Page:      http://$EC2_IP/pages/services.html"
 echo ""
-echo "  📚 API Documentation:  http://$EC2_IP/docs"
-echo "  ❤️  Health Check:       http://$EC2_IP/health"
+echo "   API Documentation:  http://$EC2_IP/docs"
+echo "  ️  Health Check:       http://$EC2_IP/health"
 echo ""
 echo "Backend Integration:"
-echo "  ✓ Contact form → http://$EC2_IP/contact"
-echo "  ✓ Stats API → http://$EC2_IP/stats"
-echo "  ✓ All APIs connected to PostgreSQL database"
+echo "   Contact form → http://$EC2_IP/contact"
+echo "   Stats API → http://$EC2_IP/stats"
+echo "   All APIs connected to PostgreSQL database"
 echo ""
 echo "════════════════════════════════════════════════════════════════════════════"
 

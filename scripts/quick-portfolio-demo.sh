@@ -28,12 +28,12 @@ echo "=================="
 kubectl get pods -l app=portfolio-demo -o wide
 echo ""
 
-echo -e "${GREEN}🏥 Health Check:${NC}"
+echo -e "${GREEN} Health Check:${NC}"
 echo "==============="
 curl -s http://localhost:8080/health | jq .
 echo ""
 
-echo -e "${CYAN}💾 Storage Status:${NC}"
+echo -e "${CYAN} Storage Status:${NC}"
 echo "=================="
 curl -s http://localhost:8080/storage/status | jq .
 echo ""
@@ -53,12 +53,12 @@ This document demonstrates the capabilities of our
 enterprise-grade file processing system built on AWS.
 DOC_EOF
 
-echo -e "${GREEN}📤 Uploading Document:${NC}"
+echo -e "${GREEN} Uploading Document:${NC}"
 echo "======================"
 curl -X POST -F "file=@demo-document.txt" http://localhost:8080/upload | jq .
 echo ""
 
-echo -e "${BLUE}⚙️ Processing Document:${NC}"
+echo -e "${BLUE}️ Processing Document:${NC}"
 echo "======================="
 curl -X POST http://localhost:8080/process/demo-document.txt | jq .
 echo ""
@@ -89,7 +89,7 @@ echo " CloudWatch Monitoring"
 echo " IAM Roles for Service Accounts"
 echo ""
 
-echo -e "${RED}🧹 Cleaning up demo files:${NC}"
+echo -e "${RED} Cleaning up demo files:${NC}"
 echo "=========================="
 rm -f demo-document.txt
 echo "Demo files cleaned up!"

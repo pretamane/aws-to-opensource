@@ -13,8 +13,8 @@ echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     rm -f archives/deployment-history/*.tar.gz
-    echo "✅ Archives cleaned up"
-    echo "💾 Space freed: $(du -sh archives/deployment-history/ | cut -f1)"
+    echo " Archives cleaned up"
+    echo " Space freed: $(du -sh archives/deployment-history/ | cut -f1)"
 else
-    echo "❌ Cleanup cancelled"
+    echo " Cleanup cancelled"
 fi

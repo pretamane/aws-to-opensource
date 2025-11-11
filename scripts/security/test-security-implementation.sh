@@ -20,15 +20,15 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 pass() {
-    echo -e "${GREEN}✅ PASS${NC}: $1"
+    echo -e "${GREEN} PASS${NC}: $1"
 }
 
 fail() {
-    echo -e "${RED}❌ FAIL${NC}: $1"
+    echo -e "${RED} FAIL${NC}: $1"
 }
 
 warn() {
-    echo -e "${YELLOW}⚠️  WARN${NC}: $1"
+    echo -e "${YELLOW}️  WARN${NC}: $1"
 }
 
 info() {
@@ -88,7 +88,7 @@ info "Testing HTTP access to $EC2_IP (port 80)..."
 HTTP_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 http://$EC2_IP 2>/dev/null || echo "000")
 
 if [ "$HTTP_RESPONSE" = "000" ] || [ "$HTTP_RESPONSE" = "timeout" ]; then
-    pass "Direct HTTP access is BLOCKED (EC2 IP hidden) ✅"
+    pass "Direct HTTP access is BLOCKED (EC2 IP hidden) "
 else
     fail "Direct HTTP access still works (got HTTP $HTTP_RESPONSE) - IP NOT HIDDEN!"
 fi
@@ -97,7 +97,7 @@ info "Testing HTTPS access to $EC2_IP (port 443)..."
 HTTPS_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 https://$EC2_IP 2>/dev/null || echo "000")
 
 if [ "$HTTPS_RESPONSE" = "000" ] || [ "$HTTPS_RESPONSE" = "timeout" ]; then
-    pass "Direct HTTPS access is BLOCKED (EC2 IP hidden) ✅"
+    pass "Direct HTTPS access is BLOCKED (EC2 IP hidden) "
 else
     fail "Direct HTTPS access still works (got HTTP $HTTPS_RESPONSE) - IP NOT HIDDEN!"
 fi
@@ -112,7 +112,7 @@ info "Testing public access via Cloudflare Tunnel..."
 TUNNEL_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 $TUNNEL_URL 2>/dev/null || echo "000")
 
 if [ "$TUNNEL_RESPONSE" = "200" ]; then
-    pass "Cloudflare Tunnel is working (HTTP 200) ✅"
+    pass "Cloudflare Tunnel is working (HTTP 200) "
 elif [ "$TUNNEL_RESPONSE" = "000" ]; then
     fail "Cloudflare Tunnel is NOT responding (timeout/connection error)"
 else
@@ -140,7 +140,7 @@ info "Testing Grafana without credentials (should get 401)..."
 GRAFANA_NOAUTH=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 $TUNNEL_URL/grafana 2>/dev/null || echo "000")
 
 if [ "$GRAFANA_NOAUTH" = "401" ]; then
-    pass "Grafana requires authentication (HTTP 401) ✅"
+    pass "Grafana requires authentication (HTTP 401) "
 elif [ "$GRAFANA_NOAUTH" = "200" ]; then
     fail "Grafana is NOT protected - accessible without auth!"
 else
@@ -153,7 +153,7 @@ GRAFANA_AUTH=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 \
     -u "pretamane:#ThawZin2k77!" $TUNNEL_URL/grafana 2>/dev/null || echo "000")
 
 if [ "$GRAFANA_AUTH" = "200" ] || [ "$GRAFANA_AUTH" = "302" ]; then
-    pass "Grafana accessible with correct credentials ✅"
+    pass "Grafana accessible with correct credentials "
 else
     fail "Grafana NOT accessible with credentials (got HTTP $GRAFANA_AUTH)"
 fi
@@ -163,7 +163,7 @@ info "Testing Prometheus without credentials (should get 401)..."
 PROM_NOAUTH=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 $TUNNEL_URL/prometheus 2>/dev/null || echo "000")
 
 if [ "$PROM_NOAUTH" = "401" ]; then
-    pass "Prometheus requires authentication (HTTP 401) ✅"
+    pass "Prometheus requires authentication (HTTP 401) "
 else
     warn "Prometheus protection: HTTP $PROM_NOAUTH (expected 401)"
 fi
@@ -227,7 +227,7 @@ PORT_80_OPEN=$(aws ec2 describe-security-groups \
     --output text)
 
 if [ -z "$PORT_80_OPEN" ]; then
-    pass "Port 80 is NOT open to public (0.0.0.0/0) ✅"
+    pass "Port 80 is NOT open to public (0.0.0.0/0) "
 else
     fail "Port 80 is still OPEN to public - security group not locked down!"
 fi
@@ -240,7 +240,7 @@ PORT_443_OPEN=$(aws ec2 describe-security-groups \
     --output text)
 
 if [ -z "$PORT_443_OPEN" ]; then
-    pass "Port 443 is NOT open to public (0.0.0.0/0) ✅"
+    pass "Port 443 is NOT open to public (0.0.0.0/0) "
 else
     fail "Port 443 is still OPEN to public - security group not locked down!"
 fi
@@ -351,18 +351,18 @@ echo "║                            TEST SUMMARY                               
 echo "╚══════════════════════════════════════════════════════════════════════════════╝"
 echo ""
 echo "Access Information:"
-echo "  🌐 Public URL: $TUNNEL_URL"
-echo "  🔒 Origin IP: $EC2_IP (should be hidden)"
+echo "   Public URL: $TUNNEL_URL"
+echo "   Origin IP: $EC2_IP (should be hidden)"
 echo ""
 echo "Admin Credentials:"
-echo "  👤 Username: pretamane"
-echo "  🔑 Password: #ThawZin2k77!"
+echo "   Username: pretamane"
+echo "   Password: #ThawZin2k77!"
 echo ""
 echo "Protected Endpoints:"
-echo "  📊 Grafana:      $TUNNEL_URL/grafana"
-echo "  📈 Prometheus:   $TUNNEL_URL/prometheus"
-echo "  🗄️  pgAdmin:      $TUNNEL_URL/pgadmin"
-echo "  🔍 Meilisearch:  $TUNNEL_URL/meilisearch"
+echo "   Grafana:      $TUNNEL_URL/grafana"
+echo "   Prometheus:   $TUNNEL_URL/prometheus"
+echo "  ️  pgAdmin:      $TUNNEL_URL/pgadmin"
+echo "   Meilisearch:  $TUNNEL_URL/meilisearch"
 echo ""
 echo "Manual Tests to Run:"
 echo "  1. Open $TUNNEL_URL in browser (should load portfolio)"

@@ -29,22 +29,22 @@ if ! command -v mc &> /dev/null; then
     
     # Try to install system-wide, fallback to user bin
     if sudo mv mc /usr/local/bin/ 2>/dev/null; then
-        echo "✓ Installed to /usr/local/bin/mc"
+        echo " Installed to /usr/local/bin/mc"
     else
         mkdir -p ~/bin
         mv mc ~/bin/
         export PATH="$HOME/bin:$PATH"
-        echo "✓ Installed to ~/bin/mc"
+        echo " Installed to ~/bin/mc"
         echo 'export PATH="$HOME/bin:$PATH"' >> ~/.bashrc
     fi
 else
-    echo "✓ MinIO Client already installed"
+    echo " MinIO Client already installed"
 fi
 
 # Configure MinIO alias
 echo "Configuring MinIO connection..."
 mc alias set pretamane http://${EC2_IP}:9000 minioadmin minioadmin --api S3v4
-echo -e "${GREEN}✓ MinIO Client configured${NC}\n"
+echo -e "${GREEN} MinIO Client configured${NC}\n"
 
 # Test MinIO connection
 echo "Testing MinIO connection..."
@@ -64,7 +64,7 @@ else
     aws configure set region us-east-1 --profile minio
     aws configure set output json --profile minio
     
-    echo -e "${GREEN}✓ AWS CLI configured for MinIO (use --profile minio --endpoint-url http://${EC2_IP}:9000)${NC}\n"
+    echo -e "${GREEN} AWS CLI configured for MinIO (use --profile minio --endpoint-url http://${EC2_IP}:9000)${NC}\n"
 fi
 
 # ============================================================================
@@ -76,9 +76,9 @@ if ! command -v psql &> /dev/null; then
     echo "Installing PostgreSQL Client..."
     sudo apt-get update -qq
     sudo apt-get install -y postgresql-client
-    echo -e "${GREEN}✓ PostgreSQL Client installed${NC}"
+    echo -e "${GREEN} PostgreSQL Client installed${NC}"
 else
-    echo "✓ PostgreSQL Client already installed"
+    echo " PostgreSQL Client already installed"
 fi
 
 # Create connection alias for easier access
@@ -93,7 +93,7 @@ ${EC2_IP}:5432:pretamane_db:app_user:$(aws ssm send-command \
 EOF
 chmod 600 ~/.pgpass
 
-echo -e "${GREEN}✓ PostgreSQL connection configured${NC}\n"
+echo -e "${GREEN} PostgreSQL connection configured${NC}\n"
 
 # ============================================================================
 # 4. Create Helper Scripts
@@ -227,7 +227,7 @@ curl -s -H "Authorization: Bearer ${MEILI_KEY}" \
 MEILI_EOF
 chmod +x ~/stack-cli/meilisearch-info.sh
 
-echo -e "${GREEN}✓ Helper scripts created in ~/stack-cli/${NC}\n"
+echo -e "${GREEN} Helper scripts created in ~/stack-cli/${NC}\n"
 
 # ============================================================================
 # 5. Create Quick Reference Guide
@@ -470,19 +470,19 @@ cat > ~/stack-cli/check-all.sh << 'STATUS_EOF'
 echo "=== Stack Services Status ==="
 echo ""
 echo "PostgreSQL:"
-pg_isready -h 54.179.230.219 -p 5432 -U app_user && echo "✓ UP" || echo "✗ DOWN"
+pg_isready -h 54.179.230.219 -p 5432 -U app_user && echo " UP" || echo " DOWN"
 echo ""
 echo "MinIO:"
-mc admin info pretamane > /dev/null 2>&1 && echo "✓ UP" || echo "✗ DOWN"
+mc admin info pretamane > /dev/null 2>&1 && echo " UP" || echo " DOWN"
 echo ""
 echo "Prometheus:"
-curl -sf "http://54.179.230.219/prometheus/-/healthy" > /dev/null && echo "✓ UP" || echo "✗ DOWN"
+curl -sf "http://54.179.230.219/prometheus/-/healthy" > /dev/null && echo " UP" || echo " DOWN"
 echo ""
 echo "Grafana:"
-curl -sf "http://54.179.230.219/grafana/api/health" > /dev/null && echo "✓ UP" || echo "✗ DOWN"
+curl -sf "http://54.179.230.219/grafana/api/health" > /dev/null && echo " UP" || echo " DOWN"
 echo ""
 echo "Meilisearch:"
-curl -sf "http://54.179.230.219/meilisearch/health" > /dev/null && echo "✓ UP" || echo "✗ DOWN"
+curl -sf "http://54.179.230.219/meilisearch/health" > /dev/null && echo " UP" || echo " DOWN"
 STATUS_EOF
 
 chmod +x ~/stack-cli/check-all.sh
@@ -512,20 +512,20 @@ chmod +x ~/stack-cli/check-all.sh
    ```
 README_EOF
 
-echo -e "${GREEN}✓ Quick reference guide created${NC}\n"
+echo -e "${GREEN} Quick reference guide created${NC}\n"
 
 # ============================================================================
 # Summary
 # ============================================================================
 echo -e "${GREEN}╔════════════════════════════════════════════════╗${NC}"
-echo -e "${GREEN}║        CLI Tools Setup Complete! ✓            ║${NC}"
+echo -e "${GREEN}║        CLI Tools Setup Complete!             ║${NC}"
 echo -e "${GREEN}╔════════════════════════════════════════════════╗${NC}"
 echo ""
 echo "Tools Installed:"
-echo "  ✓ MinIO Client (mc) - Object storage management"
-echo "  ✓ AWS CLI - S3-compatible MinIO access"
-echo "  ✓ PostgreSQL Client (psql) - Database access"
-echo "  ✓ Helper Scripts - Quick access utilities"
+echo "   MinIO Client (mc) - Object storage management"
+echo "   AWS CLI - S3-compatible MinIO access"
+echo "   PostgreSQL Client (psql) - Database access"
+echo "   Helper Scripts - Quick access utilities"
 echo ""
 echo "Helper Scripts Location: ~/stack-cli/"
 echo "  • psql-connect.sh       - Quick PostgreSQL connection"

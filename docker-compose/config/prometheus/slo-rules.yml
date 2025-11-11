@@ -1,0 +1,221 @@
+# SLO (Service Level Objective) Rules and Budget Burn Alerts
+# These rules define service level targets and alert when error budgets are being consumed
+
+groups:
+  # ============================================================================
+  # SLO RECORDING RULES
+  # ============================================================================
+  
+  - name: slo_availability
+    interval: 1m
+    rules:
+      # SLO Target: 99.5% availability (allows 0.5% errors)
+      # Error budget: 0.5% of requests can fail per month
+      # Monthly budget: 43,200 minutes * 0.005 = 216 minutes of downtime allowed
+      
+      - record: slo:availability:ratio
+        expr: |
+          1 - (
+            sum(rate(http_requests_total{status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total[5m]))
+          )
+        labels:
+          slo: "availability"
+          target: "99.5"
+      
+      # Calculate error rate (inverse of availability)
+      - record: slo:error_rate:ratio
+        expr: |
+          sum(rate(http_requests_total{status=~"5.."}[5m]))
+          /
+          sum(rate(http_requests_total[5m]))
+        labels:
+          slo: "availability"
+      
+      # SLO Target: 95% of requests complete in <1s (latency SLO)
+      - record: slo:latency:p95
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))
+        labels:
+          slo: "latency"
+          target: "1.0"
+      
+      # SLO Target: 99% of requests complete in <3s
+      - record: slo:latency:p99
+        expr: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))
+        labels:
+          slo: "latency"
+          target: "3.0"
+
+  # ============================================================================
+  # BUDGET BURN RATE ALERTS
+  # ============================================================================
+  # Multi-window, multi-burn-rate alerting (Google SRE Workbook methodology)
+  # Detects rapid error budget consumption at different timescales
+  
+  - name: slo_budget_burn_fast
+    interval: 30s
+    rules:
+      # CRITICAL: Fast burn - 2% of monthly budget consumed in 1 hour
+      # This means error rate is 14.4x normal (exhausts budget in ~30 hours)
+      # Alert immediately to prevent complete budget exhaustion
+      
+      - alert: SLOBudgetBurnCritical
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[1h]))
+            /
+            sum(rate(http_requests_total[1h]))
+          ) > (14.4 * 0.005)
+          and
+          (
+            sum(rate(http_requests_total{status=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total[5m]))
+          ) > (14.4 * 0.005)
+        for: 2m
+        labels:
+          severity: critical
+          slo: availability
+          burn_rate: fast
+        annotations:
+          summary: "Critical SLO budget burn detected"
+          description: "Error rate {{ $value | humanizePercentage }} is consuming error budget 14x faster than normal. Monthly budget will be exhausted in ~30 hours if this continues."
+          action: "Investigate immediately. Check recent deployments, traffic spikes, or infrastructure issues."
+      
+      # WARNING: Medium burn - 5% of monthly budget consumed in 6 hours
+      # This means error rate is 6x normal (exhausts budget in ~5 days)
+      
+      - alert: SLOBudgetBurnHigh
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[6h]))
+            /
+            sum(rate(http_requests_total[6h]))
+          ) > (6 * 0.005)
+          and
+          (
+            sum(rate(http_requests_total{status=~"5.."}[30m]))
+            /
+            sum(rate(http_requests_total[30m]))
+          ) > (6 * 0.005)
+        for: 15m
+        labels:
+          severity: warning
+          slo: availability
+          burn_rate: medium
+        annotations:
+          summary: "High SLO budget burn detected"
+          description: "Error rate {{ $value | humanizePercentage }} is consuming error budget 6x faster than normal. Monthly budget will be exhausted in ~5 days if this continues."
+          action: "Review error logs and metrics. Plan remediation if trend continues."
+
+  - name: slo_budget_burn_slow
+    interval: 5m
+    rules:
+      # INFO: Slow burn - 10% of monthly budget consumed in 3 days
+      # This means error rate is 2x normal (exhausts budget in ~30 days)
+      
+      - alert: SLOBudgetBurnModerate
+        expr: |
+          (
+            sum(rate(http_requests_total{status=~"5.."}[3d]))
+            /
+            sum(rate(http_requests_total[3d]))
+          ) > (2 * 0.005)
+          and
+          (
+            sum(rate(http_requests_total{status=~"5.."}[6h]))
+            /
+            sum(rate(http_requests_total[6h]))
+          ) > (2 * 0.005)
+        for: 1h
+        labels:
+          severity: info
+          slo: availability
+          burn_rate: slow
+        annotations:
+          summary: "Moderate SLO budget burn detected"
+          description: "Error rate {{ $value | humanizePercentage }} is consuming error budget 2x faster than normal. Monthly budget will be exhausted in ~30 days if this continues."
+          action: "Monitor trend. Consider proactive improvements to error rate."
+
+  # ============================================================================
+  # LATENCY SLO ALERTS
+  # ============================================================================
+  
+  - name: slo_latency_violations
+    interval: 1m
+    rules:
+      # Alert when P95 latency exceeds 1 second (SLO violation)
+      - alert: SLOLatencyP95Violation
+        expr: slo:latency:p95 > 1.0
+        for: 10m
+        labels:
+          severity: warning
+          slo: latency
+        annotations:
+          summary: "P95 latency SLO violation"
+          description: "P95 latency is {{ $value }}s (target: 1.0s). 5% of requests are slower than acceptable."
+          action: "Check for slow database queries, external API timeouts, or resource saturation."
+      
+      # Alert when P99 latency exceeds 3 seconds (severe violation)
+      - alert: SLOLatencyP99Violation
+        expr: slo:latency:p99 > 3.0
+        for: 5m
+        labels:
+          severity: critical
+          slo: latency
+        annotations:
+          summary: "P99 latency SLO violation"
+          description: "P99 latency is {{ $value }}s (target: 3.0s). 1% of requests are experiencing severe delays."
+          action: "Immediate investigation required. Users are experiencing poor performance."
+
+  # ============================================================================
+  # OVERALL SLO HEALTH
+  # ============================================================================
+  
+  - name: slo_health_summary
+    interval: 5m
+    rules:
+      # Overall SLO compliance (1 = perfect, 0 = complete failure)
+      - record: slo:overall:health
+        expr: |
+          min(
+            slo:availability:ratio,
+            1 - bool(slo:latency:p95 > 1.0),
+            1 - bool(slo:latency:p99 > 3.0)
+          )
+        labels:
+          slo: overall
+      
+      # Alert when overall SLO health drops below target
+      - alert: SLOHealthDegraded
+        expr: slo:overall:health < 0.995
+        for: 15m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Overall SLO health degraded"
+          description: "System is operating below SLO targets. Current health: {{ $value | humanizePercentage }}"
+          action: "Review all SLO metrics and address violations."
+
+# ============================================================================
+# USAGE NOTES
+# ============================================================================
+# 
+# To query SLO metrics in Grafana:
+# 
+# Availability:
+#   - slo:availability:ratio * 100  (should be > 99.5)
+#   - slo:error_rate:ratio * 100    (should be < 0.5)
+# 
+# Latency:
+#   - slo:latency:p95  (should be < 1.0)
+#   - slo:latency:p99  (should be < 3.0)
+# 
+# Error Budget Remaining (approximate):
+#   - 1 - (increase(http_requests_total{status=~"5.."}[30d]) / increase(http_requests_total[30d])) / 0.005
+#   - Result of 1.0 = 100% budget remaining
+#   - Result of 0.0 = budget exhausted
+# 
+# ============================================================================
+

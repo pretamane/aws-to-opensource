@@ -11,7 +11,7 @@ echo ""
 kubectl top pods -l app=portfolio-demo
 echo ""
 
-echo "⚡ Creating CPU-intensive load test..."
+echo " Creating CPU-intensive load test..."
 echo "This will create a pod that generates CPU load to trigger autoscaling"
 
 # Create a CPU stress test deployment
@@ -89,7 +89,7 @@ for i in {1..24}; do
     sleep 5
 done
 
-echo "🧹 Cleaning up stress test..."
+echo " Cleaning up stress test..."
 kubectl delete -f k8s/cpu-stress-test.yaml
 rm -f k8s/cpu-stress-test.yaml
 
@@ -102,7 +102,7 @@ echo ""
 
 echo " Autoscaling test completed!"
 echo ""
-echo "💡 If you didn't see scaling, try:"
+echo " If you didn't see scaling, try:"
 echo "1. Lower the CPU target: kubectl patch hpa portfolio-demo-hpa -p '{\"spec\":{\"metrics\":[{\"type\":\"Resource\",\"resource\":{\"name\":\"cpu\",\"target\":{\"type\":\"Utilization\",\"averageUtilization\":20}}}]}}'"
 echo "2. Check HPA events: kubectl describe hpa portfolio-demo-hpa"
 echo "3. Monitor with: kubectl get hpa -w"

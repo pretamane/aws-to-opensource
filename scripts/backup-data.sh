@@ -106,16 +106,16 @@ echo "Services restarted"
 
 echo "[5/6] Verifying backup..."
 if [ -f "$BACKUP_FILE" ]; then
-    echo "Backup file exists: ✓"
+    echo "Backup file exists: "
     echo "Size: $(du -h "$BACKUP_FILE" | cut -f1)"
     if tar -tzf "$BACKUP_FILE" > /dev/null 2>&1; then
-        echo "Archive integrity: ✓"
+        echo "Archive integrity: "
     else
-        echo "Archive integrity: ✗ FAILED"
+        echo "Archive integrity:  FAILED"
         exit 1
     fi
 else
-    echo "Backup file not found: ✗ FAILED"
+    echo "Backup file not found:  FAILED"
     exit 1
 fi
 

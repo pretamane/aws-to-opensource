@@ -51,6 +51,9 @@ services:
       - PROMETHEUS_URL=http://prometheus:9090
       - ENABLE_METRICS=true
       - METRICS_PORT=9091
+
+      # API Authentication
+      - PUBLIC_API_KEY=${PUBLIC_API_KEY}
     volumes:
       - uploads-data:/mnt/uploads
       - processed-data:/mnt/processed

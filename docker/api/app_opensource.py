@@ -5,7 +5,7 @@
 # - S3/EFS → MinIO + Local Storage
 # - CloudWatch → Prometheus + Loki
 
-from fastapi import FastAPI, Request, Response, HTTPException, UploadFile, File, Form, BackgroundTasks
+from fastapi import FastAPI, Request, Response, HTTPException, UploadFile, File, Form, BackgroundTasks, Header, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_client import Counter, Histogram, Gauge, generate_latest, CONTENT_TYPE_LATEST
@@ -14,6 +14,8 @@ import logging
 from datetime import datetime
 from typing import Optional
 import time
+import uuid
+import json
 
 # Import services for open-source stack
 from shared.database_service_postgres import PostgreSQLService
@@ -26,12 +28,41 @@ from models.contact import ContactForm, ContactResponse
 from models.document import DocumentUpload, DocumentResponse, SearchRequest, SearchResponse
 from models.response import HealthResponse, AnalyticsResponse, StatsResponse
 
-# Configure logging
+# Configure logging with JSON format
+class JSONFormatter(logging.Formatter):
+    def format(self, record):
+        log_data = {
+            "timestamp": self.formatTime(record, self.datefmt),
+            "level": record.levelname,
+            "name": record.name,
+            "message": record.getMessage(),
+            "correlation_id": getattr(record, 'correlation_id', 'N/A')
+        }
+        return json.dumps(log_data)
+
+handler = logging.StreamHandler()
+handler.setFormatter(JSONFormatter())
 logging.basicConfig(
     level=os.environ.get('LOG_LEVEL', 'INFO'),
-    format='%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+    handlers=[handler]
 )
 logger = logging.getLogger(__name__)
+
+# ============================================================================
+# AUTHENTICATION
+# ============================================================================
+
+API_KEY = os.environ.get("PUBLIC_API_KEY")
+
+async def require_api_key(x_api_key: Optional[str] = Header(default=None)):
+    """Validate API key for protected endpoints"""
+    if not API_KEY:
+        logger.warning("PUBLIC_API_KEY not set; authentication disabled")
+        return
+    if x_api_key != API_KEY:
+        logger.warning("Invalid API key attempt", extra={"api_key_prefix": x_api_key[:8] if x_api_key else "None"})
+        raise HTTPException(status_code=401, detail="Unauthorized: Invalid API key")
+    return x_api_key
 
 # ============================================================================
 # PROMETHEUS METRICS
@@ -107,30 +138,70 @@ storage_service = None
 email_service = None
 
 # ============================================================================
-# MIDDLEWARE FOR METRICS
+# MIDDLEWARE FOR CORRELATION IDS AND METRICS
 # ============================================================================
 
 @app.middleware("http")
-async def metrics_middleware(request: Request, call_next):
-    """Collect metrics for each request"""
+async def correlation_and_metrics_middleware(request: Request, call_next):
+    """Add correlation ID and collect metrics for each request"""
+    # Generate or extract correlation ID
+    correlation_id = request.headers.get('X-Correlation-ID', str(uuid.uuid4()))
+    request.state.correlation_id = correlation_id
+    
+    # Log request with correlation ID
+    logger.info(
+        f"Request started: {request.method} {request.url.path}",
+        extra={
+            "correlation_id": correlation_id,
+            "method": request.method,
+            "path": request.url.path,
+            "client": request.client.host if request.client else "unknown"
+        }
+    )
+    
     start_time = time.time()
     
-    response = await call_next(request)
-    
-    # Record metrics
-    duration = time.time() - start_time
-    http_requests_total.labels(
-        method=request.method,
-        endpoint=request.url.path,
-        status=response.status_code
-    ).inc()
-    
-    http_request_duration_seconds.labels(
-        method=request.method,
-        endpoint=request.url.path
-    ).observe(duration)
-    
-    return response
+    try:
+        response = await call_next(request)
+        
+        # Record metrics
+        duration = time.time() - start_time
+        http_requests_total.labels(
+            method=request.method,
+            endpoint=request.url.path,
+            status=response.status_code
+        ).inc()
+        
+        http_request_duration_seconds.labels(
+            method=request.method,
+            endpoint=request.url.path
+        ).observe(duration)
+        
+        # Add correlation ID to response headers
+        response.headers['X-Correlation-ID'] = correlation_id
+        
+        # Log response with correlation ID
+        logger.info(
+            f"Request completed: {request.method} {request.url.path} - {response.status_code}",
+            extra={
+                "correlation_id": correlation_id,
+                "status": response.status_code,
+                "duration": duration
+            }
+        )
+        
+        return response
+        
+    except Exception as e:
+        logger.error(
+            f"Request failed: {request.method} {request.url.path}",
+            extra={
+                "correlation_id": correlation_id,
+                "error": str(e)
+            },
+            exc_info=True
+        )
+        raise
 
 # ============================================================================
 # STARTUP AND SHUTDOWN
@@ -290,7 +361,7 @@ def metrics():
 # CONTACT FORM ENDPOINTS
 # ============================================================================
 
-@app.post("/contact", response_model=ContactResponse)
+@app.post("/contact", response_model=ContactResponse, dependencies=[Depends(require_api_key)])
 async def submit_contact(contact_form: ContactForm):
     """Submit contact form"""
     start_time = time.time()
@@ -368,7 +439,7 @@ async def submit_contact(contact_form: ContactForm):
 # DOCUMENT ENDPOINTS
 # ============================================================================
 
-@app.post("/documents/upload", response_model=DocumentResponse)
+@app.post("/documents/upload", response_model=DocumentResponse, dependencies=[Depends(require_api_key)])
 async def upload_document(
     file: UploadFile = File(...),
     contact_id: str = Form(...),
@@ -444,7 +515,7 @@ async def upload_document(
         ).inc()
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/documents/search", response_model=SearchResponse)
+@app.post("/documents/search", response_model=SearchResponse, dependencies=[Depends(require_api_key)])
 async def search_documents(search_request: SearchRequest):
     """Search documents using Meilisearch"""
     try:

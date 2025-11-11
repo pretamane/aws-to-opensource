@@ -130,7 +130,7 @@ check_pod_health() {
 
 # Check service health
 check_service_health() {
-    log "🌐 Checking service health..."
+    log " Checking service health..."
     
     local services_output=$(kubectl get services --all-namespaces --no-headers 2>/dev/null)
     local total_services=$(echo "$services_output" | wc -l)
@@ -153,7 +153,7 @@ check_service_health() {
 
 # Check ingress health
 check_ingress_health() {
-    log "🚪 Checking ingress health..."
+    log " Checking ingress health..."
     
     local ingresses=$(kubectl get ingress --all-namespaces --no-headers 2>/dev/null | wc -l || echo "0")
     
@@ -189,7 +189,7 @@ check_ingress_health() {
 
 # Check application endpoints
 check_application_endpoints() {
-    log "🔗 Checking application endpoints..."
+    log " Checking application endpoints..."
     
     # Get application URLs from ingresses
     local app_urls=$(kubectl get ingress --all-namespaces -o jsonpath='{range .items[*]}{.status.loadBalancer.ingress[0].hostname}{"\n"}{end}' 2>/dev/null | grep -v "^$" || echo "")
@@ -273,7 +273,7 @@ check_resource_usage() {
 
 # Check storage health
 check_storage_health() {
-    log "💾 Checking storage health..."
+    log " Checking storage health..."
     
     # Check persistent volumes
     local pvs=$(kubectl get pv --no-headers 2>/dev/null | wc -l || echo "0")
@@ -306,7 +306,7 @@ check_storage_health() {
 
 # Check Helm releases
 check_helm_releases() {
-    log "⚙️  Checking Helm releases..."
+    log "️  Checking Helm releases..."
     
     if ! command -v helm &>/dev/null; then
         log_warning "Helm not installed, skipping Helm release check"
@@ -346,7 +346,7 @@ check_helm_releases() {
 
 # Check AWS resources
 check_aws_resources() {
-    log "☁️  Checking AWS resources..."
+    log "️  Checking AWS resources..."
     
     # Check EKS cluster
     local cluster_status=$(aws eks describe-cluster --name "$PROJECT_NAME-cluster" --query 'cluster.status' --output text 2>/dev/null || echo "NOT_FOUND")
@@ -422,7 +422,7 @@ EOF
 
 # Main health check function
 run_all_health_checks() {
-    log_highlight "🏥 Running Comprehensive Health Checks"
+    log_highlight " Running Comprehensive Health Checks"
     echo ""
     
     local failed_checks=0
@@ -470,7 +470,7 @@ run_all_health_checks() {
 # Usage information
 show_usage() {
     cat << EOF
-🏥 Enhanced Health Monitoring Script
+ Enhanced Health Monitoring Script
 
 USAGE:
     $0 [OPTIONS]

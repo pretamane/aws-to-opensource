@@ -50,18 +50,6 @@
         reverse_proxy fastapi-app:8000
     }
     
-    handle /docs* {
-        reverse_proxy fastapi-app:8000
-    }
-    
-    handle /redoc* {
-        reverse_proxy fastapi-app:8000
-    }
-    
-    handle /openapi.json {
-        reverse_proxy fastapi-app:8000
-    }
-    
     handle /health {
         reverse_proxy fastapi-app:8000
     }
@@ -82,13 +70,31 @@
         reverse_proxy fastapi-app:8000
     }
     
-    handle /metrics {
-        reverse_proxy fastapi-app:8000
-    }
-    
     # ===========================================================================
     # PROTECTED ADMIN PATHS (Basic Auth until Cloudflare Access)
     # ===========================================================================
+    
+    # API Documentation (protected)
+    handle /docs* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
+        reverse_proxy fastapi-app:8000
+    }
+    
+    handle /redoc* {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
+        reverse_proxy fastapi-app:8000
+    }
+    
+    handle /openapi.json {
+        basic_auth {
+            pretamane $2a$14$VBOmQYX9BQOaEPTCUXEIGekFJp9xfzMo8cs7ocDgMcjTYr68mIuNO
+        }
+        reverse_proxy fastapi-app:8000
+    }
     
     # Grafana (monitoring dashboards)
     handle /grafana* {

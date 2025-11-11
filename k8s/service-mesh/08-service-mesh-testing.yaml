@@ -65,7 +65,7 @@ spec:
           
           # Check Istio sidecar injection
           echo "Checking Istio sidecar injection..."
-          kubectl get pods -l app=contact-api -o jsonpath='{.items[0].spec.containers[*].name}' | grep -q istio-proxy && echo "✓ Sidecar injected" || echo "✗ Sidecar not injected"
+          kubectl get pods -l app=contact-api -o jsonpath='{.items[0].spec.containers[*].name}' | grep -q istio-proxy && echo " Sidecar injected" || echo " Sidecar not injected"
           
           # Check mTLS status
           echo "Checking mTLS status..."

@@ -25,9 +25,9 @@ CMD_ID=$(aws ssm send-command \
     "if ! grep -q \"pretamane-website\" docker-compose.yml; then",
     "  echo \"Adding volume mount for website files...\"",
     "  sed -i \"/caddy-config:\\/config/a\\      - \\/home\\/ubuntu\\/app\\/pretamane-website:\\/var\\/www\\/pretamane:ro\" docker-compose.yml",
-    "  echo \"✓ Volume mount added\"",
+    "  echo \" Volume mount added\"",
     "else",
-    "  echo \"✓ Volume mount already exists\"",
+    "  echo \" Volume mount already exists\"",
     "fi"
   ]' \
   --region $REGION \
@@ -52,14 +52,14 @@ aws ssm send-command \
     \"mkdir -p /home/ubuntu/app/pretamane-website/assets/js\",
     \"mkdir -p /home/ubuntu/app/pretamane-website/assets/css\",
     \"mkdir -p /home/ubuntu/app/pretamane-website/pages\",
-    \"echo '✓ Directory structure created'\"
+    \"echo ' Directory structure created'\"
   ]" \
   --region $REGION \
   --output json > /dev/null
 
 sleep 3
 
-echo "✓ Directory structure created on EC2"
+echo " Directory structure created on EC2"
 echo ""
 echo "Step 3: For full website upload, use scp or git clone..."
 echo ""

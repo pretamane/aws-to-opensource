@@ -49,7 +49,7 @@ k8s/
 
 #### **Business Features:**
 -  **File upload endpoints** (`/upload`)
-- ⚙️ **Document processing workflows** (`/process/{filename}`)
+- ️ **Document processing workflows** (`/process/{filename}`)
 -  **Storage monitoring** (`/storage/status`)
 -  **File management system** (`/files`)
 -  **Real-time logging** (`/logs`)
@@ -57,7 +57,7 @@ k8s/
 
 #### **Technical Features:**
 -  **Multi-container architecture** support
-- 💾 **EFS + S3 + Shared storage** integration
+-  **EFS + S3 + Shared storage** integration
 -  **Comprehensive health checks**
 -  **Performance monitoring**
 -  **Error handling and recovery**

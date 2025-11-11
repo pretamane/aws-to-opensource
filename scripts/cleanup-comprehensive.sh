@@ -33,7 +33,7 @@ log_error() {
 }
 
 log_highlight() {
-    echo -e "${PURPLE}[$(date +'%Y-%m-%d %H:%M:%S')] 🧹 $1${NC}"
+    echo -e "${PURPLE}[$(date +'%Y-%m-%d %H:%M:%S')]  $1${NC}"
 }
 
 # Function to cleanup Kubernetes resources
@@ -165,7 +165,7 @@ cleanup_remaining_resources() {
 
 # Function to show cleanup summary
 show_cleanup_summary() {
-    log_highlight "🧹 Comprehensive Cleanup Summary:"
+    log_highlight " Comprehensive Cleanup Summary:"
     echo "======================================"
     echo " Kubernetes Resources: DELETED"
     echo " Terraform Infrastructure: DELETED"
@@ -186,7 +186,7 @@ show_cleanup_summary() {
 
 # Main cleanup function
 main() {
-    log_highlight "🧹 Starting COMPREHENSIVE Cleanup..."
+    log_highlight " Starting COMPREHENSIVE Cleanup..."
     log "Project: $PROJECT_NAME"
     log "Region: $REGION"
     echo ""

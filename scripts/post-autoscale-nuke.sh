@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 🚨 POST-AUTOSCALE NUCLEAR CLEANUP SCRIPT
+#  POST-AUTOSCALE NUCLEAR CLEANUP SCRIPT
 # This script will DESTROY ALL AWS resources to stop billing
 #   WARNING: This action is IRREVERSIBLE!
 
@@ -35,7 +35,7 @@ REGION="ap-southeast-1"
 PROJECT_NAME="realistic-demo-pretamane"
 
 echo -e "${RED}"
-echo "🚨🚨🚨 NUCLEAR AWS CLEANUP SCRIPT 🚨🚨🚨"
+echo " NUCLEAR AWS CLEANUP SCRIPT "
 echo "=========================================="
 echo -e "${NC}"
 echo "This script will DESTROY ALL AWS resources found in your account."

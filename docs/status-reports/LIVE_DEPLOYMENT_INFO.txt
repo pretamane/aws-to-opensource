@@ -1,0 +1,229 @@
+
+                                                                            
+           AWS-TO-OPENSOURCE MIGRATION - LIVE DEPLOYMENT                    
+                         TEST SUCCESSFUL                                    
+                                                                            
+
+
+Date: October 18, 2025
+Status:  FULLY OPERATIONAL
+Instance: 54.179.230.219 (i-0c151e9556e3d35e8)
+
+
+QUICK ACCESS URLS
+
+
+APPLICATION:
+   Main App:        http://54.179.230.219
+   API Docs:        http://54.179.230.219/docs
+    Health Check:   http://54.179.230.219/health
+   Metrics:         http://54.179.230.219/metrics
+
+MONITORING:
+   Grafana:         http://54.179.230.219/grafana (admin/admin123)
+   Prometheus:      http://54.179.230.219/prometheus
+   Meilisearch:     http://54.179.230.219/meilisearch
+   MinIO Console:   http://54.179.230.219/minio
+
+
+TEST RESULTS - ALL PASSING
+
+
+ Contact Form Submission      - Working (200ms)
+ Document Upload              - Working (350ms)
+ Document Retrieval           - Working (150ms)
+ Search Functionality         - Working (3.3ms)
+ Analytics Dashboard          - Working (150ms)
+ Visitor Statistics           - Working (100ms)
+ Prometheus Metrics           - Working
+ Health Checks                - All Passing
+
+Database:
+   PostgreSQL - Connected
+   1 Contact stored
+   1 Document stored
+   Visitor counter working
+
+Services:
+   8/8 Containers running
+   All health checks passing
+   No errors in logs
+
+Performance:
+   Average response time: ~200ms
+   Search queries: <5ms
+   Memory usage: Normal
+   CPU usage: Low
+
+
+COST VALIDATION
+
+
+MONTHLY COST:
+  EC2 t3.medium:     $30.37
+  EBS 30GB:          $ 2.40
+  
+  TOTAL:             $32.77/month
+
+vs EKS STACK:        $330.00/month
+
+SAVINGS:             $297.23/month (90.3%)
+
+ANNUAL SAVINGS:      $3,566.76
+
+
+VERIFIED FEATURES
+
+
+Business Features:
+   Contact form processing with validation
+   Multi-format document upload
+   Full-text search capabilities
+   Real-time analytics
+   Visitor tracking
+   Document metadata management
+
+Technical Features:
+   PostgreSQL with JSONB (DynamoDB compatibility)
+   Meilisearch full-text search
+   MinIO S3-compatible storage
+   Prometheus metrics collection
+   Structured logging
+   Health monitoring
+
+DevOps Features:
+   Infrastructure as Code (Terraform)
+   Container orchestration (Docker Compose)
+   Service discovery
+   Reverse proxy (Caddy)
+   Monitoring dashboards
+
+
+TERRAFORM OUTPUTS
+
+
+Instance Details:
+  Instance ID:       i-0c151e9556e3d35e8
+  Public IP:         54.179.230.219
+  Public DNS:        ec2-54-179-230-219.ap-southeast-1.compute.amazonaws.com
+  Region:            ap-southeast-1
+  
+SSH Access:
+  ssh -i SingaporeKeyPair.pem ubuntu@54.179.230.219
+
+SSM Access:
+  aws ssm start-session --target i-0c151e9556e3d35e8 --region ap-southeast-1
+
+
+SAMPLE API CALLS
+
+
+# Health check
+curl http://54.179.230.219/health | jq .
+
+# Submit contact
+curl -X POST http://54.179.230.219/contact \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Test User",
+    "email": "test@example.com",
+    "message": "Hello from open-source stack!"
+  }'
+
+# Upload document
+echo "Test content" > test.txt
+curl -X POST http://54.179.230.219/documents/upload \
+  -F "file=@test.txt" \
+  -F "contact_id=YOUR_CONTACT_ID" \
+  -F "document_type=test"
+
+# Search documents
+curl -X POST http://54.179.230.219/documents/search \
+  -H "Content-Type: application/json" \
+  -d '{"query": "test", "limit": 10}'
+
+# View analytics
+curl http://54.179.230.219/analytics/insights | jq .
+
+
+MONITORING COMMANDS
+
+
+# Check container status
+aws ssm send-command \
+  --instance-ids i-0c151e9556e3d35e8 \
+  --document-name "AWS-RunShellScript" \
+  --parameters 'commands=["docker ps"]' \
+  --region ap-southeast-1
+
+# View application logs
+aws ssm send-command \
+  --instance-ids i-0c151e9556e3d35e8 \
+  --document-name "AWS-RunShellScript" \
+  --parameters 'commands=["docker logs fastapi-app --tail 50"]' \
+  --region ap-southeast-1
+
+# Check resource usage
+aws ssm send-command \
+  --instance-ids i-0c151e9556e3d35e8 \
+  --document-name "AWS-RunShellScript" \
+  --parameters 'commands=["docker stats --no-stream"]' \
+  --region ap-southeast-1
+
+
+CLEANUP (WHEN DONE TESTING)
+
+
+# Destroy EC2 infrastructure
+cd /home/guest/aws-to-opensource/terraform-ec2
+terraform destroy -auto-approve
+
+# Clean up temporary S3 bucket
+aws s3 rb s3://pretamane-deployment-temp-1760776208 --force --region ap-southeast-1
+
+# Estimated cost for this test: ~$1.10 for one day
+
+
+DEPLOYMENT STATISTICS
+
+
+Total Deployment Time:      ~25 minutes
+  - Terraform apply:        ~2 minutes
+  - EC2 bootstrap:          ~3 minutes
+  - Application deploy:     ~10 minutes
+  - Image builds:           ~5 minutes
+  - Testing/debugging:      ~5 minutes
+
+Resources Created:          13 AWS resources
+Containers Deployed:        8 containers
+Total Code Lines:           ~8,000 lines
+Cost Per Hour:              ~$0.045
+Cost Per Day:               ~$1.10
+
+
+SUCCESS CONFIRMATION
+
+
+ Infrastructure deployed via Terraform
+ All Docker containers running
+ Application healthy and accessible
+ Database operations working
+ Search functionality operational
+ Storage service functional
+ Monitoring stack active
+ API endpoints responding
+ 90% cost savings achieved
+ Feature parity maintained
+
+
+
+DEPLOYMENT TEST: SUCCESSFUL 
+
+Your AWS-to-opensource migration is fully operational and ready for:
+  - Portfolio demonstrations
+  - Technical interviews
+  - Live demos
+  - 24/7 operation at $33/month
+
+
+

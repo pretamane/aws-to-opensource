@@ -184,7 +184,7 @@ receivers:
     #     channel: '#security-alerts'
     #     username: 'Security Alert'
     #     icon_emoji: ':shield:'
-    #     title: '🔒 SECURITY ALERT: {{ .GroupLabels.alertname }}'
+    #     title: ' SECURITY ALERT: {{ .GroupLabels.alertname }}'
     #     text: '{{ range .Alerts }}*Alert:* {{ .Annotations.summary }}\n*Details:* {{ .Annotations.description }}\n*Category:* {{ .Labels.category }}\n{{ end }}'
     #     send_resolved: true
     #     color: 'danger'
@@ -194,7 +194,7 @@ receivers:
     #   - to: 'security@yourdomain.com,${SES_TO_EMAIL}'
     #     from: '${SES_FROM_EMAIL}'
     #     headers:
-    #       Subject: '🔒 SECURITY ALERT: {{ .GroupLabels.alertname }}'
+    #       Subject: ' SECURITY ALERT: {{ .GroupLabels.alertname }}'
     #       X-Priority: '1'  # High priority
     #     send_resolved: true
 

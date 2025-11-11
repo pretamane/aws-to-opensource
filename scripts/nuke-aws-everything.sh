@@ -31,7 +31,7 @@ log_error() {
 }
 
 log_danger() {
-    echo -e "${PURPLE}[$(date '+%Y-%m-%d %H:%M:%S')] 💥 $1${NC}"
+    echo -e "${PURPLE}[$(date '+%Y-%m-%d %H:%M:%S')]  $1${NC}"
 }
 
 # Confirmation prompt
@@ -42,17 +42,17 @@ confirm_destruction() {
     echo "╠══════════════════════════════════════════════════════════════════════════════╣"
     echo "║  This script will DESTROY ALL AWS resources for this project:               ║"
     echo "║                                                                              ║"
-    echo "║  🗑️  EKS Cluster & Node Groups                                              ║"
-    echo "║  🗑️  VPC, Subnets, Security Groups                                         ║"
-    echo "║  🗑️  EFS File Systems & Access Points                                      ║"
-    echo "║  🗑️  S3 Buckets & Objects                                                  ║"
-    echo "║  🗑️  OpenSearch Domains                                                    ║"
-    echo "║  🗑️  Lambda Functions                                                      ║"
-    echo "║  🗑️  DynamoDB Tables                                                       ║"
-    echo "║  🗑️  IAM Roles, Policies, Users                                            ║"
-    echo "║  🗑️  CloudWatch Logs & Metrics                                             ║"
-    echo "║  🗑️  Application Load Balancers                                            ║"
-    echo "║  🗑️  Backup Vaults & Plans                                                 ║"
+    echo "║  ️  EKS Cluster & Node Groups                                              ║"
+    echo "║  ️  VPC, Subnets, Security Groups                                         ║"
+    echo "║  ️  EFS File Systems & Access Points                                      ║"
+    echo "║  ️  S3 Buckets & Objects                                                  ║"
+    echo "║  ️  OpenSearch Domains                                                    ║"
+    echo "║  ️  Lambda Functions                                                      ║"
+    echo "║  ️  DynamoDB Tables                                                       ║"
+    echo "║  ️  IAM Roles, Policies, Users                                            ║"
+    echo "║  ️  CloudWatch Logs & Metrics                                             ║"
+    echo "║  ️  Application Load Balancers                                            ║"
+    echo "║  ️  Backup Vaults & Plans                                                 ║"
     echo "║                                                                              ║"
     echo "║   This will STOP ALL AWS CHARGES for this project                         ║"
     echo "║    This action is IRREVERSIBLE                                            ║"
@@ -67,20 +67,20 @@ confirm_destruction() {
     
     echo -e "${RED}"
     echo "╔══════════════════════════════════════════════════════════════════════════════╗"
-    echo "║  🚨 FINAL WARNING: You have 10 seconds to cancel (Ctrl+C)                   ║"
+    echo "║   FINAL WARNING: You have 10 seconds to cancel (Ctrl+C)                   ║"
     echo "║  After this, ALL resources will be destroyed!                               ║"
     echo "╚══════════════════════════════════════════════════════════════════════════════╝"
     echo -e "${NC}"
     
     for i in {10..1}; do
-        echo -e "${RED}💥 Destruction in $i seconds...${NC}"
+        echo -e "${RED} Destruction in $i seconds...${NC}"
         sleep 1
     done
 }
 
 # Function to cleanup Kubernetes resources
 cleanup_kubernetes() {
-    log "🧹 Cleaning up Kubernetes resources..."
+    log " Cleaning up Kubernetes resources..."
     
     # Delete all deployments
     kubectl delete deployment --all --ignore-not-found=true || true
@@ -111,7 +111,7 @@ cleanup_kubernetes() {
 
 # Function to cleanup Terraform infrastructure
 cleanup_terraform() {
-    log "🧹 Cleaning up Terraform infrastructure..."
+    log " Cleaning up Terraform infrastructure..."
     
     cd terraform
     
@@ -132,7 +132,7 @@ cleanup_terraform() {
 
 # Function to cleanup AWS resources manually (fallback)
 cleanup_aws_manual() {
-    log "🧹 Manual AWS cleanup (fallback method)..."
+    log " Manual AWS cleanup (fallback method)..."
     
     # Get AWS account ID
     ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)

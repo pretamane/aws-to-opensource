@@ -49,17 +49,17 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
         "echo \"Pulling latest code...\"",
         "cd /home/ubuntu/app",
         "git pull origin main || git pull origin master",
-        "echo \"✓ Code updated\"",
+        "echo \" Code updated\"",
         "echo \"\"",
         "echo \"Restarting Caddy...\"",
         "cd docker-compose",
         "docker-compose restart caddy",
-        "echo \"✓ Caddy restarted\"",
+        "echo \" Caddy restarted\"",
         "echo \"\"",
         "echo \"Verifying website files:\"",
-        "test -f /home/ubuntu/app/pretamane-website/index.html && echo \"✓ index.html found\" || echo \"✗ index.html missing\"",
-        "test -f /home/ubuntu/app/pretamane-website/style.css && echo \"✓ style.css found\" || echo \"✗ style.css missing\"",
-        "test -f /home/ubuntu/app/pretamane-website/assets/js/contact-form.js && echo \"✓ contact-form.js found\" || echo \"✗ contact-form.js missing\"",
+        "test -f /home/ubuntu/app/pretamane-website/index.html && echo \" index.html found\" || echo \" index.html missing\"",
+        "test -f /home/ubuntu/app/pretamane-website/style.css && echo \" style.css found\" || echo \" style.css missing\"",
+        "test -f /home/ubuntu/app/pretamane-website/assets/js/contact-form.js && echo \" contact-form.js found\" || echo \" contact-form.js missing\"",
         "echo \"\"",
         "echo \"Testing homepage:\"",
         "curl -s -o /dev/null -w \"HTTP Status: %{http_code}\" http://localhost/"
@@ -84,16 +84,16 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo ""
     echo "Your full portfolio website is now live at:"
     echo ""
-    echo "  🏠 Homepage:       http://54.179.230.219/"
-    echo "  📧 Contact:        http://54.179.230.219/pages/contact.html"
-    echo "  👤 About:          http://54.179.230.219/pages/about.html"
-    echo "  💼 Services:       http://54.179.230.219/pages/services.html"
-    echo "  🎨 Portfolio:      http://54.179.230.219/pages/portfolio.html"
+    echo "   Homepage:       http://54.179.230.219/"
+    echo "   Contact:        http://54.179.230.219/pages/contact.html"
+    echo "   About:          http://54.179.230.219/pages/about.html"
+    echo "   Services:       http://54.179.230.219/pages/services.html"
+    echo "   Portfolio:      http://54.179.230.219/pages/portfolio.html"
     echo ""
     echo "Backend APIs:"
-    echo "  📚 Docs:           http://54.179.230.219/docs"
-    echo "  📊 Grafana:        http://54.179.230.219/grafana/"
-    echo "  🗄️  pgAdmin:        http://54.179.230.219/pgadmin"
+    echo "   Docs:           http://54.179.230.219/docs"
+    echo "   Grafana:        http://54.179.230.219/grafana/"
+    echo "  ️  pgAdmin:        http://54.179.230.219/pgadmin"
     echo ""
 else
     echo ""

@@ -1,0 +1,151 @@
+
+                  ZERO-BUDGET IP-HIDING SECURITY                               
+                       Quick Start Reference                                   
+
+
+
+  1. DEPLOY SECURITY (One Command)                                            
+
+
+cd /home/guest/aws-to-opensource
+./scripts/security/deploy-security-implementation.sh \
+    i-0c151e9556e3d35e8 \
+    ap-southeast-1 \
+    YOUR_HOME_IP
+
+  Save the Cloudflare Tunnel URL when shown!
+
+
+  2. GET YOUR TUNNEL URL                                                       
+
+
+ssh ubuntu@54.179.230.219 "docker logs cloudflared | grep trycloudflare.com"
+
+Look for: https://abc-def-ghi.trycloudflare.com
+
+
+  3. TEST ACCESS                                                               
+
+
+# Via Cloudflare (SHOULD WORK):
+curl -I https://YOUR-TUNNEL-URL.trycloudflare.com
+
+# Direct IP (SHOULD FAIL):
+curl -m 10 -I http://54.179.230.219
+
+
+  4. ACCESS ADMIN TOOLS                                                        
+
+
+Username: pretamane
+Password: #ThawZin2k77!
+
+Grafana:      https://YOUR-TUNNEL-URL/grafana
+Prometheus:   https://YOUR-TUNNEL-URL/prometheus
+pgAdmin:      https://YOUR-TUNNEL-URL/pgadmin
+Meilisearch:  https://YOUR-TUNNEL-URL/meilisearch
+AlertManager: https://YOUR-TUNNEL-URL/alertmanager
+
+
+  5. VERIFY SECURITY                                                           
+
+
+ssh ubuntu@54.179.230.219
+
+# CrowdSec status
+sudo cscli metrics
+sudo cscli decisions list
+
+# fail2ban status
+sudo fail2ban-client status sshd
+
+# Services
+docker-compose ps
+
+
+  6. COMMON COMMANDS                                                           
+
+
+# Restart tunnel (get new URL)
+docker-compose restart cloudflared
+docker logs cloudflared | grep trycloudflare.com
+
+# View Caddy logs
+docker logs caddy --tail 100
+
+# View all services
+docker-compose ps
+
+# Ban an IP manually (CrowdSec)
+sudo cscli decisions add --ip 1.2.3.4 --duration 4h --reason "manual ban"
+
+# Unban an IP
+sudo cscli decisions delete --ip 1.2.3.4
+
+# Check Prometheus alerts
+curl http://localhost:9090/api/v1/alerts | jq
+
+
+  7. TROUBLESHOOTING                                                           
+
+
+# Tunnel not working?
+docker logs cloudflared
+docker-compose restart cloudflared
+
+# Can still access via direct IP?
+./scripts/security/lockdown-ec2-security-group.sh i-0c151e9556e3d35e8 ap-southeast-1
+
+# Basic Auth not working?
+docker logs caddy | grep basicauth
+docker-compose restart caddy
+
+# CrowdSec not running?
+sudo systemctl status crowdsec
+sudo systemctl restart crowdsec
+
+
+  SECURITY STATUS                                                              
+
+
+ EC2 IP Hidden (Cloudflare Tunnel)
+ Ports 80/443 Closed on EC2
+ Basic Auth on Admin Paths
+ Security Headers (HSTS, CSP, X-Frame-Options)
+ CrowdSec Auto-Banning
+ fail2ban SSH Protection
+ Prometheus Security Alerts
+
+
+  FILES & DOCUMENTATION                                                        
+
+
+Full Guide:         docs/security/ZERO_BUDGET_IP_HIDING_GUIDE.md
+Summary:            SECURITY_IMPLEMENTATION_SUMMARY.md
+Plan:               /c.plan.md
+Deployment Script:  scripts/security/deploy-security-implementation.sh
+SG Lockdown:        scripts/security/lockdown-ec2-security-group.sh
+CrowdSec Install:   scripts/security/install-crowdsec.sh
+fail2ban Install:   scripts/security/install-fail2ban.sh
+
+
+  NEXT STEPS (WHEN YOU GET A DOMAIN)                                          
+
+
+Phase 2: Managed Tunnel with Custom Domain
+
+1. Get domain (free: Freenom, paid: Namecheap $0.99/year)
+2. Add to Cloudflare (free account)
+3. Create managed tunnel in Cloudflare dashboard
+4. Update docker-compose.yml with tunnel token
+5. Enable WAF, geo-blocking, Cloudflare Access
+
+Benefits: Permanent URL, advanced security, analytics, zero-trust auth
+
+
+  IMPORTANT: Your EC2 IP is now HIDDEN and PROTECTED                          
+  Only access via: https://YOUR-TUNNEL-URL.trycloudflare.com                  
+
+
+
+

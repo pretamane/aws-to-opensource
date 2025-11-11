@@ -13,7 +13,7 @@ echo " Current Pod Count:"
 kubectl get pods -l app=portfolio-demo --no-headers | wc -l
 echo ""
 
-echo "⚡ Generating Load (30 seconds)..."
+echo " Generating Load (30 seconds)..."
 echo "Making multiple concurrent requests to trigger autoscaling..."
 
 # Generate load for 30 seconds
@@ -49,7 +49,7 @@ echo ""
 
 echo " Autoscaling test completed!"
 echo ""
-echo "💡 Tips for better autoscaling testing:"
+echo " Tips for better autoscaling testing:"
 echo "1. Use the full test script: ./test-autoscaling.sh"
 echo "2. Monitor with: kubectl get hpa -w"
 echo "3. Check metrics: kubectl top pods -l app=portfolio-demo"

@@ -20,12 +20,12 @@ echo $RESPONSE | jq .
 # Extract contact ID
 CONTACT_ID=$(echo $RESPONSE | jq -r '.contactId')
 echo ""
-echo "✓ Contact created with ID: $CONTACT_ID"
+echo " Contact created with ID: $CONTACT_ID"
 
 echo ""
 echo "=== Step 2: Create Test File ==="
 echo "This is a test document for upload" > /tmp/test-upload.txt
-echo "✓ Created test file: /tmp/test-upload.txt"
+echo " Created test file: /tmp/test-upload.txt"
 
 echo ""
 echo "=== Step 3: Upload Document ==="
@@ -36,7 +36,7 @@ curl -s -X POST $API_URL/documents/upload \
   -F "description=Test document upload" | jq .
 
 echo ""
-echo "✓ Document uploaded successfully!"
+echo " Document uploaded successfully!"
 
 echo ""
 echo "=== Step 4: Verify in Database ==="

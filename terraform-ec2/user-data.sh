@@ -78,29 +78,82 @@ cd /home/ubuntu/app
 # For now, we'll create a marker file
 echo "Repository cloned on $(date)" > /home/ubuntu/app/DEPLOYED.txt
 
-echo "[7/10] Generating environment file..."
-# Create environment file with secrets
+echo "[7/10] Fetching secrets from SSM Parameter Store..."
+# Fetch secrets from AWS SSM Parameter Store
+DB_PASSWORD=$(aws ssm get-parameter --name "/${project_name}/${environment}/db_password" --with-decryption --query 'Parameter.Value' --output text --region ${aws_region} 2>/dev/null || echo "GENERATE_NEW")
+MINIO_PASSWORD=$(aws ssm get-parameter --name "/${project_name}/${environment}/minio_password" --with-decryption --query 'Parameter.Value' --output text --region ${aws_region} 2>/dev/null || echo "GENERATE_NEW")
+MEILI_KEY=$(aws ssm get-parameter --name "/${project_name}/${environment}/meili_key" --with-decryption --query 'Parameter.Value' --output text --region ${aws_region} 2>/dev/null || echo "GENERATE_NEW")
+API_KEY=$(aws ssm get-parameter --name "/${project_name}/${environment}/api_key" --with-decryption --query 'Parameter.Value' --output text --region ${aws_region} 2>/dev/null || echo "GENERATE_NEW")
+GRAFANA_PASSWORD=$(aws ssm get-parameter --name "/${project_name}/${environment}/grafana_password" --with-decryption --query 'Parameter.Value' --output text --region ${aws_region} 2>/dev/null || echo "GENERATE_NEW")
+
+# Generate new passwords if not found in SSM
+if [ "$DB_PASSWORD" = "GENERATE_NEW" ]; then
+    echo "  Generating new DB password (SSM parameter not found)"
+    DB_PASSWORD=$(openssl rand -base64 32)
+fi
+if [ "$MINIO_PASSWORD" = "GENERATE_NEW" ]; then
+    echo "  Generating new MinIO password (SSM parameter not found)"
+    MINIO_PASSWORD=$(openssl rand -base64 32)
+fi
+if [ "$MEILI_KEY" = "GENERATE_NEW" ]; then
+    echo "  Generating new Meilisearch key (SSM parameter not found)"
+    MEILI_KEY=$(openssl rand -base64 32)
+fi
+if [ "$API_KEY" = "GENERATE_NEW" ]; then
+    echo "  Generating new API key (SSM parameter not found)"
+    API_KEY=$(openssl rand -base64 32)
+fi
+if [ "$GRAFANA_PASSWORD" = "GENERATE_NEW" ]; then
+    echo "  Using default Grafana password (SSM parameter not found)"
+    GRAFANA_PASSWORD="admin123"
+fi
+
+echo "[8/10] Creating environment file..."
+# Create environment file with fetched/generated secrets
 cat > /home/ubuntu/app/docker-compose/.env << EOF
 # Auto-generated on $(date)
-POSTGRES_PASSWORD=$(openssl rand -base64 32)
-MEILI_MASTER_KEY=$(openssl rand -base64 32)
+# Secrets fetched from SSM Parameter Store: /${project_name}/${environment}/*
+
+# Database
+POSTGRES_PASSWORD=$DB_PASSWORD
+DB_NAME=pretamane_db
+DB_USER=pretamane
+POSTGRES_USER=postgres
+
+# Search
+MEILI_MASTER_KEY=$MEILI_KEY
+
+# Storage
 MINIO_ROOT_USER=minioadmin
-MINIO_ROOT_PASSWORD=$(openssl rand -base64 32)
-GRAFANA_ADMIN_PASSWORD=admin123
+MINIO_ROOT_PASSWORD=$MINIO_PASSWORD
+
+# Monitoring
+GF_SECURITY_ADMIN_USER=admin
+GF_SECURITY_ADMIN_PASSWORD=$GRAFANA_PASSWORD
+GRAFANA_ADMIN_PASSWORD=$GRAFANA_PASSWORD
+
+# API Authentication
+PUBLIC_API_KEY=$API_KEY
+
+# AWS / Email
 AWS_REGION=${aws_region}
 SES_FROM_EMAIL=${ses_from_email}
 SES_TO_EMAIL=${ses_to_email}
+
+# Application
 ALLOWED_ORIGIN=*
 MAX_FILE_SIZE=52428800
 LOG_LEVEL=INFO
 DOMAIN=localhost
+
+# Database Admin
+PGADMIN_DEFAULT_EMAIL=admin@example.com
+PGADMIN_DEFAULT_PASSWORD=$GRAFANA_PASSWORD
 EOF
 chown ubuntu:ubuntu /home/ubuntu/app/docker-compose/.env
 chmod 600 /home/ubuntu/app/docker-compose/.env
 
-echo "[8/10] Setting up Docker Compose services..."
-# Note: Docker Compose will be started manually or via systemd
-# We don't auto-start here to allow for repository setup first
+echo "  Secrets configured successfully"
 
 echo "[9/10] Creating systemd service for application..."
 # Create systemd service to auto-start Docker Compose on boot

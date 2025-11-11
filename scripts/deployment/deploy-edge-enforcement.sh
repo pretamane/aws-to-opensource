@@ -221,27 +221,27 @@ print_info "Validating edge enforcement..."
 
 # Test public endpoint
 if curl -s -f http://localhost/health > /dev/null 2>&1; then
-    print_success "✓ Public API accessible via Caddy"
+    print_success " Public API accessible via Caddy"
 else
-    print_warning "✗ Public API not accessible yet (may still be starting)"
+    print_warning " Public API not accessible yet (may still be starting)"
 fi
 
 # Test edge auth
 HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/grafana 2>/dev/null || echo "000")
 if [ "$HTTP_CODE" = "401" ]; then
-    print_success "✓ Edge auth enforced (Grafana returns 401)"
+    print_success " Edge auth enforced (Grafana returns 401)"
 elif [ "$HTTP_CODE" = "302" ] || [ "$HTTP_CODE" = "200" ]; then
-    print_warning "✗ Grafana accessible without auth - check Caddyfile"
+    print_warning " Grafana accessible without auth - check Caddyfile"
 else
-    print_warning "✗ Grafana not responding (HTTP $HTTP_CODE) - may still be starting"
+    print_warning " Grafana not responding (HTTP $HTTP_CODE) - may still be starting"
 fi
 
 # Test direct port blocking (should fail)
 if curl -s -f http://localhost:3000 > /dev/null 2>&1; then
-    print_error "✗ EDGE BYPASS DETECTED! Port 3000 is accessible directly!"
+    print_error " EDGE BYPASS DETECTED! Port 3000 is accessible directly!"
     print_error "This means edge enforcement failed. Check docker-compose.yml ports."
 else
-    print_success "✓ Direct port access blocked (edge enforcement working)"
+    print_success " Direct port access blocked (edge enforcement working)"
 fi
 
 # Step 6: Summary

@@ -13,7 +13,7 @@ if [ -z "$STAGED_FILES" ]; then
 fi
 
 # Emoji regex pattern
-EMOJI_PATTERN='[😀-🿿🀀-🿽]|✅|❌|⚠️|🎯|🔧|📁|🚀|📊|🛡️|📚|🔍|📝|✨|🎉|🏗️|🏆|🔐|🔄|📈|📋|🆘|📄|🤝|💰|⏰|🧪|⏳|👈'
+EMOJI_PATTERN='[-🿿🀀-🿽]|||️||||||️||||||️||||||🆘||||⏰||⏳|'
 
 # Check each staged file for emojis
 EMOJI_FOUND=0

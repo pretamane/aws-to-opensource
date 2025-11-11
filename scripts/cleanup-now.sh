@@ -102,7 +102,7 @@ show_cost_summary() {
 
 # Main cleanup function
 main() {
-    log "🧹 Starting immediate cleanup..."
+    log " Starting immediate cleanup..."
     
     # Kill scheduled cleanup if running
     kill_scheduled_cleanup

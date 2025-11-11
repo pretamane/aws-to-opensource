@@ -57,7 +57,7 @@ aws ssm send-command \
     --parameters "{\"commands\":[\"cat > /home/ubuntu/app/docker-compose/config/prometheus/prometheus.yml << 'EOF2'\n$PROMETHEUS_CONFIG\nEOF2\"]}" \
     --region $REGION > /dev/null
 
-echo "✓ Prometheus config uploaded"
+echo " Prometheus config uploaded"
 
 # Step 2: Upload Alert Rules
 echo "[2/6] Uploading Alert Rules..."
@@ -88,7 +88,7 @@ aws ssm send-command \
     --parameters "{\"commands\":[\"cat > /home/ubuntu/app/docker-compose/config/prometheus/alert-rules.yml << 'EOF2'\n$ALERT_RULES\nEOF2\"]}" \
     --region $REGION > /dev/null
 
-echo "✓ Alert rules uploaded"
+echo " Alert rules uploaded"
 
 # Step 3: Start services
 echo "[3/6] Starting monitoring services..."
@@ -99,7 +99,7 @@ aws ssm send-command \
     --parameters '{"commands":["cd /home/ubuntu/app/docker-compose && docker-compose up -d node-exporter cadvisor blackbox-exporter prometheus"]}' \
     --region $REGION > /dev/null
 
-echo "✓ Services started, waiting 15 seconds..."
+echo " Services started, waiting 15 seconds..."
 sleep 15
 
 # Step 4: Check service status
@@ -116,7 +116,7 @@ echo ""
 aws ssm send-command \
     --instance-ids $INSTANCE_ID \
     --document-name AWS-RunShellScript \
-    --parameters '{"commands":["curl -s http://localhost:9090/api/v1/targets | jq -r \".data.activeTargets[] | \\\"  \\\" + (.health | if . == \\\"up\\\" then \\\"✓\\\" else \\\"❌\\\" end) + \\\" \\\" + .labels.job + \\\" - \\\" + .scrapeUrl\""]}' \
+    --parameters '{"commands":["curl -s http://localhost:9090/api/v1/targets | jq -r \".data.activeTargets[] | \\\"  \\\" + (.health | if . == \\\"up\\\" then \\\"\\\" else \\\"\\\" end) + \\\" \\\" + .labels.job + \\\" - \\\" + .scrapeUrl\""]}' \
     --region $REGION
 
 # Step 6: Test endpoints

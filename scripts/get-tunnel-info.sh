@@ -52,15 +52,15 @@ print_header() {
 }
 
 print_success() {
-    echo -e "${GREEN}✓${NC} $1"
+    echo -e "${GREEN}${NC} $1"
 }
 
 print_error() {
-    echo -e "${RED}✗${NC} $1"
+    echo -e "${RED}${NC} $1"
 }
 
 print_warning() {
-    echo -e "${YELLOW}⚠${NC} $1"
+    echo -e "${YELLOW}${NC} $1"
 }
 
 print_info() {
@@ -253,24 +253,24 @@ output_human() {
     echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 
-    echo -e "${BLUE}📍 Available Endpoints:${NC}"
+    echo -e "${BLUE} Available Endpoints:${NC}"
     echo ""
-    echo "  🌐 Main Site:         $tunnel_url"
-    echo "  📊 API Docs:          $tunnel_url/api/docs"
-    echo "  💚 Health Check:      $tunnel_url/api/health"
+    echo "   Main Site:         $tunnel_url"
+    echo "   API Docs:          $tunnel_url/api/docs"
+    echo "   Health Check:      $tunnel_url/api/health"
     echo ""
 
-    echo -e "${YELLOW}🔒 Protected Endpoints (Basic Auth Required):${NC}"
+    echo -e "${YELLOW} Protected Endpoints (Basic Auth Required):${NC}"
     echo "  Username: pretamane"
     echo "  Password: (check your .env file)"
     echo ""
-    echo "  📈 Grafana:           $tunnel_url/grafana"
-    echo "  📊 Prometheus:        $tunnel_url/prometheus"
-    echo "  🗄️  pgAdmin:           $tunnel_url/pgadmin"
-    echo "  💾 MinIO Console:     (access via port 9001)"
+    echo "   Grafana:           $tunnel_url/grafana"
+    echo "   Prometheus:        $tunnel_url/prometheus"
+    echo "  ️  pgAdmin:           $tunnel_url/pgadmin"
+    echo "   MinIO Console:     (access via port 9001)"
     echo ""
 
-    echo -e "${BLUE}🧪 Quick Tests:${NC}"
+    echo -e "${BLUE} Quick Tests:${NC}"
     echo ""
     echo "  # Test main site"
     echo "  curl $tunnel_url"
@@ -282,7 +282,7 @@ output_human() {
     echo "  curl -u pretamane:'YOUR_PASSWORD' $tunnel_url/grafana"
     echo ""
 
-    echo -e "${BLUE}📝 Notes:${NC}"
+    echo -e "${BLUE} Notes:${NC}"
     echo "  • This URL changes when cloudflared restarts"
     echo "  • For a permanent URL, set up a custom domain"
     echo "  • Direct IP access (54.179.230.219) should be blocked"
